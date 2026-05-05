@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nebula Studios | Advanced Agentic Coding
 
-## Getting Started
+Este es el baseline limpio de Nebula Studios para proyectos de Next.js con el sistema de agentes integrado.
 
-First, run the development server:
+## Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16 (App Router)**: Estructura moderna y optimizada.
+- **Agent System**: Sistema modular de agentes en `.agents/` configurado y listo para operar.
+- **Visual Baseline**: Configuración de Tailwind y fuentes premium pre-cargadas (Syne & Inter).
+- **SEO Ready**: Estructura básica de metadatos y semántica HTML5.
+
+## Estructura del Sistema de Agentes
+
+El proyecto mantiene la estructura canónica de agentes en `.agents/`:
+
+```text
+.agents/
+├── README.md
+├── decisions-log.md
+├── roles/
+├── rules/
+└── workflows/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Consulta `AGENTS.md` para más información sobre el funcionamiento del sistema de agentes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Desarrollo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+## Supabase bootstrap
 
-To learn more about Next.js, take a look at the following resources:
+El repo ya incluye bootstrap repo-safe de Supabase, pero el runtime público actual no lo usa todavía. La conexión real se retomará cuando el frontend quede cerrado.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La base disponible hoy es:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `lib/supabase/*` para SSR en Next.js
+- `supabase/config.toml` para el CLI local
+- `supabase/migrations/` para versionar cambios de esquema
 
-## Deploy on Vercel
+Comandos útiles cuando toque activar backend:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run supabase:start
+npm run supabase:status
+npm run supabase:types:local
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Desarrollado con ❤️ por **Nebula Studios**.

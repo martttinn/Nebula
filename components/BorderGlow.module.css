@@ -1,0 +1,116 @@
+.card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 30;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 12);
+  --border-radius: 28px;
+  --glow-padding: 40px;
+  --cone-spread: 25;
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  transform: translate3d(0, 0, 0.01px);
+  overflow: visible;
+  border: 1px solid rgb(255 255 255 / 11%);
+  border-radius: var(--border-radius);
+  background: var(--card-bg, #120f17);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.1),
+    0 2px 4px rgb(0 0 0 / 0.1),
+    0 8px 24px rgb(0 0 0 / 0.18),
+    0 18px 48px rgb(0 0 0 / 0.24);
+}
+
+.card::before,
+.card::after,
+.card > .edgeLight {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  transition: opacity 0.25s ease-out;
+}
+
+.card:not(:hover):not(.sweep-active)::before,
+.card:not(:hover):not(.sweep-active)::after,
+.card:not(:hover):not(.sweep-active) > .edgeLight {
+  opacity: 0;
+  transition: opacity 0.75s ease-in-out;
+}
+
+.card::before {
+  z-index: 0;
+  inset: -1px;
+  border: 1px solid var(--glow-color-50, hsl(252deg 48% 66% / 50%));
+  box-shadow:
+    0 0 0 1px var(--glow-color-20, hsl(252deg 48% 66% / 20%)),
+    0 0 18px 0 var(--glow-color-20, hsl(252deg 48% 66% / 20%)),
+    0 0 40px 2px var(--glow-color-10, hsl(252deg 48% 66% / 10%)),
+    inset 0 0 18px 0 var(--glow-color-10, hsl(252deg 48% 66% / 10%));
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+}
+
+.card::after {
+  z-index: 0;
+  background:
+    conic-gradient(
+      from var(--cursor-angle) at center,
+      transparent 0deg 258deg,
+      var(--glow-color-10, hsl(252deg 48% 66% / 10%)) 288deg,
+      var(--glow-color-40, hsl(252deg 48% 66% / 40%)) 320deg,
+      var(--glow-color-20, hsl(252deg 48% 66% / 20%)) 338deg,
+      transparent 360deg
+    );
+  opacity: calc(var(--fill-opacity, 0.5) * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: screen;
+  filter: blur(18px);
+}
+
+.edgeLight {
+  inset: calc(var(--glow-padding) * -1);
+  z-index: 1;
+  pointer-events: none;
+  mask-image:
+    conic-gradient(
+      from var(--cursor-angle) at center,
+      black 2.5%,
+      transparent 10%,
+      transparent 90%,
+      black 97.5%
+    );
+  -webkit-mask-image:
+    conic-gradient(
+      from var(--cursor-angle) at center,
+      black 2.5%,
+      transparent 10%,
+      transparent 90%,
+      black 97.5%
+    );
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: plus-lighter;
+}
+
+.edgeLight::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color-50, hsl(252deg 48% 66% / 50%)),
+    inset 0 0 8px 0 var(--glow-color-30, hsl(252deg 48% 66% / 30%)),
+    inset 0 0 18px 1px var(--glow-color-20, hsl(252deg 48% 66% / 20%)),
+    0 0 10px 0 var(--glow-color-30, hsl(252deg 48% 66% / 30%)),
+    0 0 24px 2px var(--glow-color-20, hsl(252deg 48% 66% / 20%)),
+    0 0 44px 4px var(--glow-color-10, hsl(252deg 48% 66% / 10%));
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: inherit;
+}

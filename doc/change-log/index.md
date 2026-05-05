@@ -1,0 +1,120 @@
+# Change Log Index
+
+Índice derivado del `change-log` repo-only.
+
+- proyecto: `Nebula Studios`
+- código: `NBS`
+- entradas: 53
+- grupos: 53
+
+## Entradas
+
+- `2026-05-03` [`NBS-CHG-2026-05-03-001`](entries/2026/05/NBS-CHG-2026-05-03-001--bootstrap-web-marketing-y-sistema-agentes.md) - Bootstrap de la web de marketing de Nebula Studios con sistema de agentes integrado - `frontend` - grupo [`NBS-TSK-2026-001`](groups/2026/NBS-TSK-2026-001.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-002`](entries/2026/05/NBS-CHG-2026-05-03-002--normalizacion-supabase-nextjs-y-bootstrap-local-de-migraciones.md) - Normalización de Supabase para Next.js y bootstrap local de migraciones - `infra` - grupo [`NBS-TSK-2026-002`](groups/2026/NBS-TSK-2026-002.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-003`](entries/2026/05/NBS-CHG-2026-05-03-003--consolidacion-del-modo-operativo-del-sistema-de-agentes.md) - Consolidación del modo operativo del sistema de agentes en una sola regla - `docs` - grupo [`NBS-TSK-2026-003`](groups/2026/NBS-TSK-2026-003.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-004`](entries/2026/05/NBS-CHG-2026-05-03-004--integracion-del-componente-gridscan-en-la-home-publica.md) - Integración del componente GridScan en la home pública - `frontend` - grupo [`NBS-TSK-2026-004`](groups/2026/NBS-TSK-2026-004.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-005`](entries/2026/05/NBS-CHG-2026-05-03-005--desacoplamiento-temporal-de-supabase-del-runtime-publico.md) - Desacoplamiento temporal de Supabase del runtime público durante la fase frontend - `infra` - grupo [`NBS-TSK-2026-005`](groups/2026/NBS-TSK-2026-005.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-006`](entries/2026/05/NBS-CHG-2026-05-03-006--hero-full-bleed-con-gridscan-como-fondo.md) - Hero full-bleed con GridScan como fondo del viewport - `frontend` - grupo [`NBS-TSK-2026-006`](groups/2026/NBS-TSK-2026-006.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-007`](entries/2026/05/NBS-CHG-2026-05-03-007--extraccion-del-hero-a-componente-propio-con-gridscan-fullscreen.md) - Extracción del hero a componente propio con GridScan fullscreen - `frontend` - grupo [`NBS-TSK-2026-007`](groups/2026/NBS-TSK-2026-007.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-008`](entries/2026/05/NBS-CHG-2026-05-03-008--desactivacion-de-la-interaccion-del-raton-en-gridscan.md) - Desactivación de la interacción del ratón en GridScan - `frontend` - grupo [`NBS-TSK-2026-008`](groups/2026/NBS-TSK-2026-008.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-009`](entries/2026/05/NBS-CHG-2026-05-03-009--creacion-del-navbar-global-pill-con-glassmorphism.md) - Creación del navbar global pill con glassmorphism - `frontend` - grupo [`NBS-TSK-2026-009`](groups/2026/NBS-TSK-2026-009.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-010`](entries/2026/05/NBS-CHG-2026-05-03-010--creacion-del-directorio-public-para-assets-estaticos.md) - Creación del directorio public para assets estáticos - `frontend` - grupo [`NBS-TSK-2026-010`](groups/2026/NBS-TSK-2026-010.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-011`](entries/2026/05/NBS-CHG-2026-05-03-011--integracion-del-navbar-en-la-home.md) - Integración del navbar en la home - `frontend` - grupo [`NBS-TSK-2026-011`](groups/2026/NBS-TSK-2026-011.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-012`](entries/2026/05/NBS-CHG-2026-05-03-012--rediseno-del-navbar-hacia-una-capsula-unica-como-la-referencia.md) - Rediseño del navbar hacia una cápsula única inspirada en la referencia - `frontend` - grupo [`NBS-TSK-2026-012`](groups/2026/NBS-TSK-2026-012.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-013`](entries/2026/05/NBS-CHG-2026-05-03-013--ajuste-del-navbar-a-frosted-glass-neutro.md) - Ajuste del navbar a frosted glass neutro dependiente del fondo - `frontend` - grupo [`NBS-TSK-2026-013`](groups/2026/NBS-TSK-2026-013.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-014`](entries/2026/05/NBS-CHG-2026-05-03-014--refuerzo-del-efecto-glassmorphism-real-en-el-navbar.md) - Refuerzo del efecto glassmorphism real en el navbar - `frontend` - grupo [`NBS-TSK-2026-014`](groups/2026/NBS-TSK-2026-014.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-015`](entries/2026/05/NBS-CHG-2026-05-03-015--reversion-del-navbar-a-su-version-original-segmentada.md) - Reversión del navbar a su versión original segmentada - `frontend` - grupo [`NBS-TSK-2026-015`](groups/2026/NBS-TSK-2026-015.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-016`](entries/2026/05/NBS-CHG-2026-05-03-016--alineacion-del-navbar-con-el-logo-oficial-horizontal2-y-shell-unificado.md) - Alineación del navbar con el logo oficial horizontal2 y shell unificado - `frontend` - grupo [`NBS-TSK-2026-016`](groups/2026/NBS-TSK-2026-016.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-017`](entries/2026/05/NBS-CHG-2026-05-03-017--cambio-del-lockup-del-navbar-a-nebula-en-syne-mas-simbolo-dark.md) - Cambio del lockup del navbar a `Nebula` en Syne más símbolo dark - `frontend` - grupo [`NBS-TSK-2026-017`](groups/2026/NBS-TSK-2026-017.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-018`](entries/2026/05/NBS-CHG-2026-05-03-018--integracion-de-starborder-en-el-cta-contactar-del-navbar.md) - Integración de `StarBorder` en el CTA `Contactar` del navbar - `frontend` - grupo [`NBS-TSK-2026-018`](groups/2026/NBS-TSK-2026-018.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-019`](entries/2026/05/NBS-CHG-2026-05-03-019--ajuste-cromatico-de-starborder-a-fondo-blanco-y-lila-de-marca.md) - Ajuste cromático de `StarBorder` a fondo blanco y lila de marca - `frontend` - grupo [`NBS-TSK-2026-019`](groups/2026/NBS-TSK-2026-019.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-020`](entries/2026/05/NBS-CHG-2026-05-03-020--actualizacion-de-los-links-del-navbar-segun-la-ia-publica.md) - Actualización de los links del navbar según la IA pública actual - `frontend` - grupo [`NBS-TSK-2026-020`](groups/2026/NBS-TSK-2026-020.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-021`](entries/2026/05/NBS-CHG-2026-05-03-021--recuperacion-de-la-legibilidad-del-efecto-starborder-en-el-cta-contactar.md) - Recuperación de la legibilidad del efecto `StarBorder` en el CTA `Contactar` - `frontend` - grupo [`NBS-TSK-2026-021`](groups/2026/NBS-TSK-2026-021.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-022`](entries/2026/05/NBS-CHG-2026-05-03-022--composicion-del-hero-con-copy-principal-y-dos-ctas.md) - Composición del hero con copy principal y dos CTAs - `frontend` - grupo [`NBS-TSK-2026-022`](groups/2026/NBS-TSK-2026-022.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-023`](entries/2026/05/NBS-CHG-2026-05-03-023--capa-sutil-de-particulas-lilas-en-el-hero.md) - Capa sutil de partículas lilas en el hero - `frontend` - grupo [`NBS-TSK-2026-023`](groups/2026/NBS-TSK-2026-023.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-024`](entries/2026/05/NBS-CHG-2026-05-03-024--navbar-con-unico-cta-contactar-outlined-y-starborder.md) - Navbar con único CTA `Contactar` outlined y `StarBorder` - `frontend` - grupo [`NBS-TSK-2026-024`](groups/2026/NBS-TSK-2026-024.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-025`](entries/2026/05/NBS-CHG-2026-05-03-025--integracion-del-preloader-de-nebula-legacy-en-la-home-publica.md) - Integración del preloader de `nebula-legacy` en la home pública - `frontend` - grupo [`NBS-TSK-2026-025`](groups/2026/NBS-TSK-2026-025.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-026`](entries/2026/05/NBS-CHG-2026-05-03-026--refuerzo-de-legibilidad-y-densidad-de-las-particulas-del-hero.md) - Refuerzo de legibilidad y densidad de las partículas del hero - `frontend` - grupo [`NBS-TSK-2026-026`](groups/2026/NBS-TSK-2026-026.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-027`](entries/2026/05/NBS-CHG-2026-05-03-027--uso-del-simbolo-dark-como-icono-del-sitio.md) - Uso del símbolo dark como icono del sitio - `frontend` - grupo [`NBS-TSK-2026-027`](groups/2026/NBS-TSK-2026-027.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-028`](entries/2026/05/NBS-CHG-2026-05-03-028--cta-contactar-del-navbar-con-starborder-outlined-sin-fondo.md) - CTA `Contactar` del navbar con `StarBorder` outlined sin fondo - `frontend` - grupo [`NBS-TSK-2026-028`](groups/2026/NBS-TSK-2026-028.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-029`](entries/2026/05/NBS-CHG-2026-05-03-029--realineacion-de-starborder-con-la-referencia-de-react-bits.md) - Realineación de `StarBorder` con la referencia de React Bits - `frontend` - grupo [`NBS-TSK-2026-029`](groups/2026/NBS-TSK-2026-029.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-030`](entries/2026/05/NBS-CHG-2026-05-03-030--entrada-secuencial-del-hero-con-decryptedtext-y-ctas-en-fade-up.md) - Entrada secuencial del hero con `DecryptedText` y CTAs en fade-up - `frontend` - grupo [`NBS-TSK-2026-030`](groups/2026/NBS-TSK-2026-030.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-031`](entries/2026/05/NBS-CHG-2026-05-03-031--ajuste-del-pulso-de-starborder-al-perimetro-exterior.md) - Ajuste del pulso de `StarBorder` al perímetro exterior del borde - `frontend` - grupo [`NBS-TSK-2026-031`](groups/2026/NBS-TSK-2026-031.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-032`](entries/2026/05/NBS-CHG-2026-05-03-032--sustitucion-del-reveal-del-heading-del-hero-por-splittext.md) - Sustitución del reveal del heading del hero por `SplitText` - `frontend` - grupo [`NBS-TSK-2026-032`](groups/2026/NBS-TSK-2026-032.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-033`](entries/2026/05/NBS-CHG-2026-05-03-033--correccion-del-recorte-visible-del-pulso-de-starborder.md) - Corrección del recorte visible del pulso de `StarBorder` - `frontend` - grupo [`NBS-TSK-2026-033`](groups/2026/NBS-TSK-2026-033.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-034`](entries/2026/05/NBS-CHG-2026-05-03-034--preservacion-de-palabras-completas-en-el-heading-con-splittext.md) - Preservación de palabras completas en el heading con `SplitText` - `frontend` - grupo [`NBS-TSK-2026-034`](groups/2026/NBS-TSK-2026-034.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-035`](entries/2026/05/NBS-CHG-2026-05-03-035--conversion-de-las-particulas-del-hero-a-circulos-nitidos-sin-blur.md) - Conversión de las partículas del hero a círculos nítidos sin blur - `frontend` - grupo [`NBS-TSK-2026-035`](groups/2026/NBS-TSK-2026-035.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-036`](entries/2026/05/NBS-CHG-2026-05-03-036--hover-del-cta-contactar-con-fill-lila-y-escala-ampliada.md) - Hover del CTA `Contactar` con fill lila y escala ampliada - `frontend` - grupo [`NBS-TSK-2026-036`](groups/2026/NBS-TSK-2026-036.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-037`](entries/2026/05/NBS-CHG-2026-05-03-037--alineacion-del-subheading-del-hero-con-el-reveal-splittext.md) - Alineación del subheading del hero con el reveal `SplitText` - `frontend` - grupo [`NBS-TSK-2026-037`](groups/2026/NBS-TSK-2026-037.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-038`](entries/2026/05/NBS-CHG-2026-05-03-038--aceleracion-de-la-secuencia-de-entrada-del-hero.md) - Aceleración de la secuencia de entrada del hero - `frontend` - grupo [`NBS-TSK-2026-038`](groups/2026/NBS-TSK-2026-038.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-039`](entries/2026/05/NBS-CHG-2026-05-03-039--reduccion-de-la-escala-hover-del-cta-contactar-a-1-15.md) - Reducción de la escala hover del CTA `Contactar` a `1.15` - `frontend` - grupo [`NBS-TSK-2026-039`](groups/2026/NBS-TSK-2026-039.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-040`](entries/2026/05/NBS-CHG-2026-05-03-040--eliminacion-de-la-escala-hover-del-cta-contactar.md) - Eliminación de la escala hover del CTA `Contactar` - `frontend` - grupo [`NBS-TSK-2026-040`](groups/2026/NBS-TSK-2026-040.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-041`](entries/2026/05/NBS-CHG-2026-05-03-041--correccion-del-fondo-transparente-del-cta-contactar-en-reposo.md) - Corrección del fondo transparente del CTA `Contactar` en reposo - `frontend` - grupo [`NBS-TSK-2026-041`](groups/2026/NBS-TSK-2026-041.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-042`](entries/2026/05/NBS-CHG-2026-05-03-042--reversion-del-cta-contactar-al-estado-outlined-previo-al-hover-custom.md) - Reversión del CTA `Contactar` al estado outlined previo al hover custom - `frontend` - grupo [`NBS-TSK-2026-042`](groups/2026/NBS-TSK-2026-042.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-043`](entries/2026/05/NBS-CHG-2026-05-03-043--confirmacion-del-cta-contactar-sin-fill-en-hover.md) - Confirmación del CTA `Contactar` sin fill en hover - `frontend` - grupo [`NBS-TSK-2026-043`](groups/2026/NBS-TSK-2026-043.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-044`](entries/2026/05/NBS-CHG-2026-05-03-044--hover-del-cta-contactar-con-fill-lila-y-escala-1-05.md) - Hover del CTA `Contactar` con fill lila y escala `1.05` - `frontend` - grupo [`NBS-TSK-2026-044`](groups/2026/NBS-TSK-2026-044.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-045`](entries/2026/05/NBS-CHG-2026-05-03-045--sincronizacion-del-borde-del-cta-contactar-con-el-hover-lila.md) - Sincronización del borde del CTA `Contactar` con el hover lila - `frontend` - grupo [`NBS-TSK-2026-045`](groups/2026/NBS-TSK-2026-045.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-046`](entries/2026/05/NBS-CHG-2026-05-03-046--hover-blanco-del-cta-contactar-con-pulso-pausado.md) - Hover blanco del CTA `Contactar` con pulso pausado - `frontend` - grupo [`NBS-TSK-2026-046`](groups/2026/NBS-TSK-2026-046.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-047`](entries/2026/05/NBS-CHG-2026-05-03-047--hover-con-inercia-suave-en-los-links-del-navbar.md) - Hover con inercia suave en los links del navbar - `frontend` - grupo [`NBS-TSK-2026-047`](groups/2026/NBS-TSK-2026-047.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-048`](entries/2026/05/NBS-CHG-2026-05-03-048--correccion-del-recorte-del-highlight-hover-en-los-links-del-navbar.md) - Corrección del recorte del highlight hover en los links del navbar - `frontend` - grupo [`NBS-TSK-2026-048`](groups/2026/NBS-TSK-2026-048.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-049`](entries/2026/05/NBS-CHG-2026-05-03-049--eliminacion-del-flash-final-en-el-hover-de-los-links-del-navbar.md) - Eliminación del flash final en el hover de los links del navbar - `frontend` - grupo [`NBS-TSK-2026-049`](groups/2026/NBS-TSK-2026-049.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-050`](entries/2026/05/NBS-CHG-2026-05-03-050--eliminacion-del-clipping-vertical-del-highlight-en-los-links-del-navbar.md) - Eliminación del clipping vertical del highlight en los links del navbar - `frontend` - grupo [`NBS-TSK-2026-050`](groups/2026/NBS-TSK-2026-050.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-051`](entries/2026/05/NBS-CHG-2026-05-03-051--ajuste-del-label-y-orden-de-los-links-del-navbar.md) - Ajuste del label y orden de los links del navbar - `frontend` - grupo [`NBS-TSK-2026-051`](groups/2026/NBS-TSK-2026-051.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-052`](entries/2026/05/NBS-CHG-2026-05-03-052--refuerzo-del-glow-lila-detras-del-logo-en-el-preloader.md) - Refuerzo del glow lila detrás del logo en el preloader - `frontend` - grupo [`NBS-TSK-2026-052`](groups/2026/NBS-TSK-2026-052.md)
+- `2026-05-03` [`NBS-CHG-2026-05-03-053`](entries/2026/05/NBS-CHG-2026-05-03-053--reversion-del-refuerzo-del-glow-del-preloader.md) - Reversión del refuerzo del glow del preloader - `frontend` - grupo [`NBS-TSK-2026-053`](groups/2026/NBS-TSK-2026-053.md)
+
+## Grupos
+
+- [`NBS-TSK-2026-001`](groups/2026/NBS-TSK-2026-001.md) - Bootstrap de Nebula Studios con Next.js 14 y sistema de agentes integrado - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-002`](groups/2026/NBS-TSK-2026-002.md) - Normalización de la base Supabase para Next.js y bootstrap local de migraciones - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-003`](groups/2026/NBS-TSK-2026-003.md) - Consolidación del modo operativo del sistema de agentes en una sola regla - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-004`](groups/2026/NBS-TSK-2026-004.md) - Integración del componente GridScan en la home pública - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-005`](groups/2026/NBS-TSK-2026-005.md) - Desacoplamiento temporal de Supabase del runtime público durante la fase frontend - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-006`](groups/2026/NBS-TSK-2026-006.md) - Hero full-bleed con GridScan como fondo del viewport - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-007`](groups/2026/NBS-TSK-2026-007.md) - Extracción del hero a componente propio con GridScan fullscreen - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-008`](groups/2026/NBS-TSK-2026-008.md) - Desactivación de la interacción del ratón en GridScan - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-009`](groups/2026/NBS-TSK-2026-009.md) - Creación del navbar global pill con glassmorphism - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-010`](groups/2026/NBS-TSK-2026-010.md) - Creación del directorio public para assets estáticos - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-011`](groups/2026/NBS-TSK-2026-011.md) - Integración del navbar en la home - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-012`](groups/2026/NBS-TSK-2026-012.md) - Rediseño del navbar hacia una cápsula única inspirada en la referencia - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-013`](groups/2026/NBS-TSK-2026-013.md) - Ajuste del navbar a frosted glass neutro dependiente del fondo - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-014`](groups/2026/NBS-TSK-2026-014.md) - Refuerzo del efecto glassmorphism real en el navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-015`](groups/2026/NBS-TSK-2026-015.md) - Reversión del navbar a su versión original segmentada - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-016`](groups/2026/NBS-TSK-2026-016.md) - Alineación del navbar con el logo oficial horizontal2 y shell unificado - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-017`](groups/2026/NBS-TSK-2026-017.md) - Cambio del lockup del navbar a `Nebula` en Syne más símbolo dark - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-018`](groups/2026/NBS-TSK-2026-018.md) - Integración de `StarBorder` en el CTA `Contactar` del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-019`](groups/2026/NBS-TSK-2026-019.md) - Ajuste cromático de `StarBorder` a fondo blanco y lila de marca - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-020`](groups/2026/NBS-TSK-2026-020.md) - Actualización de los links del navbar según la IA pública actual - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-021`](groups/2026/NBS-TSK-2026-021.md) - Recuperación de la legibilidad del efecto `StarBorder` en el CTA `Contactar` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-022`](groups/2026/NBS-TSK-2026-022.md) - Composición del hero con copy principal y dos CTAs - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-023`](groups/2026/NBS-TSK-2026-023.md) - Capa sutil de partículas lilas en el hero - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-024`](groups/2026/NBS-TSK-2026-024.md) - Navbar con único CTA `Contactar` outlined y `StarBorder` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-025`](groups/2026/NBS-TSK-2026-025.md) - Integración del preloader de `nebula-legacy` en la home pública - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-026`](groups/2026/NBS-TSK-2026-026.md) - Refuerzo de legibilidad y densidad de las partículas del hero - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-027`](groups/2026/NBS-TSK-2026-027.md) - Uso del símbolo dark como icono del sitio - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-028`](groups/2026/NBS-TSK-2026-028.md) - CTA `Contactar` del navbar con `StarBorder` outlined sin fondo - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-029`](groups/2026/NBS-TSK-2026-029.md) - Realineación de `StarBorder` con la referencia de React Bits - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-030`](groups/2026/NBS-TSK-2026-030.md) - Entrada secuencial del hero con `DecryptedText` y CTAs en fade-up - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-031`](groups/2026/NBS-TSK-2026-031.md) - Ajuste del pulso de `StarBorder` al perímetro exterior del borde - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-032`](groups/2026/NBS-TSK-2026-032.md) - Sustitución del reveal del heading del hero por `SplitText` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-033`](groups/2026/NBS-TSK-2026-033.md) - Corrección del recorte visible del pulso de `StarBorder` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-034`](groups/2026/NBS-TSK-2026-034.md) - Preservación de palabras completas en el heading con `SplitText` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-035`](groups/2026/NBS-TSK-2026-035.md) - Conversión de las partículas del hero a círculos nítidos sin blur - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-036`](groups/2026/NBS-TSK-2026-036.md) - Hover del CTA `Contactar` con fill lila y escala ampliada - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-037`](groups/2026/NBS-TSK-2026-037.md) - Alineación del subheading del hero con el reveal `SplitText` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-038`](groups/2026/NBS-TSK-2026-038.md) - Aceleración de la secuencia de entrada del hero - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-039`](groups/2026/NBS-TSK-2026-039.md) - Reducción de la escala hover del CTA `Contactar` a `1.15` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-040`](groups/2026/NBS-TSK-2026-040.md) - Eliminación de la escala hover del CTA `Contactar` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-041`](groups/2026/NBS-TSK-2026-041.md) - Corrección del fondo transparente del CTA `Contactar` en reposo - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-042`](groups/2026/NBS-TSK-2026-042.md) - Reversión del CTA `Contactar` al estado outlined previo al hover custom - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-043`](groups/2026/NBS-TSK-2026-043.md) - Confirmación del CTA `Contactar` sin fill en hover - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-044`](groups/2026/NBS-TSK-2026-044.md) - Hover del CTA `Contactar` con fill lila y escala `1.05` - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-045`](groups/2026/NBS-TSK-2026-045.md) - Sincronización del borde del CTA `Contactar` con el hover lila - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-046`](groups/2026/NBS-TSK-2026-046.md) - Hover blanco del CTA `Contactar` con pulso pausado - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-047`](groups/2026/NBS-TSK-2026-047.md) - Hover con inercia suave en los links del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-048`](groups/2026/NBS-TSK-2026-048.md) - Corrección del recorte del highlight hover en los links del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-049`](groups/2026/NBS-TSK-2026-049.md) - Eliminación del flash final en el hover de los links del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-050`](groups/2026/NBS-TSK-2026-050.md) - Eliminación del clipping vertical del highlight en los links del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-051`](groups/2026/NBS-TSK-2026-051.md) - Ajuste del label y orden de los links del navbar - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-052`](groups/2026/NBS-TSK-2026-052.md) - Refuerzo del glow lila detrás del logo en el preloader - 2026-05-03 -> 2026-05-03 - 1 cambios
+- [`NBS-TSK-2026-053`](groups/2026/NBS-TSK-2026-053.md) - Reversión del refuerzo del glow del preloader - 2026-05-03 -> 2026-05-03 - 1 cambios

@@ -1,0 +1,61 @@
+{
+  "projectName": "Nebula Studios",
+  "projectCode": "NBS",
+  "customerDefault": "internal",
+  "entryCategories": [
+    "frontend",
+    "backend",
+    "fullstack",
+    "infra",
+    "docs"
+  ],
+  "entrySubcategories": [
+    "feature",
+    "bugfix",
+    "refactor",
+    "ui-ux-redesign",
+    "hardening",
+    "performance",
+    "security",
+    "schema",
+    "testing",
+    "ops"
+  ],
+  "entryOrigins": [
+    "client-request",
+    "internal-improvement",
+    "operational-fix"
+  ],
+  "entryComplexities": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "entryScopes": [
+    "local",
+    "cross-cutting",
+    "systemic"
+  ],
+  "releaseImpacts": [
+    "none",
+    "frontend-runtime",
+    "server-runtime",
+    "backend-live",
+    "infra-deploy",
+    "native-build"
+  ],
+  "architectureLayers": [
+    "routes",
+    "screens",
+    "components",
+    "state",
+    "data",
+    "services",
+    "backend",
+    "docs",
+    "tooling",
+    "seo",
+    "mobile",
+    "web"
+  ]
+}

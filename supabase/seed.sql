@@ -1,0 +1,2 @@
+-- Seed base para Supabase en desarrollo local.
+-- Se mantiene vacío hasta que exista un esquema repo-safe y datos de arranque verificados.

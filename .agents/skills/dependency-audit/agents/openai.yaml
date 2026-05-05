@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Audit"
+  short_description: "Audita dependencias, drift y vulnerabilidades"
+  default_prompt: "Use $dependency-audit to audit package health, framework compatibility, security advisories, and dependency drift in this repo."
