@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { LenisProvider } from "@/components/layout/lenis-provider";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={`${syne.variable} ${inter.variable} min-h-screen bg-background font-sans text-foreground antialiased`}>
         <LenisProvider>{children}</LenisProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

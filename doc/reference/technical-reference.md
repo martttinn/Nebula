@@ -24,6 +24,7 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - Motion `12.38.x`
 - Three.js `0.180.x`
 - Postprocessing `6.39.x`
+- `@vercel/speed-insights` `2.0.0`
 - `class-variance-authority`, `@radix-ui/react-slot`, `clsx`, `tailwind-merge`
 - `@supabase/ssr`, `@supabase/supabase-js`
 - Supabase CLI repo-local (`supabase`)
@@ -36,7 +37,7 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - `components/home/value-proposition-section.tsx`: sección editorial de propuesta de valor colocada tras el hero
 - `components/home/value-proposition-ornaments.module.css`: capa ornamental específica de `benefits`, con deriva lenta de `abstract-icons` y sin ciclos autónomos de fade
 - `components/home/services-carousel.tsx`: sección de servicios con carrusel en arco sticky para desktop y carrusel horizontal con snap para móvil
-- `components/home/how-we-work.tsx`: sección pública de proceso con path SVG serpenteante, nodos con icono y cards reveladas por scroll
+- `components/home/how-we-work.tsx`: sección pública de proceso con path SVG serpenteante, nodos circulares simples y opacos con icono y cards reveladas por scroll
 - `components/BorderGlow.tsx`: primitive cliente reutilizable inspirada en React Bits para acentos perimetrales de glow guiados por proximidad de puntero
 - `components/layout/`: shell primitives globales reutilizables, incluido el navbar
 - `components/animate-ui/`: primitives y wrappers de UI importados desde registries externas y reencuadrados al lenguaje visual del proyecto
@@ -83,9 +84,10 @@ Dirección preferida para código nuevo:
 - `nebula-legacy` sigue existiendo como superficie de referencia puntual para migrar piezas visuales seleccionadas, como el preloader, el logo animado y ahora el carrusel de servicios
 - `DESIGN.md` y la implementación base están alineados en palette, tipografía y components shell
 - la home monta ya el navbar pill reusable como navegación visible de primer nivel
-- la home monta también un `Preloader` de branding con salida coordinada con `GridScan`
+- la home monta también un `Preloader` de branding con salida coordinada con `GridScan`; mientras permanece visible bloquea scroll e interaccion global del contenido subyacente y detiene explícitamente la instancia root de `Lenis`
 - inmediatamente después del hero, la home añade una banda editorial de propuesta de valor con tres frases y cambio de color palabra a palabra guiado por scroll
 - el icono del sitio usa `app/icon.svg` con el símbolo oficial oscuro de Nebula
+- el root layout monta ya `SpeedInsights` desde `@vercel/speed-insights/next`, de modo que el runtime queda preparado para recoger métricas de rendimiento cuando exista despliegue en Vercel
 - las variants reutilizables de botón comparten ya una base motion importada desde `animate-ui`, mientras mantienen el styling propio de Nebula en la capa wrapper
 - el scroll raíz del sitio puede suavizarse con `Lenis`, con anclas internas habilitadas y offset para el navbar fijo; los scrolls anidados conocidos usan opt-out granular por atributo según la interacción local que deban preservar (`data-lenis-prevent` para bloqueo total cuando procede, `data-lenis-prevent-touch` en el carrusel móvil de servicios para no romper el scroll vertical del documento)
 - el navbar público replica el patrón de `nebula-legacy`: se oculta al hacer scroll descendente pasado un umbral, reaparece al remontar o cerca del top y se mantiene visible mientras el menú responsive está abierto
@@ -96,7 +98,7 @@ Dirección preferida para código nuevo:
 - el hero actual integra un efecto `GridScan` con `three` + `postprocessing` encapsulado como isla cliente, una capa de partículas lilas server-side circulares y sin blur con ciclos largos de aparición, deriva y desvanecimiento suave, y una secuencia tipográfica cliente con `SplitText` tanto para heading como para subheading antes del fade-up de CTAs
 - la segunda sección pública verificable es una banda de propuesta de valor sobre base `#09090F`, con solo un acento radial lila muy contenido; la sección funciona ahora como stage sticky a pantalla completa, muestra una única frase centrada cada vez, hace progresar sus palabras de blanco con baja opacidad a `#E8E8F0` durante el tramo activo de scroll de cada statement y sincroniza además dos `abstract-icons` decorativos por frase con entrada `pop-in`, deriva lenta y salida por fade al cambiar de statement
 - la tercera sección pública verificable es un carrusel de servicios heredado conceptualmente de `nebula-legacy`, retemado al sistema actual: arco sticky en desktop, carrusel horizontal con snap en móvil y cuatro capacidades públicas alineadas con el naming comercial vigente del estudio (`Desarrollo móvil`, `Desarrollo web`, `Evolución continua` y `Consultoría y digitalización`); cada card usa ahora estructura `heading superior / icono 3D central específico del servicio desde public/3d-Icons / descripción inferior / CTA secundario "Ver más"` y añade un `BorderGlow` perimetral sutil sin alterar su geometría base; la sección reutiliza además la misma capa `HeroParticles` del hero como atmósfera de continuidad
-- la cuarta sección pública verificable es `How we work`: una composición full-width de cards alternadas izquierda/derecha enlazadas por un path SVG que entra desde el lateral, serpentea de un extremo a otro y activa el despliegue de cada card un poco antes de alcanzar su nodo con icono
+- la cuarta sección pública verificable es `How we work`: una composición full-width de cards alternadas izquierda/derecha enlazadas por un path SVG que toca el viewport solo al entrar y al salir, reserva la mayor apertura de curva para los nodos intermedios, evita rebotar contra los bordes laterales en cada tramo y activa el despliegue de cada card un poco antes de alcanzar su nodo circular simple, opaco y con icono centrado; la sección vuelve a apoyarse sobre base `Void` como el resto de bloques públicos, mientras reserva la familia `Navy` `#0B0C17 -> #0D0F24 -> #0A0F2E` para las cards y el cierre tonal de los nodos, manteniendo el lila azulado de `services-carousel`, apoyado por `Haze`, para línea y halos contenidos; las cards ya no usan un segundo radial atmosférico en la esquina inferior derecha, el bloque elimina también el glow inferior derecho y todo el texto interno de las cards se resuelve en blanco
 - no existe hoy ningún `proxy` o `middleware` montado para Supabase en el runtime público
 - sigue pendiente la conexión del canal comercial real y cualquier capa backend live
 

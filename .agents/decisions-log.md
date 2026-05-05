@@ -421,3 +421,133 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 **Efecto:** La cabecera pública ocupa menos presencia al descender por la página, pero sigue siendo recuperable de forma inmediata al remontar. La versión móvil no queda en un estado incoherente porque la apertura del menú responsive fuerza la visibilidad del navbar.
 
 **Archivos / artefactos relevantes:** `components/layout/navbar.tsx`, `components/layout/navbar-staggered-menu.tsx`, `components/StaggeredMenu.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-05 — El path de `How we work` solo toca borde al entrar y al salir
+
+**Decisión:** La línea SVG desktop de `How we work` ya no debe apurar lateralmente cada tramo entre nodos. El path solo toca el borde del viewport en su punto inicial y en su punto final; entre hitos empieza a curvar hacia el siguiente nodo justo después de atravesar el actual y reserva su mayor amplitud para las curvas de nodos intermedios, no para los extremos.
+
+**Motivo:** Martín pidió eliminar la sensación de que el serpenteo rebota innecesariamente contra los bordes en cada cambio de lado y, después, abrir más la curva porque el recorrido seguía viéndose demasiado forzado. A continuación precisó que esa amplitud extra debía vivir solo en los nodos intermedios. El timeline debía seguir sintiéndose full-width, pero con una lectura más limpia, menos mecánica y más orgánica entre nodos.
+
+**Efecto:** El timeline mantiene la entrada y salida desde los laterales con un gesto más sobrio, mientras concentra la mayor apertura visual en las curvas que enlazan nodos intermedios. La amplitud visual sale de la alternancia entre nodos y del stage vertical, no de forzar contacto lateral repetido ni de sobreactuar los extremos.
+
+**Archivos / artefactos relevantes:** `components/home/how-we-work.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-05 — Los nodos de `How we work` se simplifican a un único círculo opaco con icono
+
+**Decisión:** Los hitos visuales de `How we work` dejan de usar círculos concéntricos y pasan a resolverse como una única pieza circular opaca con el icono centrado.
+
+**Motivo:** Martín pidió reducir ruido visual en los nodos y asegurar que su masa se leyera sólida. El tratamiento anterior funcionaba como foco luminoso, pero añadía demasiada ornamentación y todavía dejaba una sensación de transparencia innecesaria para una primitive que debía actuar más como hito limpio que como medallón complejo.
+
+**Efecto:** El timeline mantiene presencia y legibilidad, pero gana una lectura más sobria y directa. Los nodos bloquean visualmente la línea al cruzarlos y se alinean mejor con un lenguaje simple y técnico tanto en desktop como en móvil.
+
+**Archivos / artefactos relevantes:** `components/home/how-we-work.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-05 — `How we work` alinea su paleta con el lila de marca del resto del sitio
+
+**Decisión:** La sección `How we work` deja de apoyarse en un violeta más morado para sus halos, línea y superficies de acento, y pasa a usar el mismo lila azulado que hoy domina `services-carousel`, con `Haze` como apoyo secundario.
+
+**Motivo:** Martín detectó que la sección seguía desviándose cromáticamente respecto al resto del sitio. Aunque estaba cerca del sistema, todavía usaba un tono más morado en puntos clave del path y de los overlays. Después pidió explícitamente que se tomase como referencia el lila azulado ya usado en servicios para cerrar de verdad esa continuidad visual.
+
+**Efecto:** El timeline mantiene su estructura y motion, pero ahora se percibe como parte del mismo lenguaje de marca que el resto de la home. La continuidad sale del mismo lila azulado de servicios, no de una variación paralela más saturada.
+
+**Archivos / artefactos relevantes:** `components/home/how-we-work.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-05 — Las cards de `How we work` usan un gradiente vertical dark-tech fijo
+
+**Decisión:** Las cards de proceso usan como superficie base un gradiente vertical fijo `#0B0C17 -> #0D0F24 -> #0A0F2E`, aplicado de arriba abajo tanto en desktop como en móvil.
+
+**Motivo:** Martín pidió endurecer la base material de las cards con una secuencia tonal exacta, manteniendo el resto de la atmósfera lila como overlay y no como fondo principal.
+
+**Efecto:** La sección gana una base más consistente y más cercana al lenguaje dark-tech del sitio. Los halos lilas siguen existiendo, pero ya no definen por sí solos la masa de la card.
+
+---
+
+## 2026-05-05 — `How we work` integra la familia Navy como base ambiental de sección
+
+**Decisión:** La sección `How we work` deja de descansar sobre `Void` plano y pasa a usar las tonalidades `Navy` `#0B0C17 -> #0D0F24 -> #0A0F2E` como base ambiental del bloque, manteniendo el lila azulado solo para línea, halos y acentos.
+
+**Motivo:** Martín pidió que esas mismas tonalidades no se quedaran encapsuladas en las cards, sino que impregnasen la sección completa para unificar materialidad y fondo.
+
+**Efecto:** La sección se percibe más cohesionada: cards, nodos y ambiente comparten el mismo sustrato dark-tech, mientras el lila conserva su función de firma lumínica y no de color dominante.
+
+---
+
+## 2026-05-05 — `How we work` recupera base `Void` en el fondo de sección
+
+**Decisión:** El fondo base de `How we work` vuelve a usar `Void`, igual que el resto de secciones públicas. La familia `Navy` `#0B0C17 -> #0D0F24 -> #0A0F2E` se conserva solo en las cards y como cierre tonal de los nodos.
+
+**Motivo:** Martín pidió que la sección no quedara teñida de forma distinta al resto del recorrido y que el fondo de bloque recuperara continuidad con la home.
+
+**Efecto:** La transición entre secciones vuelve a sentirse más uniforme. El carácter `Navy` sigue presente, pero concentrado en superficies internas donde aporta materialidad sin romper la base común del sitio.
+
+---
+
+## 2026-05-05 — Las cards de `How we work` eliminan el halo inferior derecho
+
+**Decisión:** Las cards de `How we work` mantienen un único acento atmosférico superior y eliminan el segundo gradiente circular de la esquina inferior derecha.
+
+**Motivo:** Martín pidió limpiar la superficie interna de las cards y retirar ese segundo halo, que recargaba la lectura del material dark-tech.
+
+**Efecto:** La card queda más sobria y técnica. El foco vuelve a recaer en título, copy y gradiente base, con un único apoyo lumínico controlado.
+
+---
+
+## 2026-05-05 — `How we work` elimina el glow superior izquierdo del bloque
+
+**Decisión:** La atmósfera del bloque `How we work` deja de usar el radial de la esquina superior izquierda y conserva solo un halo contenido fuera de ese cuadrante.
+
+**Motivo:** Martín pidió limpiar ese glow porque rompía la sobriedad del fondo y añadía un punto de luz innecesario en la entrada de la sección.
+
+**Efecto:** El bloque gana un arranque más limpio y uniforme con el resto de la home, sin perder del todo la atmósfera ambiental secundaria.
+
+---
+
+## 2026-05-05 — El texto de las cards de `How we work` pasa a blanco
+
+**Decisión:** La numeración, el título y la descripción dentro de las cards de `How we work` se resuelven en blanco tanto en desktop como en móvil.
+
+**Motivo:** Martín pidió que el texto interno de cada card fuese blanco para aumentar contraste y coherencia sobre la base `Navy`.
+
+**Efecto:** Las cards ganan una jerarquía más clara y un contraste más directo frente al fondo oscuro, sin depender de matices lilas o plateados para la legibilidad principal.
+
+---
+
+## 2026-05-05 — `How we work` elimina también el glow inferior derecho del bloque
+
+**Decisión:** La sección `How we work` deja de usar cualquier halo ambiental de fondo en el bloque. Se elimina también el glow inferior derecho que seguía vivo en la atmósfera general.
+
+**Motivo:** Martín pidió limpiar ese último hotspot para que la base `Void` del bloque quedara completamente sobria y consistente con el resto de la home.
+
+**Efecto:** La sección queda sin glow ambiental de fondo. La profundidad visual pasa a apoyarse solo en cards, nodos y línea, con un resultado más limpio y técnico.
+
+---
+
+## 2026-05-05 — El nodo desktop de `How we work` colapsa a una sola capa real
+
+**Decisión:** El nodo desktop de `How we work` deja de usar un wrapper exterior más un contenedor visual interior. La pieza visible, medible y animable pasa a ser un único `motion.div`.
+
+**Motivo:** Martín cuestionó con razón la necesidad de dos contenedores anidados. El wrapper exterior ya no aportaba valor funcional suficiente y añadía ruido estructural.
+
+**Efecto:** El nodo desktop queda más limpio de mantener y más coherente con la intención visual de "un único círculo con icono". El debug box sigue existiendo porque Martín pidió conservar los bordes de depuración.
+
+**Archivos / artefactos relevantes:** `components/home/how-we-work.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-05 — El runtime público queda preparado para Vercel Speed Insights
+
+**Decisión:** La web pública integra `@vercel/speed-insights` en el root layout mediante la primitive oficial `SpeedInsights` para Next.js.
+
+**Motivo:** Martín pidió seguir la integración oficial de Vercel Speed Insights, pero sin hacer todavía `push` ni `deploy`. El cambio debía dejar listo el runtime para empezar a recopilar métricas reales en cuanto exista un despliegue posterior en Vercel.
+
+**Efecto:** El proyecto añade una capa mínima de observabilidad de rendimiento sin alterar la UX pública ni el routing. La recopilación real de datos queda pendiente del despliegue, pero el código ya está preparado siguiendo la vía recomendada por Vercel.
+
+**Archivos / artefactos relevantes:** `package.json`, `package-lock.json`, `app/layout.tsx`, `doc/reference/technical-reference.md`.

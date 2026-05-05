@@ -188,6 +188,19 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   Incluso en estados laterales u overlap, las cards deben mantenerse opacas; la profundidad sale de escala, rotación y orden, no de transparencia.
   No deben usar microinteracción de hover que altere geometría, escala o composición base: el patrón debe sentirse gobernado por scroll y snap. Sí se permite un `BorderGlow` perimetral sutil, guiado por proximidad de puntero, siempre que no mueva la card ni robe protagonismo al contenido.
   El patrón no debe vender sliders genéricos de agencia; debe comunicar capacidades reales del estudio: arquitectura, desarrollo, evolución y digitalización.
+- `process-timeline`: sección editorial full-width de proceso con cards alternadas, nodos con icono y path SVG serpenteante guiado por scroll
+  Los nodos desktop deben resolverse como un único círculo legible con el icono centrado. No usan anillos, dobles bordes ni círculos concéntricos.
+  El fondo de esos nodos debe ser opaco: la línea y cualquier capa inferior no deben transparentarse a través de la masa del hito.
+  Su acento cromático debe quedar alineado con el lila azulado usado en `services-carousel`, apoyado por `Haze` como luz secundaria. Evita violetas paralelos o morados más saturados que desvíen la sección del tono de marca.
+  El fondo base del bloque debe seguir el mismo `Void` oscuro del resto de secciones. La familia `Navy` no debe teñir toda la sección: queda reservada a superficies internas como cards y cierres tonales puntuales.
+  Las cards de proceso deben usar como base ese mismo gradiente vertical oscuro `#0B0C17 -> #0D0F24 -> #0A0F2E`, de arriba abajo, antes de cualquier halo o overlay lila.
+  Todo el texto dentro de esas cards debe resolverse en blanco: numeración, heading y descripción.
+  Dentro de cada card, el acento atmosférico debe quedar contenido en la zona superior. No uses un segundo gradiente circular lila o `Haze` en la esquina inferior derecha.
+  En el bloque general de la sección no debe existir glow ni en la esquina superior izquierda ni en la inferior derecha. La atmósfera base del bloque debe quedar limpia; la profundidad sale de las cards, nodos y línea.
+  La línea puede tocar el viewport solo en su punto inicial y en su punto final. Entre nodos, debe empezar a curvar hacia el siguiente hito justo después de atravesar el nodo activo, sin volver a rozar los bordes laterales como si rebotase en ellos.
+  El serpenteo debe salir de la alternancia entre hitos y del ritmo vertical del stage, no de un uso mecánico de todo el ancho disponible en cada tramo.
+  Las curvas intermedias deben abrirse con amplitud generosa y radio orgánico. Evita giros tensos, handles demasiado cortos o una S excesivamente rígida entre nodos.
+  Esa mayor amplitud debe concentrarse en los tramos que conectan nodos intermedios. La entrada al primer nodo y la salida desde el último deben mantenerse más contenidas para no sobreactuar el gesto en los extremos.
 - `panel-base`: tarjetas y módulos principales
 - `panel-muted`: soporte contextual o comparativas
 - `button-primary`: CTA principal claro y luminoso

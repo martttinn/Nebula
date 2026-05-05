@@ -14,9 +14,29 @@ import {
 } from "framer-motion";
 
 const DEBUG_BORDERS = true;
-const PATH_ENTRY_OFFSET = 72;
-const PATH_EXIT_OFFSET = 84;
+const PATH_START_Y_OFFSET = -6;
+const PATH_END_Y_OFFSET = 116;
+const EDGE_HANDLE_RATIO = 0.32;
+const INTER_NODE_HANDLE_RATIO = 0.46;
+const EDGE_HANDLE_MAX = 136;
+const INTER_NODE_HANDLE_MAX = 320;
+const EDGE_VERTICAL_HANDLE_RATIO = 0.16;
+const INTER_NODE_VERTICAL_HANDLE_RATIO = 0.24;
 const DESKTOP_STEP_STOPS = [0.16, 0.38, 0.62, 0.84] as const;
+const PROCESS_LILAC_RGB = "125,116,224";
+const PROCESS_HAZE_RGB = "181,177,227";
+const PROCESS_NAVY_TOP = "#0B0C17";
+const PROCESS_NAVY_MID = "#0D0F24";
+const PROCESS_NAVY_BOTTOM = "#0A0F2E";
+const PROCESS_CARD_SURFACE_BACKGROUND =
+  `linear-gradient(180deg, ${PROCESS_NAVY_TOP} 0%, ${PROCESS_NAVY_MID} 48%, ${PROCESS_NAVY_BOTTOM} 100%)`;
+const NODE_SURFACE_BACKGROUND =
+  `radial-gradient(circle at 50% 28%, rgba(${PROCESS_HAZE_RGB},0.96) 0%, rgba(${PROCESS_LILAC_RGB},0.9) 34%, ${PROCESS_NAVY_BOTTOM} 100%)`;
+const DESKTOP_CARD_ACCENT_BACKGROUND =
+  `radial-gradient(circle at 12% 20%, rgba(${PROCESS_LILAC_RGB},0.16), transparent 34%)`;
+const MOBILE_CARD_ACCENT_BACKGROUND =
+  `radial-gradient(circle at 15% 18%, rgba(${PROCESS_LILAC_RGB},0.14), transparent 36%)`;
+const SECTION_ACCENT_BACKGROUND = "none";
 
 type Step = {
   number: string;
@@ -88,6 +108,10 @@ function round(value: number) {
   return Math.round(value * 100) / 100;
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
 function buildSmoothPath(points: Point[]) {
   if (points.length < 2) {
     return "";
@@ -100,14 +124,28 @@ function buildSmoothPath(points: Point[]) {
     const currentPoint = points[index];
     const nextPoint = points[index + 1];
     const followingPoint = points[index + 2] ?? nextPoint;
+    const deltaX = nextPoint.x - currentPoint.x;
+    const isEdgeSegment = index === 0 || index === points.length - 2;
+    const horizontalDistance = Math.abs(deltaX);
+    const directionX = Math.sign(deltaX) || 1;
+    const horizontalHandle = clamp(
+      horizontalDistance * (isEdgeSegment ? EDGE_HANDLE_RATIO : INTER_NODE_HANDLE_RATIO),
+      0,
+      isEdgeSegment ? EDGE_HANDLE_MAX : INTER_NODE_HANDLE_MAX,
+    );
+    const verticalHandleRatio = isEdgeSegment
+      ? EDGE_VERTICAL_HANDLE_RATIO
+      : INTER_NODE_VERTICAL_HANDLE_RATIO;
+    const entryVerticalDelta = nextPoint.y - previousPoint.y;
+    const exitVerticalDelta = followingPoint.y - currentPoint.y;
 
     const control1 = {
-      x: currentPoint.x + (nextPoint.x - previousPoint.x) / 6,
-      y: currentPoint.y + (nextPoint.y - previousPoint.y) / 6,
+      x: currentPoint.x + directionX * horizontalHandle,
+      y: currentPoint.y + entryVerticalDelta * verticalHandleRatio,
     };
     const control2 = {
-      x: nextPoint.x - (followingPoint.x - currentPoint.x) / 6,
-      y: nextPoint.y - (followingPoint.y - currentPoint.y) / 6,
+      x: nextPoint.x - directionX * horizontalHandle,
+      y: nextPoint.y - exitVerticalDelta * verticalHandleRatio,
     };
 
     path += ` C ${round(control1.x)} ${round(control1.y)}, ${round(control2.x)} ${round(control2.y)}, ${round(nextPoint.x)} ${round(nextPoint.y)}`;
@@ -165,52 +203,19 @@ function DesktopNode({
     [activeWindowStart, nodeStop],
     [0.92, 1],
   );
-  const glowOpacityMotion = useTransform(
-    progress,
-    [activeWindowStart, nodeStop],
-    [0.28, 0.92],
-  );
-  const ringOpacityMotion = useTransform(
-    progress,
-    [activeWindowStart, nodeStop],
-    [0.4, 1],
-  );
   const scale = reducedMotion ? 1 : scaleMotion;
-  const glowOpacity = reducedMotion ? 0.72 : glowOpacityMotion;
-  const ringOpacity = reducedMotion ? 0.72 : ringOpacityMotion;
 
   return (
     <motion.div
       ref={setNodeRef}
-      className="relative z-20 flex h-24 w-24 items-center justify-center"
-      style={{ scale, ...debugOutline("rgba(250, 204, 21, 0.8)") }}
+      className="relative z-20 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-[#171125] shadow-[0_18px_50px_rgba(0,0,0,0.36)]"
+      style={{
+        scale,
+        background: NODE_SURFACE_BACKGROUND,
+        ...debugOutline("rgba(250, 204, 21, 0.8)"),
+      }}
     >
-      <motion.div
-        className="absolute inset-0 rounded-full"
-        style={{
-          opacity: glowOpacity,
-          background:
-            "radial-gradient(circle, rgba(83,74,183,0.34) 0%, rgba(83,74,183,0.08) 42%, transparent 72%)",
-        }}
-      />
-      <motion.div
-        className="absolute inset-[9px] rounded-full border"
-        style={{ opacity: ringOpacity, borderColor: "rgba(232,232,240,0.86)" }}
-      />
-      <motion.div
-        className="absolute inset-[22px] rounded-full border"
-        style={{ opacity: ringOpacity, borderColor: "rgba(181,177,227,0.62)" }}
-      />
-      <div
-        className="absolute inset-[31px] rounded-full"
-        style={{ background: "rgba(20,16,34,0.92)" }}
-      />
-      <div className="relative z-10 flex flex-col items-center justify-center gap-1.5">
-        <Icon className="h-5 w-5 text-nebula-silver" strokeWidth={1.8} />
-        <span className="font-display text-[0.58rem] font-bold tracking-[0.24em] text-nebula-haze">
-          {step.number}
-        </span>
-      </div>
+      <Icon className="relative z-10 h-6 w-6 text-nebula-silver" strokeWidth={1.8} />
     </motion.div>
   );
 }
@@ -252,34 +257,34 @@ function DesktopCard({
 
   return (
     <motion.article
-      className="relative z-10 w-full max-w-[39rem] overflow-hidden rounded-[2rem] border border-white/[0.06] bg-[#171125]/95 px-8 py-7 shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-sm"
+      className="relative z-10 w-full max-w-[39rem] overflow-hidden rounded-[2rem] border border-white/[0.06] bg-transparent px-8 py-7 shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-sm"
       style={{
         opacity,
         x,
         y,
         scale,
         filter,
+        backgroundImage: PROCESS_CARD_SURFACE_BACKGROUND,
         ...debugOutline("rgba(34, 197, 94, 0.82)"),
       }}
     >
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background:
-            "radial-gradient(circle at 12% 20%, rgba(83,74,183,0.18), transparent 34%), radial-gradient(circle at 88% 78%, rgba(125,116,224,0.08), transparent 30%)",
+          background: DESKTOP_CARD_ACCENT_BACKGROUND,
         }}
       />
       <div className="relative z-10">
         <div className="mb-5 flex items-center gap-3">
-          <span className="font-display text-[0.68rem] font-bold tracking-[0.24em] text-nebula-haze/78">
+          <span className="font-display text-[0.68rem] font-bold tracking-[0.24em] text-white">
             {step.number}
           </span>
           <span className="h-px w-10 bg-nebula-lilac/40" />
         </div>
-        <h3 className="mb-4 max-w-[16ch] font-display text-[1.9rem] font-bold leading-[1.02] tracking-[-0.045em] text-nebula-silver">
+        <h3 className="mb-4 max-w-[16ch] font-display text-[1.9rem] font-bold leading-[1.02] tracking-[-0.045em] text-white">
           {step.title}
         </h3>
-        <p className="max-w-[38ch] text-[1.02rem] leading-[1.62] text-[#AFA9EC]">
+        <p className="max-w-[38ch] text-[1.02rem] leading-[1.62] text-white">
           {step.description}
         </p>
       </div>
@@ -371,33 +376,34 @@ function MobileCard({
       viewport={{ once: true, amount: 0.35 }}
       transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="relative z-10 mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#171125] shadow-[0_14px_40px_rgba(0,0,0,0.34)]">
-        <div
-          className="pointer-events-none absolute inset-0 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(83,74,183,0.24) 0%, transparent 70%)" }}
-        />
+      <div
+        className="relative z-10 mt-1 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#171125] shadow-[0_14px_40px_rgba(0,0,0,0.34)]"
+        style={{ background: NODE_SURFACE_BACKGROUND }}
+      >
         <Icon className="relative z-10 h-5 w-5 text-nebula-silver" strokeWidth={1.8} />
       </div>
 
-      <article className="relative flex-1 overflow-hidden rounded-[1.6rem] border border-white/[0.06] bg-[#171125]/95 px-6 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.34)]">
+      <article
+        className="relative flex-1 overflow-hidden rounded-[1.6rem] border border-white/[0.06] bg-transparent px-6 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.34)]"
+        style={{ backgroundImage: PROCESS_CARD_SURFACE_BACKGROUND }}
+      >
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              "radial-gradient(circle at 15% 18%, rgba(83,74,183,0.16), transparent 36%), radial-gradient(circle at 85% 85%, rgba(125,116,224,0.08), transparent 32%)",
+            background: MOBILE_CARD_ACCENT_BACKGROUND,
           }}
         />
         <div className="relative z-10">
           <div className="mb-4 flex items-center gap-3">
-            <span className="font-display text-[0.66rem] font-bold tracking-[0.22em] text-nebula-haze/78">
+            <span className="font-display text-[0.66rem] font-bold tracking-[0.22em] text-white">
               {step.number}
             </span>
             <span className="h-px w-8 bg-nebula-lilac/35" />
           </div>
-          <h3 className="mb-3 font-display text-[1.45rem] font-bold leading-[1.02] tracking-[-0.04em] text-nebula-silver">
+          <h3 className="mb-3 font-display text-[1.45rem] font-bold leading-[1.02] tracking-[-0.04em] text-white">
             {step.title}
           </h3>
-          <p className="text-[0.95rem] leading-[1.62] text-[#AFA9EC]">
+          <p className="text-[0.95rem] leading-[1.62] text-white">
             {step.description}
           </p>
         </div>
@@ -429,9 +435,9 @@ function DesktopConnector({
     >
       <defs>
         <linearGradient id="how-we-work-line" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(181,177,227,0.94)" />
-          <stop offset="42%" stopColor="rgba(125,116,224,0.95)" />
-          <stop offset="100%" stopColor="rgba(83,74,183,0.95)" />
+          <stop offset="0%" stopColor={`rgba(${PROCESS_HAZE_RGB},0.94)`} />
+          <stop offset="42%" stopColor={`rgba(${PROCESS_LILAC_RGB},0.95)`} />
+          <stop offset="100%" stopColor={`rgba(${PROCESS_LILAC_RGB},0.78)`} />
         </linearGradient>
         <filter id="how-we-work-glow" x="-10%" y="-10%" width="120%" height="120%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
@@ -445,7 +451,7 @@ function DesktopConnector({
       <path
         d={path}
         fill="none"
-        stroke="rgba(125,116,224,0.22)"
+        stroke={`rgba(${PROCESS_HAZE_RGB},0.18)`}
         strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -522,13 +528,13 @@ export function HowWeWorkSection() {
 
         const pathPoints = [
           {
-            x: -PATH_ENTRY_OFFSET,
-            y: nodePoints[0].y - 6,
+            x: 0,
+            y: nodePoints[0].y + PATH_START_Y_OFFSET,
           },
           ...nodePoints,
           {
-            x: stageRect.width + PATH_EXIT_OFFSET,
-            y: nodePoints[nodePoints.length - 1].y + 116,
+            x: stageRect.width,
+            y: nodePoints[nodePoints.length - 1].y + PATH_END_Y_OFFSET,
           },
         ];
         const path = buildSmoothPath(pathPoints);
@@ -594,8 +600,7 @@ export function HowWeWorkSection() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background:
-            "radial-gradient(ellipse 52% 34% at 14% 12%, rgba(83,74,183,0.08) 0%, transparent 70%), radial-gradient(ellipse 42% 28% at 88% 76%, rgba(125,116,224,0.08) 0%, transparent 72%)",
+          background: SECTION_ACCENT_BACKGROUND,
         }}
         aria-hidden="true"
       />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLenis } from "lenis/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -8,18 +9,87 @@ import { NebulaLogoAnimated } from "@/components/ui/nebula-logo-animated";
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!lenis) {
+      return;
+    }
+
+    if (isLoading) {
+      lenis.stop();
+      lenis.scrollTo(0, { immediate: true, force: true });
+      return;
+    }
+
+    lenis.start();
+
+    return () => {
+      lenis.start();
+    };
+  }, [isLoading, lenis]);
 
   useEffect(() => {
     const html = document.documentElement;
+    const body = document.body;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousHtmlTouchAction = html.style.touchAction;
+    const previousHtmlOverscrollBehavior = html.style.overscrollBehavior;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyTouchAction = body.style.touchAction;
+    const previousBodyOverscrollBehavior = body.style.overscrollBehavior;
+
+    const preventDefault = (event: Event) => {
+      event.preventDefault();
+    };
+
+    const preventScrollKeys = (event: KeyboardEvent) => {
+      const blockedKeys = new Set([
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        "Space",
+      ]);
+
+      if (blockedKeys.has(event.code)) {
+        event.preventDefault();
+      }
+    };
 
     const lockScroll = () => {
       html.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
+      html.style.touchAction = "none";
+      html.style.overscrollBehavior = "none";
+      body.style.overflow = "hidden";
+      body.style.touchAction = "none";
+      body.style.overscrollBehavior = "none";
+      document.addEventListener("wheel", preventDefault, {
+        passive: false,
+        capture: true,
+      });
+      document.addEventListener("touchmove", preventDefault, {
+        passive: false,
+        capture: true,
+      });
+      window.addEventListener("keydown", preventScrollKeys, {
+        passive: false,
+        capture: true,
+      });
     };
 
     const unlockScroll = () => {
-      html.style.overflow = "";
-      document.body.style.overflow = "";
+      html.style.overflow = previousHtmlOverflow;
+      html.style.touchAction = previousHtmlTouchAction;
+      html.style.overscrollBehavior = previousHtmlOverscrollBehavior;
+      body.style.overflow = previousBodyOverflow;
+      body.style.touchAction = previousBodyTouchAction;
+      body.style.overscrollBehavior = previousBodyOverscrollBehavior;
+      document.removeEventListener("wheel", preventDefault);
+      document.removeEventListener("touchmove", preventDefault);
+      window.removeEventListener("keydown", preventScrollKeys);
     };
 
     lockScroll();
@@ -94,7 +164,7 @@ export function Preloader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-nebula-void pointer-events-none"
+          className="fixed inset-0 z-[100] flex touch-none flex-col items-center justify-center bg-nebula-void pointer-events-auto"
         >
           <div className="relative mb-10">
             <div
