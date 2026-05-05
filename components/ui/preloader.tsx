@@ -38,6 +38,7 @@ export function Preloader() {
     const previousBodyOverflow = body.style.overflow;
     const previousBodyTouchAction = body.style.touchAction;
     const previousBodyOverscrollBehavior = body.style.overscrollBehavior;
+    let lockListenersController: AbortController | null = null;
 
     const preventDefault = (event: Event) => {
       event.preventDefault();
@@ -60,6 +61,10 @@ export function Preloader() {
     };
 
     const lockScroll = () => {
+      lockListenersController?.abort();
+      lockListenersController = new AbortController();
+      const signal = lockListenersController.signal;
+
       html.style.overflow = "hidden";
       html.style.touchAction = "none";
       html.style.overscrollBehavior = "none";
@@ -69,27 +74,29 @@ export function Preloader() {
       document.addEventListener("wheel", preventDefault, {
         passive: false,
         capture: true,
+        signal,
       });
       document.addEventListener("touchmove", preventDefault, {
         passive: false,
         capture: true,
+        signal,
       });
       window.addEventListener("keydown", preventScrollKeys, {
         passive: false,
         capture: true,
+        signal,
       });
     };
 
     const unlockScroll = () => {
+      lockListenersController?.abort();
+      lockListenersController = null;
       html.style.overflow = previousHtmlOverflow;
       html.style.touchAction = previousHtmlTouchAction;
       html.style.overscrollBehavior = previousHtmlOverscrollBehavior;
       body.style.overflow = previousBodyOverflow;
       body.style.touchAction = previousBodyTouchAction;
       body.style.overscrollBehavior = previousBodyOverscrollBehavior;
-      document.removeEventListener("wheel", preventDefault);
-      document.removeEventListener("touchmove", preventDefault);
-      window.removeEventListener("keydown", preventScrollKeys);
     };
 
     lockScroll();
