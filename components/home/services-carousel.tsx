@@ -13,6 +13,7 @@ import {
 import BorderGlow from "@/components/BorderGlow";
 import { HeroParticles } from "@/components/home/hero-particles";
 import { Button } from "@/components/ui/button";
+import { SectionTitle } from "@/components/ui/section-title";
 
 const ARC_SPAN_DEG = 64;
 const ARC_RADIUS = 990;
@@ -144,12 +145,12 @@ function SectionHeading() {
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
-      <h2
+      <SectionTitle
         id="servicios-title"
         className="mx-auto max-w-5xl font-display text-4xl font-bold leading-[0.96] tracking-[-0.055em] text-nebula-silver sm:text-5xl lg:text-6xl"
-      >
-        Nuestros Servicios
-      </h2>
+        leadingText="Nuestros"
+        accentText="Servicios"
+      />
     </motion.div>
   );
 }

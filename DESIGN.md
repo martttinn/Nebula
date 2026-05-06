@@ -100,6 +100,10 @@ components:
     textColor: "{colors.text}"
     rounded: "{rounded.full}"
     padding: "{spacing.sm}"
+  section-heading:
+    textColor: "{colors.text}"
+    accentColor: "{colors.lilac}"
+    typography: "{typography.heading-lg}"
   section-label:
     textColor: "{colors.lilac}"
     typography: "{typography.label-sm}"
@@ -215,6 +219,9 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El CTA desktop del navbar debe resolverse como botón outlined estándar: transparente en reposo, borde claro, texto `Silver` y hover blanco con texto negro.
   Los links centrales deben responder al hover con una inercia suave: microescala y transición más larga con curva elástica contenida, evitando desplazamientos físicos que puedan reencender el hover al salir.
   En móvil y tablet el navbar colapsa a lockup + hamburguesa de tres líneas anclada al extremo derecho del shell, sin cápsula secundaria ni en reposo ni al abrir; el toggle debe hacer morph suave a `X` mediante transformación de barras, no por swap brusco de iconos. Al abrir, la navegación se resuelve con un overlay escalonado dark-tech a pantalla completa, usando el mismo tratamiento tipográfico para todos los destinos, incluido `Contactar`.
+- `section-heading`: titulares principales de sección en `Syne`, mayoritariamente en `Silver`, con una única palabra clave en `Lilac` como acento de marca.
+  Ese acento debe recaer en el término semánticamente más importante del titular y no en partículas auxiliares.
+  El patrón debe sentirse preciso y contenido: un único acento por heading, sin degradados ni alternancias multicolor dentro del mismo título.
 - `section-label`: microcopy técnico en mayúsculas espaciadas
 
 ## Do's and Don'ts
