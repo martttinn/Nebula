@@ -575,3 +575,15 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 **Efecto:** El proyecto añade una capa mínima de observabilidad de rendimiento sin alterar la UX pública ni el routing. La recopilación real de datos queda pendiente del despliegue, pero el código ya está preparado siguiendo la vía recomendada por Vercel.
 
 **Archivos / artefactos relevantes:** `package.json`, `package-lock.json`, `app/layout.tsx`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-06 — La home pública adopta directorios canónicos por sección dentro de `components/home/`
+
+**Decisión:** Las secciones públicas sustanciales de la home deben vivir en carpetas canónicas propias dentro de `components/home/`, con `index.tsx` como entrypoint público y breakdown colocalizado por responsabilidad (`primitives.tsx`, `constants.ts`, `types.ts`, `content.ts`, `geometry.ts`/`path.ts`, CSS Module cuando aplique).
+
+**Motivo:** Las secciones de la home habían crecido hasta concentrar layout, motion, copy, geometría y variantes responsive en archivos monolíticos o en piezas dispersas. La organización por carpetas reduce acoplamiento, aclara ownership y hace más barato iterar sin abrir wrappers paralelos ni duplicar estructura.
+
+**Efecto:** El estado objetivo del repo deja de ser `components/home/*.tsx` para secciones complejas. Las páginas deben consumir paths de directorio canónicos como `@/components/home/hero`, `@/components/home/value-proposition-section`, `@/components/home/services-carousel` y `@/components/home/how-we-work`. Las fachadas de compatibilidad solo se aceptan como ayuda transitoria durante migraciones explícitas y deben retirarse al cerrar la consolidación.
+
+**Archivos / artefactos relevantes:** `.agents/rules/03-nextjs-web-rules.md`, `.agents/rules/07-code-style-and-implementation-rules.md`, `.agents/workflows/task-start.md`, `AGENTS.md`, `components/home/**`, `doc/reference/technical-reference.md`.

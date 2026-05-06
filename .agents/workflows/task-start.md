@@ -75,6 +75,9 @@ No asumas el comportamiento actual. Lee el código afectado.
 - si ya ves riesgo de jank o peso visual excesivo, carga también `roles/02-role-performance-audit.md`
 - si la surface afecta discoverability, semántica o captación, carga también `roles/05-role-seo-strategy.md`
 - si el problema principal es dirección visual, motion, micro-interacciones, storytelling scroll, sistemas de componentes o WebGL/Three.js, carga también `roles/07-role-frontend-developer.md`
+- si la surface vive en `components/home/`, identifica antes de editar cuál es su carpeta canónica y evita abrir archivos sueltos nuevos en la raíz de `components/home/`
+- decide desde el inicio el boundary público de la sección (`index.tsx`) y qué piezas deben quedar colocalizadas como `primitives.tsx`, `constants.ts`, `types.ts`, `content.ts` o archivo de geometría equivalente
+- si introduces una fachada de compatibilidad durante una migración, deja planificada su retirada antes de cerrar la consolidación; no la trates como estado final
 
 ## 4.5. Si la tarea toca facts visibles al público
 

@@ -44,6 +44,32 @@ Reglas derivadas:
 - cuando dos superficies compartan infraestructura o shell con semánticas distintas, evalúa extraer una primitive antes de copiar estructura
 - abstrae solo cuando la similitud esté verificada o sea inminente en el scope
 
+## Politica canónica de `components/`
+
+### `components/home/`
+
+- cada sección pública sustancial de la home debe vivir en una carpeta propia
+- el entrypoint público de esa carpeta debe ser `index.tsx`
+- los consumidores route-level deben importar el directorio canónico, no un archivo interno profundo ni una fachada paralela
+- la estructura interna preferida de cada sección es:
+  - `index.tsx` para la surface pública
+  - `primitives.tsx` para piezas visuales privadas o subcomponentes internos
+  - `constants.ts` para valores canónicos de layout, motion o color específicos de la sección
+  - `types.ts` para contratos internos
+  - `content.ts` cuando copy, catálogos u ornamentos sean locales a la sección
+  - `geometry.ts`, `path.ts` o nombre equivalente cuando haya cálculo puro de layout, SVG, motion o posicionamiento
+  - CSS Modules colocalizados solo cuando el estilo sea específico de esa sección
+- no abras nuevos archivos sueltos en la raíz de `components/home/` para implementar secciones complejas o familias que ya tienen carpeta propia
+- si una sección empieza simple pero gana varias responsabilidades, migra a carpeta antes de seguir ampliándola
+- las fachadas de compatibilidad en `components/home/*.tsx` solo se permiten como ayuda de transición en migraciones explícitas; deben retirarse cuando los consumidores ya estén actualizados, salvo instrucción contraria de Martín
+
+### `components/ui/`, `components/layout/` y ownership compartido
+
+- primitives reutilizables entre varias secciones o varias rutas van en `components/ui/`
+- shells globales, navegación y wrappers de layout van en `components/layout/`
+- una pieza reusable pero claramente owned por una familia concreta puede quedarse en su carpeta si el ownership es inequívoco y no complica consumo
+- no promociones a `ui/` por reflejo: extrae solo cuando la reutilización ya es real o inmediatamente inminente
+
 ## Boundaries de runtime
 
 - protege los límites entre código server, client, mobile, tooling y backend según el stack real del repo

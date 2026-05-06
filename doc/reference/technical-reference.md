@@ -74,6 +74,13 @@ Dirección preferida para código nuevo:
 4. catálogo estático o lógica compartida en `data/` / `lib/`
 5. futura capa de datos o backend cuando exista
 
+Política estructural activa para `components/home/`:
+
+- cada sección pública sustancial vive en una carpeta canónica propia
+- `index.tsx` es el entrypoint público de esa carpeta
+- el resto de piezas se colocalizan por responsabilidad (`primitives.tsx`, `constants.ts`, `types.ts`, `content.ts`, `geometry.ts`/`path.ts`, CSS Module si aplica)
+- los consumers route-level deben importar el path de directorio canónico; los wrappers en la raíz de `components/home/` no forman parte del estado objetivo
+
 ## 5. Runtime actual
 
 - el runtime público actual ya expresa hero, propuesta de valor, servicios y proceso; el siguiente paso comercial conectado sigue pendiente

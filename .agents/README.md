@@ -40,6 +40,20 @@ Carga solo las que apliquen a la tarea:
 - `rules/06-testing-release-and-docs-rules.md` — validación, release, documentación y change-log
 - `rules/07-code-style-and-implementation-rules.md` — convenciones de implementación y estructura
 
+## Politica canónica de `components/home`
+
+- cada sección pública sustancial de la home vive en su propia carpeta
+- el entrypoint público de cada carpeta es `index.tsx`
+- las páginas deben consumir la sección por su path canónico de directorio
+- `components/home/*.tsx` no es el estado objetivo para secciones complejas; solo se acepta como compatibilidad transitoria en migraciones explícitas
+- breakdown preferido dentro de cada sección:
+  - `index.tsx`
+  - `primitives.tsx`
+  - `constants.ts`
+  - `types.ts`
+  - `content.ts` cuando aplique
+  - `geometry.ts` o `path.ts` cuando haya cálculo puro
+
 ## Otros recursos
 
 - `workflows/init-context.md` — bootstrap canónico para hilos nuevos cuando Martín use el trigger `init`

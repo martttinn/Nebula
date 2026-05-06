@@ -15,6 +15,9 @@
 - catálogos estáticos en `data/`
 - helpers compartidos en `lib/`
 - acceso a APIs de navegador solo en componentes client
+- en `components/home/`, cada sección pública sustancial debe exponerse desde su carpeta canónica mediante `index.tsx`
+- las páginas y layouts deben importar esas secciones por el path de directorio (`@/components/home/<seccion>`) y no por fachadas temporales o archivos internos profundos
+- si una migración necesita una fachada de compatibilidad, su retirada debe planificarse dentro del mismo flujo de consolidación; no es estado objetivo
 
 ## Server vs Client
 

@@ -140,6 +140,8 @@ Si una tarea mezcla varios roles, elige uno como principal y usa los demás solo
 - Los comentarios de código y comentarios internos del repo deben escribirse en español por defecto, salvo coherencia local o requisito externo.
 - Si el agente detecta un fallo claro o un patrón evitable, debe preguntar a Martín si quiere convertirlo en una regla o decisión duradera.
 - Si una tarea revela una primitive o shell base reutilizable, el agente debe evaluar extraerla antes de duplicar estructura.
+- En `components/home/`, cada sección pública sustancial debe vivir en su carpeta canónica con `index.tsx` como entrypoint; las páginas deben consumir ese path de directorio y no mantener wrappers indefinidos en la raíz.
+- Las fachadas de compatibilidad en `components/home/*.tsx` solo se permiten como transición explícita; deben retirarse al cerrar la migración salvo instrucción contraria de Martín.
 - Todo script, SQL o artefacto operativo similar nuevo o modificado de forma relevante debe incluir una cabecera breve que explique qué es y para qué sirve.
 - Si el worktree está sucio, nunca reviertas de forma global: aísla primero tus cambios de los ajenos.
 
