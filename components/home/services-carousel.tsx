@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 import {
   HOME_SERVICES,
@@ -155,6 +155,121 @@ function SectionHeading() {
   );
 }
 
+function ServiceCardChrome({
+  service,
+  children,
+  className,
+}: {
+  service: HomeService;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <BorderGlow
+      className={className ?? "h-full w-full shadow-panel"}
+      backgroundColor="#0B0C16"
+      borderRadius={32}
+      glowRadius={32}
+      glowIntensity={1.02}
+      edgeSensitivity={8}
+      coneSpread={19}
+      fillOpacity={0.22}
+      colors={buildServiceGlowColors(service.accent)}
+      glowColor="252 48 66"
+    >
+      <div className="absolute inset-0 bg-[#0B0C16]" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 82% 16%, ${hexToRgba(service.accent, 0.24)} 0%, transparent 28%),
+            radial-gradient(circle at 18% 18%, rgba(232,232,240,0.08) 0%, transparent 20%),
+            linear-gradient(180deg, rgb(11,12,22), rgb(10,15,46))
+          `,
+        }}
+      />
+      <div
+        className="absolute inset-0 bg-nebula-grid opacity-[0.06]"
+        style={{ backgroundSize: "36px 36px" }}
+      />
+      <div
+        className="absolute -left-10 bottom-8 h-40 w-40 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${hexToRgba(service.accent, 0.22)} 0%, transparent 70%)`,
+        }}
+      />
+      {children}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-[2rem] border"
+        style={{ borderColor: hexToRgba(service.accent, 0.18) }}
+      />
+    </BorderGlow>
+  );
+}
+
+function ServiceCardContent({
+  service,
+  variant,
+}: {
+  service: HomeService;
+  variant: "desktop" | "mobile";
+}) {
+  const isMobile = variant === "mobile";
+
+  return (
+    <div
+      className={`relative z-10 grid h-full ${isMobile ? "grid-rows-[auto_auto_1fr_auto] px-7 pt-8 pb-8" : "grid-rows-[auto_1fr_auto] px-8 pt-9 pb-10"}`}
+    >
+      <h3
+        className={`mx-auto text-center font-display font-bold tracking-[-0.055em] text-nebula-silver ${isMobile ? "max-w-[15.5rem] text-[2rem] leading-[0.94]" : "max-w-[15.75rem] text-[2.2rem] leading-[0.92]"}`}
+      >
+        {service.title}
+      </h3>
+      <div className={`flex items-center justify-center ${isMobile ? "py-6" : "py-4"}`}>
+        <div
+          className={`relative flex items-center justify-center ${isMobile ? "h-40 w-40" : "h-44 w-44"}`}
+        >
+          <div
+            className="absolute inset-0 rounded-full blur-3xl"
+            style={{
+              background: `radial-gradient(circle, ${hexToRgba(service.accent, 0.28)} 0%, transparent 72%)`,
+            }}
+          />
+          <Image
+            src={service.iconSrc}
+            alt=""
+            aria-hidden="true"
+            width={1254}
+            height={1254}
+            className={`relative w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.42)] ${isMobile ? "h-[8.5rem]" : "h-[9.25rem]"}`}
+          />
+        </div>
+      </div>
+      <p
+        className={`mx-auto overflow-hidden text-center text-nebula-haze/82 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] ${isMobile ? "max-w-[17rem] text-[0.98rem] leading-[1.58]" : "max-w-[16.5rem] text-[0.93rem] leading-[1.56]"}`}
+      >
+        {service.subtitle}
+      </p>
+      <div className={`flex justify-center ${isMobile ? "pt-6" : "pt-5"}`}>
+        <Button
+          asChild
+          variant="secondary"
+          size="lg"
+          className="group w-fit gap-2.5 self-center border-white/12 bg-white/[0.05] px-7 text-nebula-silver hover:bg-white"
+        >
+          <Link href="/#contacto" aria-label={`Ver más sobre ${service.title}`}>
+            Ver más
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </Link>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function ServiceCard({
   service,
   transform,
@@ -176,86 +291,37 @@ function ServiceCard({
       }}
       transition={{ type: "spring", stiffness: 180, damping: 26 }}
     >
-      <BorderGlow
-        className="h-full w-full shadow-panel"
-        backgroundColor="#0B0C16"
-        borderRadius={32}
-        glowRadius={32}
-        glowIntensity={1.02}
-        edgeSensitivity={8}
-        coneSpread={19}
-        fillOpacity={0.22}
-        colors={buildServiceGlowColors(service.accent)}
-        glowColor="252 48 66"
-      >
-        <div className="absolute inset-0 bg-[#0B0C16]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 82% 16%, ${hexToRgba(service.accent, 0.24)} 0%, transparent 28%),
-              radial-gradient(circle at 18% 18%, rgba(232,232,240,0.08) 0%, transparent 20%),
-              linear-gradient(180deg, rgb(11,12,22), rgb(10,15,46))
-            `,
-          }}
-        />
-        <div
-          className="absolute inset-0 bg-nebula-grid opacity-[0.06]"
-          style={{ backgroundSize: "36px 36px" }}
-        />
-        <div
-          className="absolute -left-10 bottom-8 h-40 w-40 rounded-full"
-          style={{
-            background: `radial-gradient(circle, ${hexToRgba(service.accent, 0.22)} 0%, transparent 70%)`,
-          }}
-        />
-        <div className="relative z-10 grid h-full grid-rows-[auto_1fr_auto] px-8 pt-9 pb-10">
-          <h3 className="mx-auto max-w-[15.75rem] text-center font-display text-[2.2rem] font-bold leading-[0.92] tracking-[-0.055em] text-nebula-silver">
-            {service.title}
-          </h3>
-          <div className="flex items-center justify-center py-4">
-            <div className="relative flex h-44 w-44 items-center justify-center">
-              <div
-                className="absolute inset-0 rounded-full blur-3xl"
-                style={{
-                  background: `radial-gradient(circle, ${hexToRgba(service.accent, 0.28)} 0%, transparent 72%)`,
-                }}
-              />
-              <Image
-                src={service.iconSrc}
-                alt=""
-                aria-hidden="true"
-                width={1254}
-                height={1254}
-                className="relative h-[9.25rem] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.42)]"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col items-center gap-5">
-            <p className="max-w-[16.5rem] overflow-hidden text-center text-[0.93rem] leading-[1.56] text-nebula-haze/82 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
-              {service.subtitle}
-            </p>
-            <Button
-              asChild
-              variant="secondary"
-              size="sm"
-              className="group w-fit gap-2 self-center border-white/12 bg-white/[0.05] text-nebula-silver hover:bg-white"
-            >
-              <Link href="/#contacto" aria-label={`Ver más sobre ${service.title}`}>
-                Ver más
-                <ArrowRight
-                  className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
-              </Link>
-            </Button>
-          </div>
-        </div>
-        <div
-          className="pointer-events-none absolute inset-0 rounded-[2rem] border"
-          style={{ borderColor: hexToRgba(service.accent, 0.18) }}
-        />
-      </BorderGlow>
+      <ServiceCardChrome service={service} className="h-full w-full shadow-panel">
+        <ServiceCardContent service={service} variant="desktop" />
+      </ServiceCardChrome>
+    </motion.article>
+  );
+}
+
+function MobileServiceCard({
+  service,
+  reducedMotion,
+  index,
+}: {
+  service: HomeService;
+  reducedMotion: boolean;
+  index: number;
+}) {
+  return (
+    <motion.article
+      className="mx-auto w-full max-w-[23rem]"
+      initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: 0.48,
+        delay: reducedMotion ? 0 : index * 0.06,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <ServiceCardChrome service={service} className="min-h-[31.5rem] w-full shadow-panel">
+        <ServiceCardContent service={service} variant="mobile" />
+      </ServiceCardChrome>
     </motion.article>
   );
 }
@@ -331,84 +397,19 @@ function MobileServicesCarousel({
 }: {
   reducedMotion: boolean;
 }) {
-  const [progress, setProgress] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = () => {
-    if (!scrollRef.current) {
-      return;
-    }
-
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-
-    if (maxScroll <= 0) {
-      setProgress(0);
-      return;
-    }
-
-    const rawProgress = scrollLeft / maxScroll;
-    setProgress(Math.max(0, Math.min(1, rawProgress)));
-  };
-
-  const transforms = computeArcTransforms(
-    progress,
-    HOME_SERVICES.length,
-    reducedMotion,
-  );
-  const activeIndex = getActiveIndex(progress, HOME_SERVICES.length);
-
   return (
     <div className="relative md:hidden">
       <div className="pt-14">
         <SectionHeading />
       </div>
 
-      <div
-        ref={scrollRef}
-        className="relative mt-6 h-[82vh] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory"
-        data-lenis-prevent-touch
-        onScroll={handleScroll}
-      >
-        <div className="sticky left-0 top-0 h-0 w-screen overflow-visible">
-          <div className="pointer-events-none absolute left-0 top-0 flex h-[680px] w-full items-center justify-center">
-            <div className="pointer-events-auto relative h-[700px] w-full scale-[0.97]">
-              {HOME_SERVICES.map((service, index) => (
-                <ServiceCard
-                  key={service.slug}
-                  service={service}
-                  transform={transforms[index]}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="flex h-full"
-          style={{ width: `${HOME_SERVICES.length * 100}vw` }}
-        >
-          {HOME_SERVICES.map((service) => (
-            <div
-              key={service.slug}
-              className="h-full w-screen shrink-0 snap-center"
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-3">
+      <div className="section-shell mt-8 flex flex-col gap-7 pb-14">
         {HOME_SERVICES.map((service, index) => (
-          <div
+          <MobileServiceCard
             key={service.slug}
-            className="h-2.5 rounded-full transition-all duration-300"
-            style={{
-              width: index === activeIndex ? "1.75rem" : "0.625rem",
-              backgroundColor:
-                index === activeIndex
-                  ? service.accent
-                  : "rgba(232,232,240,0.18)",
-            }}
+            service={service}
+            reducedMotion={reducedMotion}
+            index={index}
           />
         ))}
       </div>

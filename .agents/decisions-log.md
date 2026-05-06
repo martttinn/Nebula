@@ -352,6 +352,30 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-06 — El CTA de las cards de servicios adopta una huella mayor
+
+**Decisión:** El botón `Ver más` de las cards del carrusel de servicios pasa a usar tamaño `lg` del sistema, con algo más de respiración horizontal y una flecha ligeramente mayor.
+
+**Motivo:** Martín pidió hacer más grande el botón dentro de las cards para mejorar presencia y legibilidad sin cambiar la jerarquía general de la composición.
+
+**Efecto:** El CTA gana peso visual moderado y se lee mejor en desktop y móvil, manteniéndose todavía como acción de apoyo y no como foco principal de la card.
+
+**Archivos / artefactos relevantes:** `components/home/services-carousel.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-06 — La sección de servicios abandona el carrusel horizontal en móvil y pasa a lista vertical
+
+**Decisión:** La variante móvil de `services-carousel` deja de resolverse como carrusel horizontal con swipe y pasa a renderizar una lista vertical de cards completas, manteniendo el mismo shell visual, iconografía 3D, CTA y atmósfera de partículas.
+
+**Motivo:** Martín priorizó navegación móvil limpia por encima del gesto horizontal oculto. Con solo cuatro servicios, el carrusel añadía fricción, competía con el scroll natural del documento y obligaba a descubrir una interacción secundaria para leer toda la oferta.
+
+**Efecto:** En desktop se conserva el arco sticky como pieza diferencial. En móvil, la sección gana claridad, accesibilidad y compatibilidad con `Lenis`: el usuario puede seguir bajando sin pelearse con una superficie horizontal, mientras todas las capacidades quedan visibles en una sola lectura vertical.
+
+**Archivos / artefactos relevantes:** `components/home/services-carousel.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`.
+
+---
+
 ## 2026-05-04 — El carrusel de servicios usa el icono 3D de `public/3d-Icons` como pieza central
 
 **Decisión:** Las cards del carrusel de servicios dejan de usar el símbolo oficial de Nebula como pieza central y pasan a renderizar el asset `public/3d-Icons/iphone-icon-3d.png`.
