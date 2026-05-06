@@ -193,8 +193,8 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   Incluso en estados laterales u overlap, las cards deben mantenerse opacas; la profundidad sale de escala, rotación y orden, no de transparencia.
   No deben usar microinteracción de hover que altere geometría, escala o composición base: el patrón debe sentirse gobernado por scroll y snap. Sí se permite un `BorderGlow` perimetral sutil, guiado por proximidad de puntero, siempre que no mueva la card ni robe protagonismo al contenido.
   El patrón no debe vender sliders genéricos de agencia; debe comunicar capacidades reales del estudio: arquitectura, desarrollo, evolución y digitalización.
-- `process-timeline`: sección editorial full-width de proceso con cards alternadas, nodos con icono y path SVG serpenteante guiado por scroll
-  Los nodos desktop deben resolverse como un único círculo legible con el icono centrado. No usan anillos, dobles bordes ni círculos concéntricos.
+- `process-timeline`: sección editorial full-width de proceso con cards alternadas, nodos ilustrados y path SVG serpenteante guiado por scroll
+  Los nodos desktop ilustrados deben dejar ver el asset directamente, sin anillos, dobles bordes ni círculos concéntricos añadidos por encima.
   El fondo de esos nodos debe ser opaco: la línea y cualquier capa inferior no deben transparentarse a través de la masa del hito.
   Su acento cromático debe quedar alineado con el lila azulado usado en `services-carousel`, apoyado por `Haze` como luz secundaria. Evita violetas paralelos o morados más saturados que desvíen la sección del tono de marca.
   El fondo base del bloque debe seguir el mismo `Void` oscuro del resto de secciones. La familia `Navy` no debe teñir toda la sección: queda reservada a superficies internas como cards y cierres tonales puntuales.
@@ -202,6 +202,10 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   Todo el texto dentro de esas cards debe resolverse en blanco: numeración, heading y descripción.
   Dentro de cada card, el acento atmosférico debe quedar contenido en la zona superior. No uses un segundo gradiente circular lila o `Haze` en la esquina inferior derecha.
   En el bloque general de la sección no debe existir glow ni en la esquina superior izquierda ni en la inferior derecha. La atmósfera base del bloque debe quedar limpia; la profundidad sale de las cards, nodos y línea.
+  Puede reutilizar exactamente la misma capa de partículas del hero y de `services-carousel` como atmósfera de continuidad, siempre detrás del contenido y del path, sin crear una variante paralela ni desplazar el foco principal de cards, nodos y recorrido.
+  El trazo principal de la línea puede usar un gradiente de marca en bucle, resuelto con `Haze`, `Silver` y `Lilac`, pero las transiciones deben sentirse suaves y progresivas: el inicio y el final del ciclo no pueden revelar cortes visibles ni cambios bruscos entre repeticiones. Si existe glow, ese glow debe nacer del propio stroke coloreado para heredar la tonalidad exacta de cada tramo; no se resuelve como un halo blanco o monocromo separado.
+  En reposo, las imágenes de los nodos deben arrancar con opacidad contenida y una escala algo comprimida. Cuando el cluster entra en fase de activación, esa misma imagen debe ganar escala y recuperar opacidad completa de forma progresiva y coordinada con la aparición de su card.
+  En móvil, la guía vertical debe pasar por el centro horizontal real de los planetas, no por el centro del antiguo nodo circular. El copy de las cards mobile puede usar un clamp más generoso que en desktop para no mutilar demasiado pronto la lectura.
   La línea puede tocar el viewport solo en su punto inicial y en su punto final. Entre nodos, debe empezar a curvar hacia el siguiente hito justo después de atravesar el nodo activo, sin volver a rozar los bordes laterales como si rebotase en ellos.
   El serpenteo debe salir de la alternancia entre hitos y del ritmo vertical del stage, no de un uso mecánico de todo el ancho disponible en cada tramo.
   Las curvas intermedias deben abrirse con amplitud generosa y radio orgánico. Evita giros tensos, handles demasiado cortos o una S excesivamente rígida entre nodos.

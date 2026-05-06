@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
-import { Code2, GitBranch, Search, TrendingUp } from "lucide-react";
 import {
   motion,
   useMotionTemplate,
@@ -13,25 +13,45 @@ import {
   type MotionValue,
 } from "framer-motion";
 
-const DEBUG_BORDERS = true;
-const PATH_START_Y_OFFSET = -6;
+import { HeroParticles } from "@/components/home/hero-particles";
+import { SectionTitle } from "@/components/ui/section-title";
+
+const DEBUG_BORDERS = false;
+const PATH_START_Y_OFFSET = -1;
 const PATH_END_Y_OFFSET = 116;
 const EDGE_HANDLE_RATIO = 0.32;
-const INTER_NODE_HANDLE_RATIO = 0.46;
+const INTER_NODE_HANDLE_RATIO = 1.0;
 const EDGE_HANDLE_MAX = 136;
 const INTER_NODE_HANDLE_MAX = 320;
 const EDGE_VERTICAL_HANDLE_RATIO = 0.16;
-const INTER_NODE_VERTICAL_HANDLE_RATIO = 0.24;
+const OUTER_NODE_VERTICAL_HANDLE_RATIO = 0.32;
+const INTER_NODE_VERTICAL_HANDLE_RATIO = 1.00;
+const IMAGE_NODE_DESKTOP_SIZE = 108;
+const IMAGE_NODE_MOBILE_SIZE = 88;
+const MOBILE_TIMELINE_LINE_LEFT = IMAGE_NODE_MOBILE_SIZE / 2;
+const MOBILE_CARD_DESCRIPTION_LINE_CLAMP = 4;
+const CLUSTER_REVEAL_START_OFFSET = 0.13;
+const CLUSTER_REVEAL_END_OFFSET = 0.035;
+const NODE_REVEAL_BASE_SCALE = 0.82;
+const NODE_REVEAL_ACTIVE_SCALE = 1.07;
+const IMAGE_NODE_BASE_OPACITY = 0.28;
+const DESKTOP_CLUSTER_PLACEMENTS: readonly DesktopClusterPlacement[] = [
+  { nodeXPercent: 6, xOffset: 0 },
+  { nodeXPercent: 88, xOffset: -8 },
+  { nodeXPercent: 18, xOffset: 10 },
+  { nodeXPercent: 94, xOffset: -6 },
+] as const;
 const DESKTOP_STEP_STOPS = [0.16, 0.38, 0.62, 0.84] as const;
 const PROCESS_LILAC_RGB = "125,116,224";
 const PROCESS_HAZE_RGB = "181,177,227";
+const PROCESS_SILVER_RGB = "232,232,240";
 const PROCESS_NAVY_TOP = "#0B0C17";
 const PROCESS_NAVY_MID = "#0D0F24";
 const PROCESS_NAVY_BOTTOM = "#0A0F2E";
 const PROCESS_CARD_SURFACE_BACKGROUND =
   `linear-gradient(180deg, ${PROCESS_NAVY_TOP} 0%, ${PROCESS_NAVY_MID} 48%, ${PROCESS_NAVY_BOTTOM} 100%)`;
 const NODE_SURFACE_BACKGROUND =
-  `radial-gradient(circle at 50% 28%, rgba(${PROCESS_HAZE_RGB},0.96) 0%, rgba(${PROCESS_LILAC_RGB},0.9) 34%, ${PROCESS_NAVY_BOTTOM} 100%)`;
+  `radial-gradient(circle at 50% 28%, rgb(${PROCESS_HAZE_RGB}) 0%, rgb(${PROCESS_LILAC_RGB}) 34%, ${PROCESS_NAVY_BOTTOM} 100%)`;
 const DESKTOP_CARD_ACCENT_BACKGROUND =
   `radial-gradient(circle at 12% 20%, rgba(${PROCESS_LILAC_RGB},0.16), transparent 34%)`;
 const MOBILE_CARD_ACCENT_BACKGROUND =
@@ -43,7 +63,9 @@ type Step = {
   title: string;
   description: string;
   side: "left" | "right";
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 type Point = {
@@ -58,6 +80,11 @@ type PathLayout = {
   length: number;
 };
 
+type DesktopClusterPlacement = {
+  nodeXPercent: number;
+  xOffset: number;
+};
+
 const STEPS: readonly Step[] = [
   {
     number: "01",
@@ -65,7 +92,8 @@ const STEPS: readonly Step[] = [
     description:
       "Entendemos tu negocio, flujos y procesos antes de proponer nada. Sin soluciones genéricas: primero escuchamos.",
     side: "left",
-    icon: Search,
+    imageSrc: "/planets/planet-1.png",
+    imageAlt: "Planeta violeta decorativo",
   },
   {
     number: "02",
@@ -73,7 +101,8 @@ const STEPS: readonly Step[] = [
     description:
       "Diseñamos la solución técnica adaptada a tu realidad. Cada decisión tiene un porqué claro y documentado.",
     side: "right",
-    icon: GitBranch,
+    imageSrc: "/planets/planet-4.png",
+    imageAlt: "Planeta violeta decorativo",
   },
   {
     number: "03",
@@ -81,7 +110,8 @@ const STEPS: readonly Step[] = [
     description:
       "Construimos de forma iterativa. Ves avances reales en cada fase, no promesas vacías al final del proyecto.",
     side: "left",
-    icon: Code2,
+    imageSrc: "/planets/planet-3.png",
+    imageAlt: "Planeta violeta decorativo",
   },
   {
     number: "04",
@@ -89,7 +119,8 @@ const STEPS: readonly Step[] = [
     description:
       "Lanzamos, medimos y mejoramos contigo de forma continua. El lanzamiento es el comienzo, no el fin.",
     side: "right",
-    icon: TrendingUp,
+    imageSrc: "/planets/planet-6.png",
+    imageAlt: "Planeta violeta decorativo",
   },
 ] as const;
 
@@ -118,12 +149,20 @@ function buildSmoothPath(points: Point[]) {
   }
 
   let path = `M ${round(points[0].x)} ${round(points[0].y)}`;
+  const isInteriorNodePoint = (pointIndex: number) =>
+    pointIndex > 1 && pointIndex < points.length - 2;
+  const isOuterNodePoint = (pointIndex: number) =>
+    pointIndex === 1 || pointIndex === points.length - 2;
 
   for (let index = 0; index < points.length - 1; index += 1) {
     const previousPoint = points[index - 1] ?? points[index];
     const currentPoint = points[index];
     const nextPoint = points[index + 1];
     const followingPoint = points[index + 2] ?? nextPoint;
+    const currentPointIsInteriorNode = isInteriorNodePoint(index);
+    const currentPointIsOuterNode = isOuterNodePoint(index);
+    const nextPointIsInteriorNode = isInteriorNodePoint(index + 1);
+    const nextPointIsOuterNode = isOuterNodePoint(index + 1);
     const deltaX = nextPoint.x - currentPoint.x;
     const isEdgeSegment = index === 0 || index === points.length - 2;
     const horizontalDistance = Math.abs(deltaX);
@@ -133,19 +172,37 @@ function buildSmoothPath(points: Point[]) {
       0,
       isEdgeSegment ? EDGE_HANDLE_MAX : INTER_NODE_HANDLE_MAX,
     );
-    const verticalHandleRatio = isEdgeSegment
+    const currentVerticalHandleRatio = isEdgeSegment
       ? EDGE_VERTICAL_HANDLE_RATIO
-      : INTER_NODE_VERTICAL_HANDLE_RATIO;
-    const entryVerticalDelta = nextPoint.y - previousPoint.y;
-    const exitVerticalDelta = followingPoint.y - currentPoint.y;
+      : currentPointIsOuterNode
+        ? OUTER_NODE_VERTICAL_HANDLE_RATIO
+        : INTER_NODE_VERTICAL_HANDLE_RATIO;
+    const nextVerticalHandleRatio = isEdgeSegment
+      ? EDGE_VERTICAL_HANDLE_RATIO
+      : nextPointIsOuterNode
+        ? OUTER_NODE_VERTICAL_HANDLE_RATIO
+        : INTER_NODE_VERTICAL_HANDLE_RATIO;
+    const segmentVerticalDelta = nextPoint.y - currentPoint.y;
+    // En los extremos evitamos heredar la inercia vertical del tramo vecino
+    // para que la entrada y la salida hacia el borde se lean más rectas.
+    const entryVerticalDelta = isEdgeSegment
+      ? segmentVerticalDelta
+      : nextPoint.y - previousPoint.y;
+    const exitVerticalDelta = isEdgeSegment
+      ? segmentVerticalDelta
+      : followingPoint.y - currentPoint.y;
 
     const control1 = {
-      x: currentPoint.x + directionX * horizontalHandle,
-      y: currentPoint.y + entryVerticalDelta * verticalHandleRatio,
+      x: currentPointIsInteriorNode
+        ? currentPoint.x
+        : currentPoint.x + directionX * horizontalHandle,
+      y: currentPoint.y + entryVerticalDelta * currentVerticalHandleRatio,
     };
     const control2 = {
-      x: nextPoint.x - directionX * horizontalHandle,
-      y: nextPoint.y - exitVerticalDelta * verticalHandleRatio,
+      x: nextPointIsInteriorNode
+        ? nextPoint.x
+        : nextPoint.x - directionX * horizontalHandle,
+      y: nextPoint.y - exitVerticalDelta * nextVerticalHandleRatio,
     };
 
     path += ` C ${round(control1.x)} ${round(control1.y)}, ${round(control2.x)} ${round(control2.y)}, ${round(nextPoint.x)} ${round(nextPoint.y)}`;
@@ -171,13 +228,13 @@ function SectionHeading({ reducedMotion }: { reducedMotion: boolean }) {
       viewport={{ once: true, amount: 0.6 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <h2
+      <SectionTitle
         id="proceso-title"
         className="mx-auto max-w-[16ch] font-display text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-nebula-silver sm:text-5xl lg:text-[4rem]"
-      >
-        Un proceso que{" "}
-        <span className="text-nebula-haze">puedes entender</span>
-      </h2>
+        leadingText="Un"
+        accentText="proceso"
+        trailingText="que puedes entender"
+      />
     </motion.div>
   );
 }
@@ -195,27 +252,59 @@ function DesktopNode({
   reducedMotion: boolean;
   setNodeRef: (node: HTMLDivElement | null) => void;
 }) {
-  const Icon = step.icon;
   const nodeStop = DESKTOP_STEP_STOPS[index];
-  const activeWindowStart = Math.max(nodeStop - 0.06, 0);
+  const usesImageNode = Boolean(step.imageSrc);
+  const revealStart = Math.max(nodeStop - CLUSTER_REVEAL_START_OFFSET, 0);
+  const revealEnd = Math.max(nodeStop - CLUSTER_REVEAL_END_OFFSET, revealStart + 0.02);
   const scaleMotion = useTransform(
     progress,
-    [activeWindowStart, nodeStop],
-    [0.92, 1],
+    [revealStart, revealEnd],
+    [NODE_REVEAL_BASE_SCALE, NODE_REVEAL_ACTIVE_SCALE],
+  );
+  const opacityMotion = useTransform(
+    progress,
+    [revealStart, revealEnd],
+    [IMAGE_NODE_BASE_OPACITY, 1],
   );
   const scale = reducedMotion ? 1 : scaleMotion;
+  const opacity = reducedMotion || !usesImageNode ? 1 : opacityMotion;
 
   return (
     <motion.div
       ref={setNodeRef}
-      className="relative z-20 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-[#171125] shadow-[0_18px_50px_rgba(0,0,0,0.36)]"
-      style={{
-        scale,
-        background: NODE_SURFACE_BACKGROUND,
-        ...debugOutline("rgba(250, 204, 21, 0.8)"),
-      }}
+      className={
+        usesImageNode
+          ? "relative z-20 shrink-0"
+          : "relative z-20 flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-[#171125] shadow-[0_18px_50px_rgba(0,0,0,0.36)]"
+      }
+      style={
+        usesImageNode
+          ? {
+              scale,
+              opacity,
+              width: IMAGE_NODE_DESKTOP_SIZE,
+              height: IMAGE_NODE_DESKTOP_SIZE,
+              ...debugOutline("rgba(250, 204, 21, 0.8)"),
+            }
+          : {
+              scale,
+              opacity,
+              background: NODE_SURFACE_BACKGROUND,
+              ...debugOutline("rgba(250, 204, 21, 0.8)"),
+            }
+      }
     >
-      <Icon className="relative z-10 h-6 w-6 text-nebula-silver" strokeWidth={1.8} />
+      {step.imageSrc ? (
+        <Image
+          src={step.imageSrc}
+          alt={step.imageAlt ?? ""}
+          fill
+          sizes={`${IMAGE_NODE_DESKTOP_SIZE}px`}
+          className="object-contain"
+        />
+      ) : step.icon ? (
+        <step.icon className="relative z-10 h-6 w-6 text-nebula-silver" strokeWidth={1.8} />
+      ) : null}
     </motion.div>
   );
 }
@@ -233,8 +322,8 @@ function DesktopCard({
 }) {
   const isLeft = step.side === "left";
   const nodeStop = DESKTOP_STEP_STOPS[index];
-  const revealStart = Math.max(nodeStop - 0.13, 0);
-  const revealEnd = Math.max(nodeStop - 0.035, revealStart + 0.02);
+  const revealStart = Math.max(nodeStop - CLUSTER_REVEAL_START_OFFSET, 0);
+  const revealEnd = Math.max(nodeStop - CLUSTER_REVEAL_END_OFFSET, revealStart + 0.02);
   const opacityMotion = useTransform(progress, [revealStart, revealEnd], [0, 1]);
   const xMotion = useTransform(
     progress,
@@ -275,16 +364,10 @@ function DesktopCard({
         }}
       />
       <div className="relative z-10">
-        <div className="mb-5 flex items-center gap-3">
-          <span className="font-display text-[0.68rem] font-bold tracking-[0.24em] text-white">
-            {step.number}
-          </span>
-          <span className="h-px w-10 bg-nebula-lilac/40" />
-        </div>
         <h3 className="mb-4 max-w-[16ch] font-display text-[1.9rem] font-bold leading-[1.02] tracking-[-0.045em] text-white">
           {step.title}
         </h3>
-        <p className="max-w-[38ch] text-[1.02rem] leading-[1.62] text-white">
+        <p className="max-w-[38ch] overflow-hidden text-[1.02rem] leading-[1.62] text-white [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
           {step.description}
         </p>
       </div>
@@ -306,15 +389,31 @@ function DesktopRow({
   setNodeRef: (node: HTMLDivElement | null) => void;
 }) {
   const isLeft = step.side === "left";
+  const clusterPlacement = DESKTOP_CLUSTER_PLACEMENTS[index] ?? {
+    nodeXPercent: isLeft ? 10 : 90,
+    xOffset: 0,
+  };
+  const clusterAnchorTransform = isLeft
+    ? `translate(calc(-2rem + ${clusterPlacement.xOffset}px), -50%)`
+    : `translate(calc(-100% + 2rem + ${clusterPlacement.xOffset}px), -50%)`;
 
   return (
     <li
-      className="grid min-h-[15rem] grid-cols-[4.75rem_minmax(0,1.65fr)_minmax(2rem,1fr)_minmax(0,1.65fr)_4.75rem] items-center gap-y-6 px-4 lg:px-8 xl:px-12"
+      className="relative min-h-[15rem] px-4 lg:px-8 xl:px-12"
       style={debugOutline("rgba(251, 146, 60, 0.82)", -2)}
     >
       {isLeft ? (
-        <>
-          <div className="col-[1] justify-self-start" style={debugOutline("rgba(250, 204, 21, 0.8)")}>
+        <div
+          className="absolute top-1/2 w-full max-w-[46rem]"
+          style={{
+            left: `${clusterPlacement.nodeXPercent}%`,
+            transform: clusterAnchorTransform,
+            ...debugOutline("rgba(250, 204, 21, 0.8)"),
+          }}
+        >
+          <div
+            className="flex w-full max-w-[46rem] items-center gap-6"
+          >
             <DesktopNode
               step={step}
               index={index}
@@ -322,27 +421,36 @@ function DesktopRow({
               reducedMotion={reducedMotion}
               setNodeRef={setNodeRef}
             />
+            <div className="w-full max-w-[39rem]">
+              <DesktopCard
+                step={step}
+                index={index}
+                progress={progress}
+                reducedMotion={reducedMotion}
+              />
+            </div>
           </div>
-          <div className="col-[2]">
-            <DesktopCard
-              step={step}
-              index={index}
-              progress={progress}
-              reducedMotion={reducedMotion}
-            />
-          </div>
-        </>
+        </div>
       ) : (
-        <>
-          <div className="col-[4] justify-self-end">
-            <DesktopCard
-              step={step}
-              index={index}
-              progress={progress}
-              reducedMotion={reducedMotion}
-            />
-          </div>
-          <div className="col-[5] justify-self-end" style={debugOutline("rgba(250, 204, 21, 0.8)")}>
+        <div
+          className="absolute top-1/2 w-full max-w-[46rem]"
+          style={{
+            left: `${clusterPlacement.nodeXPercent}%`,
+            transform: clusterAnchorTransform,
+            ...debugOutline("rgba(250, 204, 21, 0.8)"),
+          }}
+        >
+          <div
+            className="flex w-full max-w-[46rem] items-center justify-end gap-6"
+          >
+            <div className="w-full max-w-[39rem]">
+              <DesktopCard
+                step={step}
+                index={index}
+                progress={progress}
+                reducedMotion={reducedMotion}
+              />
+            </div>
             <DesktopNode
               step={step}
               index={index}
@@ -351,7 +459,7 @@ function DesktopRow({
               setNodeRef={setNodeRef}
             />
           </div>
-        </>
+        </div>
       )}
     </li>
   );
@@ -366,7 +474,7 @@ function MobileCard({
   index: number;
   reducedMotion: boolean;
 }) {
-  const Icon = step.icon;
+  const nodeInitialOpacity = step.imageSrc ? IMAGE_NODE_BASE_OPACITY : 1;
 
   return (
     <motion.li
@@ -376,12 +484,55 @@ function MobileCard({
       viewport={{ once: true, amount: 0.35 }}
       transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div
-        className="relative z-10 mt-1 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#171125] shadow-[0_14px_40px_rgba(0,0,0,0.34)]"
-        style={{ background: NODE_SURFACE_BACKGROUND }}
+      <motion.div
+        className={
+          step.imageSrc
+            ? "relative z-10 mt-1 shrink-0"
+            : "relative z-10 mt-1 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#171125] shadow-[0_14px_40px_rgba(0,0,0,0.34)]"
+        }
+        style={
+          step.imageSrc
+            ? {
+                width: IMAGE_NODE_MOBILE_SIZE,
+                height: IMAGE_NODE_MOBILE_SIZE,
+            }
+            : { background: NODE_SURFACE_BACKGROUND }
+        }
+        initial={
+          reducedMotion
+            ? undefined
+            : {
+                scale: NODE_REVEAL_BASE_SCALE,
+                opacity: nodeInitialOpacity,
+              }
+        }
+        whileInView={
+          reducedMotion
+            ? undefined
+            : {
+                scale: NODE_REVEAL_ACTIVE_SCALE,
+                opacity: 1,
+              }
+        }
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{
+          duration: 0.55,
+          delay: index * 0.06 + 0.04,
+          ease: [0.22, 1, 0.36, 1],
+        }}
       >
-        <Icon className="relative z-10 h-5 w-5 text-nebula-silver" strokeWidth={1.8} />
-      </div>
+        {step.imageSrc ? (
+          <Image
+            src={step.imageSrc}
+            alt={step.imageAlt ?? ""}
+            fill
+            sizes={`${IMAGE_NODE_MOBILE_SIZE}px`}
+            className="object-contain"
+          />
+        ) : step.icon ? (
+          <step.icon className="relative z-10 h-5 w-5 text-nebula-silver" strokeWidth={1.8} />
+        ) : null}
+      </motion.div>
 
       <article
         className="relative flex-1 overflow-hidden rounded-[1.6rem] border border-white/[0.06] bg-transparent px-6 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.34)]"
@@ -394,16 +545,13 @@ function MobileCard({
           }}
         />
         <div className="relative z-10">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="font-display text-[0.66rem] font-bold tracking-[0.22em] text-white">
-              {step.number}
-            </span>
-            <span className="h-px w-8 bg-nebula-lilac/35" />
-          </div>
           <h3 className="mb-3 font-display text-[1.45rem] font-bold leading-[1.02] tracking-[-0.04em] text-white">
             {step.title}
           </h3>
-          <p className="text-[0.95rem] leading-[1.62] text-white">
+          <p
+            className="overflow-hidden text-[0.95rem] leading-[1.62] text-white [display:-webkit-box] [-webkit-box-orient:vertical]"
+            style={{ WebkitLineClamp: MOBILE_CARD_DESCRIPTION_LINE_CLAMP }}
+          >
             {step.description}
           </p>
         </div>
@@ -425,6 +573,8 @@ function DesktopConnector({
   width: number;
   height: number;
 }) {
+  const gradientLoopWidth = Math.max(width * 0.38, 360);
+
   return (
     <svg
       aria-hidden="true"
@@ -434,10 +584,20 @@ function DesktopConnector({
       preserveAspectRatio="none"
     >
       <defs>
-        <linearGradient id="how-we-work-line" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={`rgba(${PROCESS_HAZE_RGB},0.94)`} />
-          <stop offset="42%" stopColor={`rgba(${PROCESS_LILAC_RGB},0.95)`} />
-          <stop offset="100%" stopColor={`rgba(${PROCESS_LILAC_RGB},0.78)`} />
+        <linearGradient
+          id="how-we-work-line"
+          x1="0"
+          y1="0"
+          x2={gradientLoopWidth}
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+          spreadMethod="repeat"
+        >
+          <stop offset="0%" stopColor={`rgb(${PROCESS_LILAC_RGB})`} />
+          <stop offset="26%" stopColor={`rgb(${PROCESS_HAZE_RGB})`} />
+          <stop offset="52%" stopColor={`rgb(${PROCESS_SILVER_RGB})`} />
+          <stop offset="78%" stopColor={`rgb(${PROCESS_HAZE_RGB})`} />
+          <stop offset="100%" stopColor={`rgb(${PROCESS_LILAC_RGB})`} />
         </linearGradient>
         <filter id="how-we-work-glow" x="-10%" y="-10%" width="120%" height="120%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
@@ -604,6 +764,7 @@ export function HowWeWorkSection() {
         }}
         aria-hidden="true"
       />
+      <HeroParticles />
 
       <div className="relative z-10 w-full">
         <div className="relative z-10 w-full px-5 sm:px-8 lg:px-10">
@@ -646,8 +807,9 @@ export function HowWeWorkSection() {
         <div className="px-5 sm:px-8 md:hidden">
           <ol className="relative grid gap-8">
             <div
-              className="pointer-events-none absolute left-7 top-4 bottom-4 w-px"
+              className="pointer-events-none absolute top-4 bottom-4 w-px"
               style={{
+                left: MOBILE_TIMELINE_LINE_LEFT,
                 background:
                   "linear-gradient(to bottom, rgba(181,177,227,0.18), rgba(83,74,183,0.52), rgba(181,177,227,0.18))",
               }}
