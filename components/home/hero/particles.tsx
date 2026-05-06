@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import styles from "./hero-particles.module.css";
+import styles from "./particles.module.css";
 
 type HeroParticleAnchor = {
   left: string;

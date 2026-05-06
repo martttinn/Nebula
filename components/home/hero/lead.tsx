@@ -162,7 +162,7 @@ export function HeroLead() {
             variant="secondary"
             className="border-white/18 bg-white/[0.05] hover:bg-white"
           >
-          <Link href="/#servicios">Ver servicios</Link>
+            <Link href="/#servicios">Ver servicios</Link>
           </Button>
         </motion.div>
       </motion.div>

@@ -34,10 +34,9 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 
 - `app/`: layout global, homepage, metadata derivada, `icon.svg`, `robots.ts` y `sitemap.ts`
 - `components/home/`: secciones y piezas específicas de la landing pública
-- `components/home/value-proposition-section.tsx`: sección editorial de propuesta de valor colocada tras el hero
-- `components/home/value-proposition-ornaments.module.css`: capa ornamental específica de `benefits`, con deriva lenta de `abstract-icons` y sin ciclos autónomos de fade
-- `components/home/services-carousel.tsx`: sección de servicios con carrusel en arco sticky para desktop y lista vertical de cards para móvil
-- `components/home/how-we-work.tsx`: sección pública de proceso con path SVG serpenteante, nodos circulares simples y opacos con icono y cards reveladas por scroll
+- `components/home/value-proposition-section/`: carpeta de la banda editorial de benefits; `index.tsx` compone el wrapper público, `statements.tsx` orquesta el stage sticky y el coloreado palabra a palabra, `content.ts` centraliza copy y ornamentos, y `ornaments.module.css` encapsula la deriva visual de `abstract-icons`
+- `components/home/services-carousel/`: carpeta de la sección de servicios; `index.tsx` orquesta la variante desktop sticky y la variante móvil, `geometry.ts` concentra el reparto en arco y `primitives.tsx` reúne el chrome y el contenido visual de cada card
+- `components/home/how-we-work/`: carpeta de la sección pública de proceso; `index.tsx` orquesta scroll, medición del path y variantes desktop/mobile, `path.ts` encapsula la geometría SVG y `primitives.tsx` reúne cards, nodos ilustrados y conector visual
 - `components/BorderGlow.tsx`: primitive cliente reutilizable inspirada en React Bits para acentos perimetrales de glow guiados por proximidad de puntero
 - `components/layout/`: shell primitives globales reutilizables, incluido el navbar
 - `components/animate-ui/`: primitives y wrappers de UI importados desde registries externas y reencuadrados al lenguaje visual del proyecto
@@ -46,11 +45,8 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - `data/`: contenido estático del sitio y configuración pública
 - `lib/`: helpers de metadata y utilidades compartidas
 - `lib/supabase/`: bootstrap SSR de Supabase para cliente, servidor y middleware futuro
-- `components/home/grid-scan.tsx`: isla cliente visual con WebGL para el hero público
-- `components/home/hero-particles.tsx`: capa decorativa server-side de partículas lilas circulares, legibles y sin blur para el hero, con ciclo largo de aparición, deriva y desvanecimiento
-- `components/home/hero-lead.tsx`: isla cliente que orquesta la entrada secuencial del copy y de los CTAs del hero
+- `components/home/hero/`: carpeta canónica del hero; `index.tsx` compone la shell pública, `lead.tsx` orquesta la secuencia tipográfica y los CTAs, `grid-scan.tsx` encapsula la isla WebGL y `particles.tsx` concentra la capa server-side de partículas lilas
 - `components/ui/word-by-word-color-change.tsx`: primitive cliente reusable que interpola color palabra a palabra en función del progreso de scroll de un bloque local o de un progreso externo compartido, con colores configurables por consumo
-- `components/home/value-proposition-statements.tsx`: isla cliente que convierte la banda de propuesta de valor en un stage sticky de viewport completo, con una sola frase activa cada vez y coloreado palabra a palabra guiado por scroll
 - `data/services.ts`: catálogo estático de servicios públicos para la sección carrusel
 - `components/layout/navbar.tsx`: navbar global reusable con una sola superficie glass y composición `logo / links / CTAs`
 - `components/layout/lenis-provider.tsx`: integración global cliente de `Lenis` sobre el scroll raíz, con respeto por `prefers-reduced-motion`

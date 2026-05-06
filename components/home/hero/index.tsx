@@ -1,6 +1,6 @@
-import { HeroParticles } from "@/components/home/hero-particles";
-import { HeroLead } from "@/components/home/hero-lead";
-import { GridScanShell } from "@/components/home/grid-scan-shell";
+import { HeroParticles } from "./particles";
+import { HeroLead } from "./lead";
+import { GridScanShell } from "./grid-scan-shell";
 
 export function Hero() {
   return (

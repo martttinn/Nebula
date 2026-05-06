@@ -1,4 +1,4 @@
-import { ValuePropositionStatements } from "@/components/home/value-proposition-statements";
+import { ValuePropositionStatements } from "./statements";
 
 const VALUE_PROPOSITION_BACKGROUND =
   "radial-gradient(circle_at_78%_60%,rgba(83,74,183,0.1),transparent_30%)";
