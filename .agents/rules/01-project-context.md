@@ -14,7 +14,7 @@ Sí existe un bootstrap repo-safe de Supabase en `lib/supabase/**` y `supabase/*
 
 ## Stack verificado en el repo
 
-Verificado localmente el **3 de mayo de 2026** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y el árbol real del repo.
+Verificado localmente el **7 de mayo de 2026** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y el árbol real del repo.
 
 - Next.js `16.2.4`
 - React `18.3.1`
@@ -24,6 +24,7 @@ Verificado localmente el **3 de mayo de 2026** contra `package.json`, `tsconfig.
 - Framer Motion `11.18.2`
 - Three.js `0.180.x`
 - Postprocessing `6.39.x`
+- `tech-stack-icons` `3.7.1`
 - App Router
 - primitives tipo shadcn/ui con `class-variance-authority`, `@radix-ui/react-slot`, `clsx` y `tailwind-merge`
 

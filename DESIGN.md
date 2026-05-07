@@ -210,6 +210,13 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El serpenteo debe salir de la alternancia entre hitos y del ritmo vertical del stage, no de un uso mecánico de todo el ancho disponible en cada tramo.
   Las curvas intermedias deben abrirse con amplitud generosa y radio orgánico. Evita giros tensos, handles demasiado cortos o una S excesivamente rígida entre nodos.
   Esa mayor amplitud debe concentrarse en los tramos que conectan nodos intermedios. La entrada al primer nodo y la salida desde el último deben mantenerse más contenidas para no sobreactuar el gesto en los extremos.
+- `projects-showcase`: stage introductorio de portfolio con tres paneles encadenados
+  El runtime activo ya resuelve un heading grande centrado y tres paneles de proyecto que ascienden desde abajo y se cubren entre sí por scroll. El patrón ya no está en fase de un solo caso: la coreografía encadena primero, segundo y tercer proyecto sobre el mismo stage.
+  El heading visible debe seguir el patrón `section-heading` y acentuar la palabra semánticamente fuerte del título; en esta sección, el acento recae en `Proyectos`, no en `destacados`.
+  La atmósfera del bloque debe mantenerse sobria: base `Void`, dos halos lilas muy contenidos y sin WebGL ni elementos que compitan con el hero o con `process`.
+  Ningún panel debe leerse como una card. Cada proyecto se comporta como un takeover de viewport completo, con columna de lectura y media frame dominante embebidos dentro de una misma superficie full-screen.
+  Mientras no exista portfolio público completo, los CTAs pueden seguir siendo no navegables y el estado del proyecto debe expresarse con copy prudente y verificable.
+  La simplificación a lista vertical en móvil y tablet sigue siendo una mejora pendiente; el runtime actual comparte aún la misma surface full-screen entre breakpoints.
 - `panel-base`: tarjetas y módulos principales
 - `panel-muted`: soporte contextual o comparativas
 - `button-primary`: CTA principal claro y luminoso

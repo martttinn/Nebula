@@ -11,7 +11,7 @@ Documento mínimo para describir la arquitectura técnica real de la web públic
 
 ## 2. Stack verificado
 
-Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y dependencias instaladas:
+Verificado el **2026-05-07** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y dependencias instaladas:
 
 - Next.js `16.2.4`
 - React `18.3.1`
@@ -25,6 +25,7 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - Three.js `0.180.x`
 - Postprocessing `6.39.x`
 - `@vercel/speed-insights` `2.0.0`
+- `tech-stack-icons` `3.7.1`
 - `class-variance-authority`, `@radix-ui/react-slot`, `clsx`, `tailwind-merge`
 - `@supabase/ssr`, `@supabase/supabase-js`
 - Supabase CLI repo-local (`supabase`)
@@ -37,6 +38,7 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - `components/home/value-proposition-section/`: carpeta de la banda editorial de benefits; `index.tsx` compone el wrapper público, `statements.tsx` orquesta el stage sticky y el coloreado palabra a palabra, `content.ts` centraliza copy y ornamentos, y `ornaments.module.css` encapsula la deriva visual de `abstract-icons`
 - `components/home/services-carousel/`: carpeta de la sección de servicios; `index.tsx` orquesta la variante desktop sticky y la variante móvil, `geometry.ts` concentra el reparto en arco y `primitives.tsx` reúne el chrome y el contenido visual de cada card
 - `components/home/how-we-work/`: carpeta de la sección pública de proceso; `index.tsx` orquesta scroll, medición del path y variantes desktop/mobile, `path.ts` encapsula la geometría SVG y `primitives.tsx` reúne cards, nodos ilustrados y conector visual
+- `components/home/projects-showcase/`: carpeta de la sección pública de proyectos destacados; `index.tsx` resuelve el pinning del heading y la secuencia completa de tres proyectos full-screen que se superponen por scroll sobre el mismo stage
 - `components/BorderGlow.tsx`: primitive cliente reutilizable inspirada en React Bits para acentos perimetrales de glow guiados por proximidad de puntero
 - `components/layout/`: shell primitives globales reutilizables, incluido el navbar
 - `components/animate-ui/`: primitives y wrappers de UI importados desde registries externas y reencuadrados al lenguaje visual del proyecto
@@ -58,6 +60,8 @@ Verificado el **2026-05-04** contra `package.json`, `tsconfig.json`, `next.confi
 - `components/ui/preloader.tsx`: overlay de entrada con branding y barra de progreso para la home pública
 - `components/ui/split-text.tsx`: primitive reusable inspirada en `SplitText` de React Bits para reveals escalonados por caracteres o palabras
 - `components/ui/nebula-logo-animated.tsx`: logotipo animado reutilizado desde `nebula-legacy` para el preloader
+- `components/ui/tech-stack-icon.tsx`: wrapper server-first sobre `tech-stack-icons` para iconografía tecnológica sin contaminar bundles cliente por accidente
+- `components/ui/lazy-tech-stack-icon.tsx`: fallback cliente con `next/dynamic` + `IntersectionObserver`, reservado para superficies que no puedan permanecer server-side
 - `supabase/`: configuración del CLI local, seeds y migraciones versionadas
 - `.agents/`: reglas, roles, workflows, skills y decisiones del sistema de agentes
 - `DESIGN.md`: canon visual reutilizable, conectado con los tokens de `app/globals.css`, `tailwind.config.ts` y primitives UI
@@ -92,6 +96,7 @@ Política estructural activa para `components/home/`:
 - el icono del sitio usa `app/icon.svg` con el símbolo oficial oscuro de Nebula
 - el root layout monta ya `SpeedInsights` desde `@vercel/speed-insights/next`, de modo que el runtime queda preparado para recoger métricas de rendimiento cuando exista despliegue en Vercel
 - las variants reutilizables de botón comparten ya una base motion importada desde `animate-ui`, mientras mantienen el styling propio de Nebula en la capa wrapper
+- cualquier consumo de `tech-stack-icons` debe pasar por wrappers propios: `components/ui/tech-stack-icon.tsx` como ruta recomendada server-first y `components/ui/lazy-tech-stack-icon.tsx` solo cuando un icono deba vivir obligatoriamente dentro de un Client Component; el paquete publica un bundle monolítico y no debe importarse de forma directa en islands cliente críticas
 - el scroll raíz del sitio puede suavizarse con `Lenis`, con anclas internas habilitadas y offset para el navbar fijo; cualquier superficie anidada que deba preservar interacción propia debe evaluarse con opt-out granular y nunca con bloqueo total si rompe la navegación natural del documento
 - el navbar público replica el patrón de `nebula-legacy`: se oculta al hacer scroll descendente pasado un umbral, reaparece al remontar o cerca del top y se mantiene visible mientras el menú responsive está abierto
 - en móvil y tablet, el navbar colapsa a lockup + hamburguesa, y usa un overlay escalonado fullscreen basado en `StaggeredMenu`; el toggle morfea a `X` con `framer-motion`, y todos los destinos, incluido `Contactar`, se renderizan como links tipográficos del mismo sistema, con cierre por `Escape`, foco inicial dentro del panel y retorno de foco al trigger. Desktop mantiene la navegación inline y el CTA premium originales
@@ -102,6 +107,7 @@ Política estructural activa para `components/home/`:
 - la segunda sección pública verificable es una banda de propuesta de valor sobre base `#09090F`, con solo un acento radial lila muy contenido; la sección funciona ahora como stage sticky a pantalla completa, muestra una única frase centrada cada vez, hace progresar sus palabras de blanco con baja opacidad a `#E8E8F0` durante el tramo activo de scroll de cada statement y sincroniza además dos `abstract-icons` decorativos por frase con entrada `pop-in`, deriva lenta y salida por fade al cambiar de statement
 - la tercera sección pública verificable es una sección de servicios heredada conceptualmente de `nebula-legacy`, retemada al sistema actual: arco sticky en desktop y lista vertical de cards en móvil, con cuatro capacidades públicas alineadas con el naming comercial vigente del estudio (`Desarrollo móvil`, `Desarrollo web`, `Evolución continua` y `Consultoría y digitalización`); cada card usa ahora estructura `heading superior / icono 3D central específico del servicio desde public/3d-Icons / descripción inferior / CTA secundario "Ver más"` con footprint `lg`, y añade un `BorderGlow` perimetral sutil sin alterar su geometría base; la sección reutiliza además la misma capa `HeroParticles` del hero como atmósfera de continuidad
 - la cuarta sección pública verificable es `How we work`: una composición full-width de cards alternadas izquierda/derecha enlazadas por un path SVG que toca el viewport solo al entrar y al salir, reserva la mayor apertura de curva para los nodos intermedios, evita rebotar contra los bordes laterales en cada tramo y activa el despliegue de cada card un poco antes de alcanzar su nodo circular simple, opaco y con icono centrado; la sección vuelve a apoyarse sobre base `Void` como el resto de bloques públicos, mientras reserva la familia `Navy` `#0B0C17 -> #0D0F24 -> #0A0F2E` para las cards y el cierre tonal de los nodos, manteniendo el lila azulado de `services-carousel`, apoyado por `Haze`, para línea y halos contenidos; las cards ya no usan un segundo radial atmosférico en la esquina inferior derecha, el bloque elimina también el glow inferior derecho y todo el texto interno de las cards se resuelve en blanco
+- la quinta sección pública verificable es `Projects showcase`: una surface de portfolio después de `How we work` que usa un heading grande centrado como pausa narrativa antes de dejar subir tres paneles de proyecto a casi viewport completo; cada panel combina columna editorial izquierda y media frame dominante derecha y se superpone sobre el anterior mediante scroll. La simplificación a lista vertical para móvil, tablet y `prefers-reduced-motion` sigue pendiente en el runtime actual
 - no existe hoy ningún `proxy` o `middleware` montado para Supabase en el runtime público
 - sigue pendiente la conexión del canal comercial real y cualquier capa backend live
 
@@ -132,4 +138,4 @@ Condiciones de release a vigilar:
 - dominio de producción pendiente de confirmación final
 - canal de captación real pendiente de integrar
 - sin test suite automatizada más allá de checks estáticos y build
-- futura evolución a portfolio, formulario o backend live exigirá ampliar reglas, docs y validación proporcional
+- futura evolución a case studies profundos, formulario o backend live exigirá ampliar reglas, docs y validación proporcional

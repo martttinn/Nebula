@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/hero";
 import { HowWeWorkSection } from "@/components/home/how-we-work";
+import { ProjectsShowcaseSection } from "@/components/home/projects-showcase";
 import { ServicesCarouselSection } from "@/components/home/services-carousel";
 import { ValuePropositionSection } from "@/components/home/value-proposition-section";
 import { Navbar } from "@/components/layout/navbar";
@@ -14,6 +15,7 @@ export default function Home() {
       <ValuePropositionSection />
       <ServicesCarouselSection />
       <HowWeWorkSection />
+      <ProjectsShowcaseSection />
     </>
   );
 }

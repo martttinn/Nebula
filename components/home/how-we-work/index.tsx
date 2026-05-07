@@ -13,6 +13,7 @@ import { HeroParticles } from "@/components/home/hero/particles";
 import {
   MOBILE_TIMELINE_LINE_LEFT,
   PATH_END_Y_OFFSET,
+  PATH_DRAW_END_PROGRESS,
   PATH_START_Y_OFFSET,
   SECTION_ACCENT_BACKGROUND,
   STEPS,
@@ -140,7 +141,7 @@ export function HowWeWorkSection() {
 
   const dashOffset = useTransform(
     activeProgress,
-    [0, 1],
+    [0, PATH_DRAW_END_PROGRESS],
     reducedMotion ? [0, 0] : [pathLayout.length, 0],
   );
 

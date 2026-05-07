@@ -22,7 +22,7 @@ Documento mínimo para recoger invariantes de negocio y contratos funcionales de
 ## 3. Flujos críticos
 
 - **Comprensión inicial**: hero y framing deben explicar quién es Nebula y para quién trabaja
-- **Evaluación de encaje**: servicios, proceso y diferenciadores deben responder si el estudio es el socio adecuado
+- **Evaluación de encaje**: servicios, proceso, proyectos destacados y diferenciadores deben responder si el estudio es el socio adecuado
 - **Preparación de contacto**: la web debe acercar al visitante al siguiente paso sin inventar una integración comercial que todavía no existe
 
 ## 4. Permisos y visibilidad
@@ -42,4 +42,4 @@ Documento mínimo para recoger invariantes de negocio y contratos funcionales de
 
 - dominio de producción final: `pendiente`
 - canal comercial real a conectar primero: `pendiente`
-- portfolio público y casos concretos de trabajo: `pendiente`
+- case studies profundos y portfolio público más allá de la selección destacada en home: `pendiente`

@@ -587,3 +587,27 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 **Efecto:** El estado objetivo del repo deja de ser `components/home/*.tsx` para secciones complejas. Las páginas deben consumir paths de directorio canónicos como `@/components/home/hero`, `@/components/home/value-proposition-section`, `@/components/home/services-carousel` y `@/components/home/how-we-work`. Las fachadas de compatibilidad solo se aceptan como ayuda transitoria durante migraciones explícitas y deben retirarse al cerrar la consolidación.
 
 **Archivos / artefactos relevantes:** `.agents/rules/03-nextjs-web-rules.md`, `.agents/rules/07-code-style-and-implementation-rules.md`, `.agents/workflows/task-start.md`, `AGENTS.md`, `components/home/**`, `doc/reference/technical-reference.md`.
+
+---
+
+## 2026-05-06 — `projects-showcase` se implementa por fases y la fase 2 introduce un primer panel sobre el heading
+
+**Decisión:** La sección pública `projects-showcase` mantiene un rollout incremental. Tras estabilizar el pinning del heading `Proyectos destacados`, el runtime actual añade solo un primer panel de proyecto que asciende desde abajo y lo cubre. El segundo y tercer caso siguen diferidos.
+
+**Motivo:** El stage completo de portfolio era demasiado frágil cuando sticky, timeline y varios paneles entraban a la vez. Separar primero el pinning y después la primera superposición permite validar el patrón real antes de escalarlo.
+
+**Efecto:** El anchor `/#proyectos` ya no aterriza en una simple pantalla tipográfica; ahora abre una transición visible entre título y primer caso. Nebula gana una primitive de portfolio más demostrativa sin reintroducir todavía la complejidad completa de tres proyectos encadenados.
+
+**Archivos / artefactos relevantes:** `components/home/projects-showcase/**`, `app/page.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`.
+
+---
+
+## 2026-05-07 — `projects-showcase` completa la coreografía de tres proyectos sobre el mismo stage
+
+**Decisión:** La sección pública `projects-showcase` deja atrás la fase de un solo caso y encadena ya tres proyectos full-screen que ascienden desde abajo y se cubren entre sí sobre el mismo stage sticky del heading.
+
+**Motivo:** El patrón base de pinning y primera superposición ya estaba estable. Martín pidió completar la sección con los dos proyectos restantes para que la narrativa de portfolio no se cortase después del primer caso.
+
+**Efecto:** El runtime actual ya expresa la intención original completa de la primitive: pausa tipográfica, takeover del primer proyecto y relevo progresivo hacia segundo y tercer caso. El siguiente ajuste estructural razonable pasa a ser la variante simplificada para móvil/tablet, no la reintroducción de más paneles desktop.
+
+**Archivos / artefactos relevantes:** `components/home/projects-showcase/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
