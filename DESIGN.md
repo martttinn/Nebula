@@ -157,11 +157,11 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
 ## Components
 
 - `page-shell`: fondo base y respiración general
-- `preloader`: overlay full-screen de branding breve con logo animado y barra de progreso, reservado para la entrada inicial de la home
+- `preloader`: overlay full-screen de branding breve con logo animado y barra de progreso, reservado para la entrada inicial de la home; su duracion debe ser acotada para no bloquear artificialmente el primer contenido ni el LCP real del hero.
 - `hero-shell`: bloque de autoridad con headline, CTA y pieza de identidad
   En la home actual debe priorizar un único heading contundente en `Syne`, un subheading claro en `Inter` y dos CTAs al cierre del bloque, con composición centrada sobre el viewport.
   Cuando se use motion de entrada en el copy principal, la secuencia preferida es: heading primero, subheading después y CTAs al final, con transiciones legibles y sin solaparse con el preloader.
-  El heading principal puede usar un reveal `SplitText` por caracteres con entrada ascendente y blur de arranque muy contenido; el subheading puede compartir ese mismo lenguaje de aparición, pero con timing más calmado y menor protagonismo visual que el titular.
+  El heading principal de la home debe poder pintarse de forma inmediata. Si se usa un reveal `SplitText`, debe reservarse para copy no critico o aplicarse sin ocultar el elemento LCP; el subheading puede usar ese lenguaje de aparición con timing calmado y menor protagonismo visual que el titular.
   La secuencia completa debe sentirse ágil: sin pausas muertas largas entre loader, heading, subheading y CTAs.
   Se permiten partículas lilas sutiles pero legibles, dispersas y de deriva lenta como capa atmosférica secundaria, resueltas como círculos nítidos sin blur y con ciclos largos de aparición, permanencia y desvanecimiento suave; nunca como ruido dominante.
   El hero debe cerrar en `Void` totalmente opaco. No puede terminar con overlays semitransparentes que dejen ver la capa inferior justo en la costura con la siguiente sección.
@@ -229,6 +229,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   En desktop, la sección completa debe convertirse en una stage sticky real: cuando el header y la primera card entran por completo en viewport, ese conjunto permanece fijado en pantalla mientras continúa el scroll. A partir de ahí, cada nueva card entra desde abajo, se desliza por encima de la anterior y queda apilada sobre ella dentro del mismo stage.
   En runtime, ese pinning desktop no debe depender de `position: sticky` puro dentro del shell. Resuélvelo con runway vertical de sección y una stage fijada de forma explícita durante la fase activa para evitar drift o pérdida de fijación al cambiar de viewport.
   El fondo atmosférico desktop forma parte del mismo stage fijado; no puede seguir desplazándose mientras las cards permanecen ancladas.
+  En runtime actual puede reutilizar `HeroParticles` como capa atmosférica secundaria en desktop y en la degradación móvil, siempre detrás del contenido y sin crear una firma visual paralela.
   La base visible al arrancar el stage es siempre `header + primera card`; no debe existir un tramo donde el heading se escape antes de empezar el apilado ni un comportamiento de lista vertical convencional en desktop.
   Cada reseña visible se resuelve como una gran card dentro de ese stack sticky centrado, con footprint amplio, borde fino, grid interno `4/8` y una división estructural clara entre identidad a la izquierda y cita a la derecha. En móvil y tablet, la sección degrada a una lista vertical simple, sin sticky.
   La columna izquierda usa labels técnicos sobrios en `Lilac`, reglas finas y nombre del cliente en `Syne`; la derecha debe resolver una jerarquía editorial de dos niveles: un claim corto en `Syne` y un contexto secundario en `Inter` más ligero. La reseña completa puede mantenerse como fuente repo-safe, pero no debe renderizarse entera si convierte la card en un bloque pesado.
@@ -236,6 +237,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   La compresión progresiva entre cards debe sentirse suave y continua. No es un carrusel ni un simple reveal por fade: el usuario debe percibir cómo las cards se apilan y se relevan mientras hace scroll.
   El apilado no debe resolverse con panels perfectamente coincidentes. Cuando una card nueva toma el frente, debe dejar visible un pequeño labio superior de la card inmediatamente anterior para reforzar la sensación de stack físico.
   La última card del stack es el cierre comercial actual de la home. No vive como sección autónoma: aparece integrada en `testimonials`, usa `GridDistortion` exacto de React Bits como fondo y recoge el ancla `#contacto`.
+  El fondo `GridDistortion` de esa card debe cargarse bajo demanda por proximidad al viewport; antes de entrar en rango debe mostrarse un fallback estático equivalente para no adelantar WebGL ni el asset pesado del CTA al primer render.
   Ese panel final debe mantener copy corto, centrado y honesto; mientras no exista la página de contacto, el botón principal puede mostrarse habilitado como affordance visual, pero no debe redirigir ni fingir un flujo de captación conectado.
   Si existe `prefers-reduced-motion`, la compresión ornamental debe neutralizarse y la sección debe mantener legibilidad y jerarquía sin depender del efecto sticky.
 - `panel-base`: tarjetas y módulos principales

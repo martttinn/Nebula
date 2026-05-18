@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 
 import { NebulaLogoAnimated } from "@/components/ui/nebula-logo-animated";
 
+const PRELOADER_MIN_DURATION_MS = 900;
+const PRELOADER_PROGRESS_INTERVAL_MS = 20;
+const PRELOADER_EXIT_HOLD_MS = 220;
+const PRELOADER_SAFETY_TIMEOUT_MS = 2500;
+const HERO_INTRO_START_EVENT = "hero-intro-start";
+
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -91,9 +97,10 @@ export function Preloader() {
 
     let heroReady = false;
     let minTimePassed = false;
+    let finished = false;
 
-    const duration = 1500;
-    const interval = 20;
+    const duration = PRELOADER_MIN_DURATION_MS;
+    const interval = PRELOADER_PROGRESS_INTERVAL_MS;
     const steps = duration / interval;
     const increment = 95 / steps;
 
@@ -105,17 +112,19 @@ export function Preloader() {
     }, interval);
 
     const finish = () => {
+      if (finished) {
+        return;
+      }
+
+      finished = true;
       window.clearInterval(timer);
       setProgress(100);
+      window.dispatchEvent(new CustomEvent(HERO_INTRO_START_EVENT));
 
       window.setTimeout(() => {
         setIsLoading(false);
         unlockScroll();
-
-        window.setTimeout(() => {
-          window.dispatchEvent(new CustomEvent("hero-intro-start"));
-        }, 260);
-      }, 400);
+      }, PRELOADER_EXIT_HOLD_MS);
     };
 
     const tryToFinish = () => {
@@ -140,7 +149,7 @@ export function Preloader() {
       minTimePassed = true;
       heroReady = true;
       tryToFinish();
-    }, 4000);
+    }, PRELOADER_SAFETY_TIMEOUT_MS);
 
     return () => {
       window.clearInterval(timer);
@@ -158,7 +167,7 @@ export function Preloader() {
           key="preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex touch-none flex-col items-center justify-center bg-nebula-void pointer-events-auto"
         >
           <div className="relative mb-10">

@@ -4,6 +4,30 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-18 — `HeroParticles` se restaura como atmósfera de continuidad
+
+**Decisión:** `HeroParticles` vuelve a montarse en `services-carousel`, `how-we-work` y `testimonials`, tanto en las variantes desktop como en las degradaciones móviles donde ya existía antes de la optimización de Speed Insights.
+
+**Motivo:** Martín pidió restaurar explícitamente la capa de partículas para recuperar la continuidad atmosférica de la home. Se mantiene el resto de ajustes de performance ya aplicados: heading principal pintable, `Preloader` más corto y `GridDistortion` bajo demanda.
+
+**Efecto:** El runtime vuelve a priorizar la firma visual de partículas en las secciones posteriores al hero. La decisión puede reintroducir parte del riesgo de CLS de sesión medido durante la auditoría anterior, por lo que cualquier revisión futura de Speed Insights deberá distinguir este trade-off visual del resto de optimizaciones conservadas.
+
+**Archivos / artefactos relevantes:** `components/home/services-carousel/index.tsx`, `components/home/how-we-work/index.tsx`, `components/home/testimonials/index.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-18 — La home prioriza estabilidad y LCP de campo frente a ornamento above-the-fold
+
+**Decisión:** La home mantiene el heading principal del hero como contenido inmediatamente pintable, acorta la retención del `Preloader`, retrasa el fondo `GridDistortion` de la card final hasta proximidad al viewport y retira `HeroParticles` de los stages sticky/fixed de servicios, proceso y testimonials.
+
+**Motivo:** Las métricas reales de Vercel Speed Insights en producción mostraban `RES 51`, `LCP 4.62s` y `CLS 1.07` en desktop. La comprobación local confirmó que el servidor no era el cuello de botella (`x-vercel-cache: HIT`, prerender estático) y que los riesgos principales estaban en bloqueo visual del hero, carga temprana de assets below-the-fold y desplazamientos acumulados por capas ornamentales full-viewport durante scroll.
+
+**Efecto:** La experiencia conserva identidad Nebula, pero reduce coste y variabilidad en puntos críticos de Core Web Vitals: el H1 deja de depender de un reveal oculto, el loader lanza antes la secuencia del hero, `GridDistortion` no adelanta WebGL ni `cta-background.png` al primer render y las partículas dejan de intervenir en stages donde podían inflar CLS de sesión. La primitive `HeroParticles` no se borra; queda reservada para usos aislados y medidos.
+
+**Archivos / artefactos relevantes:** `components/ui/preloader.tsx`, `components/home/hero/lead.tsx`, `components/home/services-carousel/index.tsx`, `components/home/how-we-work/index.tsx`, `components/home/testimonials/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
 ## 2026-05-18 — El runtime público integra Vercel Web Analytics
 
 **Decisión:** La web pública añade `@vercel/analytics` y monta `Analytics` desde `@vercel/analytics/next` en el root layout junto a `SpeedInsights`.

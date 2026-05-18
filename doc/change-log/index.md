@@ -5,10 +5,12 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 173
-- Grupos registrados: 167
+- Entradas registradas: 175
+- Grupos registrados: 169
 
 ## Ultimos cambios
+- `2026-05-18` [`NBS-CHG-2026-05-18-193`](entries/2026/05/NBS-CHG-2026-05-18-193--restauracion-de-heroparticles-en-home-publica.md) - Restauracion de HeroParticles en home publica - `frontend` - grupo [`NBS-TSK-2026-169`](groups/2026/NBS-TSK-2026-169.md)
+- `2026-05-18` [`NBS-CHG-2026-05-18-192`](entries/2026/05/NBS-CHG-2026-05-18-192--optimizacion-de-speed-insights-en-home-publica.md) - Optimizacion de Speed Insights en home publica - `frontend` - grupo [`NBS-TSK-2026-168`](groups/2026/NBS-TSK-2026-168.md)
 - `2026-05-18` [`NBS-CHG-2026-05-18-191`](entries/2026/05/NBS-CHG-2026-05-18-191--integracion-de-vercel-web-analytics.md) - Integracion de Vercel Web Analytics - `frontend` - grupo [`NBS-TSK-2026-167`](groups/2026/NBS-TSK-2026-167.md)
 - `2026-05-18` [`NBS-CHG-2026-05-18-190`](entries/2026/05/NBS-CHG-2026-05-18-190--retirada-del-glare-del-logo-del-preloader.md) - Retirada del glare del logo del preloader - `frontend` - grupo [`NBS-TSK-2026-166`](groups/2026/NBS-TSK-2026-166.md)
 - `2026-05-11` [`NBS-CHG-2026-05-11-189`](entries/2026/05/NBS-CHG-2026-05-11-189--primera-limpieza-de-hallazgos-react-doctor.md) - Primera limpieza de hallazgos React Doctor - `frontend` - grupo [`NBS-TSK-2026-165`](groups/2026/NBS-TSK-2026-165.md)
@@ -188,6 +190,8 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-169`](groups/2026/NBS-TSK-2026-169.md) - Restauracion de HeroParticles en la home publica - 2026-05-18 -> 2026-05-18 - 1 cambios
+- [`NBS-TSK-2026-168`](groups/2026/NBS-TSK-2026-168.md) - Optimizacion de Speed Insights en la home publica - 2026-05-18 -> 2026-05-18 - 1 cambios
 - [`NBS-TSK-2026-167`](groups/2026/NBS-TSK-2026-167.md) - Integracion de Vercel Web Analytics - 2026-05-18 -> 2026-05-18 - 1 cambios
 - [`NBS-TSK-2026-166`](groups/2026/NBS-TSK-2026-166.md) - Retirada del glare del logo del preloader - 2026-05-18 -> 2026-05-18 - 1 cambios
 - [`NBS-TSK-2026-165`](groups/2026/NBS-TSK-2026-165.md) - Primera limpieza de hallazgos React Doctor - 2026-05-11 -> 2026-05-11 - 1 cambios

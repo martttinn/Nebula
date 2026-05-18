@@ -8,19 +8,20 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SplitText } from "@/components/ui/split-text";
 
-const headingText = "Software que hace crecer tu negocio.";
 const headingLeadingText = "Software que hace crecer tu ";
 const headingAccentText = "negocio.";
 const subheadingText =
   "Construimos productos digitales a medida para empresas locales que necesitan digitalizar sus procesos.";
+const HERO_INTRO_START_EVENT = "hero-intro-start";
+const HERO_INTRO_FALLBACK_MS = 1300;
 
 export function HeroLead() {
   const prefersReducedMotion = useReducedMotion();
-  const [headingActive, setHeadingActive] = useState(false);
   const [subheadingActive, setSubheadingActive] = useState(false);
   const [actionsVisible, setActionsVisible] = useState(false);
   const [scrollCueVisible, setScrollCueVisible] = useState(false);
   const timersRef = useRef<number[]>([]);
+  const introStartedRef = useRef(false);
 
   const schedule = useCallback((callback: () => void, delay: number) => {
     const timer = window.setTimeout(callback, delay);
@@ -38,27 +39,24 @@ export function HeroLead() {
     }
 
     const startSequence = () => {
-      setHeadingActive(true);
+      if (introStartedRef.current) {
+        return;
+      }
+
+      introStartedRef.current = true;
+      schedule(() => setSubheadingActive(true), 120);
     };
 
-    const fallbackTimer = window.setTimeout(startSequence, 3200);
+    const fallbackTimer = window.setTimeout(startSequence, HERO_INTRO_FALLBACK_MS);
     timersRef.current.push(fallbackTimer);
 
-    window.addEventListener("hero-intro-start", startSequence);
+    window.addEventListener(HERO_INTRO_START_EVENT, startSequence);
 
     return () => {
-      window.removeEventListener("hero-intro-start", startSequence);
+      window.removeEventListener(HERO_INTRO_START_EVENT, startSequence);
       clearTimers();
     };
-  }, [prefersReducedMotion]);
-
-  const handleHeadingComplete = useCallback(() => {
-    if (prefersReducedMotion || subheadingActive) {
-      return;
-    }
-
-    schedule(() => setSubheadingActive(true), 0);
-  }, [prefersReducedMotion, schedule, subheadingActive]);
+  }, [prefersReducedMotion, schedule]);
 
   const handleSubheadingComplete = useCallback(() => {
     if (prefersReducedMotion || actionsVisible) {
@@ -86,23 +84,8 @@ export function HeroLead() {
 
         <div className="flex flex-col items-center">
           <h1 className="max-w-3xl font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.06em] text-nebula-silver sm:text-6xl lg:text-7xl">
-            {prefersReducedMotion ? (
-              <>
-                {headingLeadingText}
-                <span className="text-nebula-lilac">{headingAccentText}</span>
-              </>
-            ) : (
-              <SplitText
-                text={headingText}
-                active={headingActive}
-                hideUntilStart
-                delay={18}
-                duration={0.62}
-                className="text-nebula-silver"
-                tokenClassNameMap={{ "negocio.": "text-nebula-lilac" }}
-                onComplete={handleHeadingComplete}
-              />
-            )}
+            {headingLeadingText}
+            <span className="text-nebula-lilac">{headingAccentText}</span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-white sm:text-lg">
@@ -113,8 +96,8 @@ export function HeroLead() {
                 text={subheadingText}
                 active={subheadingActive}
                 hideUntilStart
-                delay={8}
-                duration={0.54}
+                delay={5}
+                duration={0.42}
                 className="text-white"
                 segmentClassName="text-white"
                 onComplete={handleSubheadingComplete}
