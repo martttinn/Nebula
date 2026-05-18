@@ -21,8 +21,10 @@ Audita dependencias de Nebula Studios con mentalidad read-only por defecto. El o
 
 1. lee `package.json`, `package-lock.json`, `next.config.mjs`, `tailwind.config.ts` y `tsconfig.json`
 2. ejecuta `git status --short` y separa cambios previos ajenos de los hallazgos de auditoría
-3. identifica si la tarea pide solo informe o también implementación; si no está claro, asume auditoría read-only
-4. anota fecha exacta de consulta y si hubo red disponible para comandos contra registry/advisories
+3. extrae las dependencias, paquetes y herramientas concretas mencionadas por el usuario, la documentación o el scope de la tarea
+4. comprueba en `package.json` y `package-lock.json` cuáles están instaladas realmente y cuáles solo están mencionadas
+5. identifica si la tarea pide solo informe o también implementación; si no está claro, asume auditoría read-only
+6. anota fecha exacta de consulta y si hubo red disponible para comandos contra registry/advisories
 
 ## Comandos base
 
@@ -30,9 +32,16 @@ Ejecuta solo los que aporten señal al scope:
 
 ```bash
 npm ls --depth=0
+npm ls <package>
 npm outdated --json || true
 npm audit --json || true
 npm audit --omit=dev --json || true
+```
+
+Para diagnósticos de salud en React/Next.js, usa React Doctor bajo demanda sin añadirlo al manifiesto:
+
+```bash
+npx react-doctor@latest
 ```
 
 Si necesitas investigar un paquete concreto:
@@ -44,6 +53,13 @@ npm ls <package>
 ```
 
 ## Ejes de auditoría
+
+### Dependencias mencionadas vs instaladas
+
+- comprueba toda dependencia citada contra el manifiesto y lockfile reales antes de tratarla como parte del stack
+- si falta una dependencia mencionada, clasifícala como `mencionada/no instalada`
+- pregunta a Martín cuáles quiere instalar antes de modificar manifiestos, lockfiles o código que dependa de ella
+- si el uso previsto es bajo demanda con `npx <paquete>@...`, documéntalo como tooling no instalado y evita forzar instalación
 
 ### Compatibilidad del stack
 
@@ -62,6 +78,7 @@ npm ls <package>
 - detecta rangos incoherentes, paquetes deprecated o dependencias sin mantenimiento
 - si sospechas dependencia no usada, verifica con búsquedas reales antes de recomendar retirada
 - si un cambio afecta runtime público, metadata o tooling de build, marca el riesgo de release
+- usa `react-doctor` como señal adicional para problemas de seguridad, rendimiento, corrección, accesibilidad, bundle y arquitectura; no conviertas sus sugerencias en cambios sin verificar impacto real en el repo
 
 ## Plan de actualización
 

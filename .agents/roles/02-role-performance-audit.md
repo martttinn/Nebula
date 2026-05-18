@@ -27,6 +27,7 @@ Para analizar lentitud, coste de render, queries, bundle, memoria, jank, bloqueo
 - payloads, assets o librerías con más coste del que aportan
 - motion, storytelling scroll, WebGL o transiciones con ejecución vistosa pero coste desalineado con su valor real
 - cálculos o transformaciones hechas en el sitio incorrecto
+- hallazgos de React Doctor (`npx react-doctor@latest`) cuando el problema afecte rendimiento, bundle, accesibilidad o arquitectura React
 
 ## Forma de entregar
 

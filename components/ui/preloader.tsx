@@ -32,12 +32,8 @@ export function Preloader() {
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
-    const previousHtmlOverflow = html.style.overflow;
-    const previousHtmlTouchAction = html.style.touchAction;
-    const previousHtmlOverscrollBehavior = html.style.overscrollBehavior;
-    const previousBodyOverflow = body.style.overflow;
-    const previousBodyTouchAction = body.style.touchAction;
-    const previousBodyOverscrollBehavior = body.style.overscrollBehavior;
+    const previousHtmlCssText = html.style.cssText;
+    const previousBodyCssText = body.style.cssText;
     let lockListenersController: AbortController | null = null;
 
     const preventDefault = (event: Event) => {
@@ -65,12 +61,8 @@ export function Preloader() {
       lockListenersController = new AbortController();
       const signal = lockListenersController.signal;
 
-      html.style.overflow = "hidden";
-      html.style.touchAction = "none";
-      html.style.overscrollBehavior = "none";
-      body.style.overflow = "hidden";
-      body.style.touchAction = "none";
-      body.style.overscrollBehavior = "none";
+      html.style.cssText = `${previousHtmlCssText}; overflow: hidden; touch-action: none; overscroll-behavior: none;`;
+      body.style.cssText = `${previousBodyCssText}; overflow: hidden; touch-action: none; overscroll-behavior: none;`;
       document.addEventListener("wheel", preventDefault, {
         passive: false,
         capture: true,
@@ -91,12 +83,8 @@ export function Preloader() {
     const unlockScroll = () => {
       lockListenersController?.abort();
       lockListenersController = null;
-      html.style.overflow = previousHtmlOverflow;
-      html.style.touchAction = previousHtmlTouchAction;
-      html.style.overscrollBehavior = previousHtmlOverscrollBehavior;
-      body.style.overflow = previousBodyOverflow;
-      body.style.touchAction = previousBodyTouchAction;
-      body.style.overscrollBehavior = previousBodyOverscrollBehavior;
+      html.style.cssText = previousHtmlCssText;
+      body.style.cssText = previousBodyCssText;
     };
 
     lockScroll();
@@ -179,11 +167,11 @@ export function Preloader() {
               style={{
                 background:
                   "radial-gradient(ellipse at center, rgba(123,116,212,0.18) 0%, transparent 70%)",
-                filter: "blur(24px)",
+                filter: "blur(10px)",
               }}
             />
 
-            <NebulaLogoAnimated size={88} fadeDuration={0.9} glossyDuration={3} />
+            <NebulaLogoAnimated size={88} fadeDuration={0.9} glossy={false} />
           </div>
 
           <div className="relative h-[2px] w-48 overflow-hidden rounded-full bg-white/10">

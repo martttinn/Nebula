@@ -42,13 +42,14 @@ type IndexedTextToken = Omit<TextToken, "units"> & {
   units: IndexedTextUnit[];
 };
 
+const graphemeSegmenter =
+  typeof Intl !== "undefined" && "Segmenter" in Intl
+    ? new Intl.Segmenter(undefined, { granularity: "grapheme" })
+    : null;
+
 function segmentCharacters(text: string): TextUnit[] {
-  const supportsSegmenter = typeof Intl !== "undefined" && "Segmenter" in Intl;
-
-  if (supportsSegmenter) {
-    const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
-
-    return Array.from(segmenter.segment(text)).map((segment, index) => ({
+  if (graphemeSegmenter) {
+    return Array.from(graphemeSegmenter.segment(text)).map((segment, index) => ({
       id: `char-${index}-${segment.segment}`,
       value: segment.segment,
     }));

@@ -52,7 +52,7 @@ export function SectionHeading({ reducedMotion }: { reducedMotion: boolean }) {
   );
 }
 
-export function DesktopNode({
+function DesktopNode({
   step,
   index,
   progress,
@@ -116,13 +116,13 @@ export function DesktopNode({
           className="object-contain"
         />
       ) : step.icon ? (
-        <step.icon className="relative z-10 h-6 w-6 text-nebula-silver" strokeWidth={1.8} />
+        <step.icon className="relative z-10 size-6 text-nebula-silver" strokeWidth={1.8} />
       ) : null}
     </motion.div>
   );
 }
 
-export function DesktopCard({
+function DesktopCard({
   step,
   index,
   progress,
@@ -333,7 +333,7 @@ export function MobileCard({
             className="object-contain"
           />
         ) : step.icon ? (
-          <step.icon className="relative z-10 h-5 w-5 text-nebula-silver" strokeWidth={1.8} />
+          <step.icon className="relative z-10 size-5 text-nebula-silver" strokeWidth={1.8} />
         ) : null}
       </motion.div>
 

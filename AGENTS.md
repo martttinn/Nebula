@@ -139,6 +139,7 @@ Si una tarea mezcla varios roles, elige uno como principal y usa los demás solo
 - Si una tarea debe leer o escribir en el vault de Obsidian, prioriza siempre `filesystem`; usa el MCP de Obsidian solo como fallback.
 - Los comentarios de código y comentarios internos del repo deben escribirse en español por defecto, salvo coherencia local o requisito externo.
 - Si el agente detecta un fallo claro o un patrón evitable, debe preguntar a Martín si quiere convertirlo en una regla o decisión duradera.
+- Si una tarea, documento o propuesta menciona dependencias concretas, el agente debe comprobar primero si están instaladas en el proyecto actual; si faltan y serían necesarias, debe preguntar a Martín cuáles quiere instalar antes de tocar manifiestos o lockfiles.
 - Si una tarea revela una primitive o shell base reutilizable, el agente debe evaluar extraerla antes de duplicar estructura.
 - En `components/home/`, cada sección pública sustancial debe vivir en su carpeta canónica con `index.tsx` como entrypoint; las páginas deben consumir ese path de directorio y no mantener wrappers indefinidos en la raíz.
 - Las fachadas de compatibilidad en `components/home/*.tsx` solo se permiten como transición explícita; deben retirarse al cerrar la migración salvo instrucción contraria de Martín.
@@ -150,6 +151,8 @@ Si una tarea mezcla varios roles, elige uno como principal y usa los demás solo
 - Este repo es hoy una web pública de marketing para Nebula Studios, centrada en posicionamiento premium, claridad técnica y captación cualificada.
 - No existe a fecha `2026-05-03` una capa backend live verificada ni un canal comercial live conectado.
 - Sí existe un bootstrap repo-safe de Supabase (`lib/supabase/**` + `supabase/**`) para evolución futura, pero no debe confundirse con un backend funcional ya desplegado.
+- React Doctor forma parte del stack operativo como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado en `package.json` y sus hallazgos deben verificarse antes de convertirlos en cambios.
+- Las herramientas bajo demanda vía `npx <paquete>@...` no deben confundirse con dependencias instaladas; si el uso pasa a requerir integración persistente, hay que confirmarlo antes con Martín.
 - Si una tarea toca la superficie pública, trata SEO, semántica, conversión, accesibilidad y rendimiento como requisitos funcionales, no como extras.
 - `DESIGN.md` debe vivir en la raíz del repo para maximizar discoverability entre herramientas y agentes; no lo escondas dentro de `doc/`.
 - Si `DESIGN.md` y la UI actual divergen, trátalo como drift explícito: el código describe el runtime actual y `DESIGN.md` el objetivo visual canónico.

@@ -1,5 +1,1 @@
-export {
-  Button,
-  buttonVariants,
-  type ButtonProps,
-} from "@/components/animate-ui/components/buttons/button";
+export { Button } from "@/components/animate-ui/components/buttons/button";

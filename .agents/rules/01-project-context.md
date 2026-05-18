@@ -14,7 +14,7 @@ Sí existe un bootstrap repo-safe de Supabase en `lib/supabase/**` y `supabase/*
 
 ## Stack verificado en el repo
 
-Verificado localmente el **7 de mayo de 2026** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y el árbol real del repo.
+Verificado localmente el **9 de mayo de 2026** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y el árbol real del repo.
 
 - Next.js `16.2.4`
 - React `18.3.1`
@@ -25,6 +25,7 @@ Verificado localmente el **7 de mayo de 2026** contra `package.json`, `tsconfig.
 - Three.js `0.180.x`
 - Postprocessing `6.39.x`
 - `tech-stack-icons` `3.7.1`
+- React Doctor `0.1.6` como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado ni fijado en `package.json`
 - App Router
 - primitives tipo shadcn/ui con `class-variance-authority`, `@radix-ui/react-slot`, `clsx` y `tailwind-merge`
 
@@ -45,16 +46,16 @@ Esta lista es una foto del repositorio, no una garantía permanente. Si una tare
 ## Estado actual del repo
 
 - la homepage vive en `app/page.tsx`
-- el runtime público actual es una landing single-page con narrativa, servicios, proceso y CTA de siguiente paso
-- el hero actual usa una isla cliente visual con `three` + `postprocessing` para el efecto `GridScan`
+- el runtime público actual es una landing single-page con narrativa, servicios, proceso, prueba social, un cierre comercial integrado como última card de `testimonials`, recogido por el ancla `#contacto`, y un footer de marca + navegación al final
+- el hero actual usa una isla cliente visual basada en un `DotField` en canvas para el fondo del viewport
 - existen metadata global, `robots.ts` y `sitemap.ts`
 - existe `lib/supabase/**` como bootstrap SSR futuro para Next.js, hoy no montado en el runtime público
 - existe `supabase/` con `config.toml`, `seed.sql` y `migrations/` para trabajo local y versionado de esquema
 - no existe hoy ningún `proxy` o `middleware` montado para conectar Supabase en runtime público
 - no existe `app/api/**` ni una capa backend live operativa verificada
-- no existe todavía un formulario conectado, calendario, email operativo versionado ni otra integración real de captación
-- la validación automatizada disponible hoy es `lint`, `typecheck` y `build`
-- el subsistema `doc/change-log/` existe, pero su tooling documentado no está expuesto ahora mismo como scripts en `package.json`
+- no existe todavía un formulario conectado, calendario, email operativo versionado ni otra integración real de captación; el cierre actual de contacto vive dentro de `testimonials` y usa un CTA visual habilitado sin ruta de redirección mientras esa página y ese canal no existan
+- la validación automatizada disponible hoy es `lint`, `typecheck`, `build`, React Doctor bajo demanda (`npx react-doctor@latest`) y el tooling repo-local de `change-log` (`changes:validate`, `changes:index`, `changes:sync`)
+- el subsistema `doc/change-log/` ya expone tooling repo-local en `package.json` y `scripts/`
 
 ## Contexto visual y de producto
 

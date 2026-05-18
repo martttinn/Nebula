@@ -31,6 +31,16 @@ npm install
 npm run dev
 ```
 
+## Diagnóstico React
+
+Para auditorías puntuales de salud en React/Next.js, usa React Doctor bajo demanda sin instalarlo en el proyecto:
+
+```bash
+npx react-doctor@latest
+```
+
+Este comando complementa `lint`, `typecheck` y `build`; no sustituye la validación propia del repo.
+
 ## Supabase bootstrap
 
 El repo ya incluye bootstrap repo-safe de Supabase, pero el runtime público actual no lo usa todavía. La conexión real se retomará cuando el frontend quede cerrado.

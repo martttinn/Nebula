@@ -1,5 +1,9 @@
 {
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore"
+  "less.lint.unknownAtRules": "ignore",
+  "material-icon-theme.files.associations": {
+    "AGENTS.md": "robot",
+    "DESIGN.md": "palette"
+  }
 }

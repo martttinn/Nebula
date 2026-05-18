@@ -1,80 +1,32 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { BrandLockup } from "@/components/layout/brand-lockup";
 import { NavbarStaggeredMenu } from "@/components/layout/navbar-staggered-menu";
 import { Button } from "@/components/ui/button";
+import { PUBLIC_NAV_CTAS, PUBLIC_NAV_LINKS, type PublicNavLink } from "@/data/navigation";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-type NavbarLink = {
-  label: string;
-  href: string;
-};
-
-type NavbarCta = NavbarLink;
 
 export type NavbarProps = {
   className?: string;
   logoHref?: string;
   logoLabel?: string;
   brandText?: string;
-  links?: NavbarLink[];
-  ctas?: NavbarCta[];
+  links?: readonly PublicNavLink[];
+  ctas?: readonly PublicNavLink[];
 };
-
-const defaultLinks: NavbarLink[] = [
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Proyectos", href: "/#proyectos" },
-  { label: "Precios", href: "/#precios" },
-  { label: "Nosotros", href: "/#sobre-nosotros" },
-  { label: "Blog", href: "/#blog" },
-];
-
-const defaultCtas: NavbarCta[] = [
-  { label: "Contactar", href: "/#contacto" },
-];
-
-function BrandLockup({
-  href,
-  label,
-  brandText,
-}: {
-  href: string;
-  label: string;
-  brandText: string;
-}) {
-  return (
-    <Link
-      href={href}
-      aria-label={label}
-      className="flex min-w-0 shrink-0 items-center gap-3 text-nebula-silver transition-opacity duration-200 hover:opacity-100"
-    >
-      <Image
-        src="/logo/symbol/nebula-dark.svg"
-        alt=""
-        width={180}
-        height={210}
-        priority
-        className="h-8 w-auto shrink-0 sm:h-9"
-      />
-      <span className="truncate font-display text-xl font-bold uppercase tracking-[-0.06em] text-nebula-silver sm:text-2xl">
-        {brandText}
-      </span>
-    </Link>
-  );
-}
 
 export function Navbar({
   className,
   logoHref = "/",
   logoLabel = siteConfig.name,
   brandText = "Nebula",
-  links = defaultLinks,
-  ctas = defaultCtas,
+  links = PUBLIC_NAV_LINKS,
+  ctas = PUBLIC_NAV_CTAS,
 }: NavbarProps) {
   const prefersReducedMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
@@ -130,6 +82,7 @@ export function Navbar({
               href={logoHref}
               label={logoLabel}
               brandText={brandText}
+              priority
             />
 
             <div className="min-w-0 flex-1 justify-center">
@@ -173,6 +126,7 @@ export function Navbar({
               href={logoHref}
               label={logoLabel}
               brandText={brandText}
+              priority
             />
             <NavbarStaggeredMenu
               links={links}

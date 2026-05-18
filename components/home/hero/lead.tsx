@@ -78,42 +78,51 @@ export function HeroLead() {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col items-center">
-      <h1 className="max-w-3xl font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.06em] text-nebula-silver sm:text-6xl lg:text-7xl">
-        {prefersReducedMotion ? (
-          <>
-            {headingLeadingText}
-            <span className="text-nebula-lilac">{headingAccentText}</span>
-          </>
-        ) : (
-          <SplitText
-            text={headingText}
-            active={headingActive}
-            hideUntilStart
-            delay={18}
-            duration={0.62}
-            className="text-nebula-silver"
-            tokenClassNameMap={{ "negocio.": "text-nebula-lilac" }}
-            onComplete={handleHeadingComplete}
-          />
-        )}
-      </h1>
+      <div className="relative w-full">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-[50%] -z-10 h-[20rem] w-[min(96vw,52rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(9,9,15,0.94)_0%,rgba(9,9,15,0.84)_28%,rgba(9,9,15,0.56)_50%,rgba(9,9,15,0.18)_72%,rgba(9,9,15,0)_88%)] blur-[18px] sm:h-[24rem] sm:w-[min(90vw,58rem)] lg:h-[28rem] lg:w-[min(84vw,62rem)]"
+        />
 
-      <p className="mt-6 max-w-2xl text-base leading-8 text-white sm:text-lg">
-        {prefersReducedMotion ? (
-          subheadingText
-        ) : (
-          <SplitText
-            text={subheadingText}
-            active={subheadingActive}
-            hideUntilStart
-            delay={8}
-            duration={0.54}
-            className="text-white"
-            segmentClassName="text-white"
-            onComplete={handleSubheadingComplete}
-          />
-        )}
-      </p>
+        <div className="flex flex-col items-center">
+          <h1 className="max-w-3xl font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.06em] text-nebula-silver sm:text-6xl lg:text-7xl">
+            {prefersReducedMotion ? (
+              <>
+                {headingLeadingText}
+                <span className="text-nebula-lilac">{headingAccentText}</span>
+              </>
+            ) : (
+              <SplitText
+                text={headingText}
+                active={headingActive}
+                hideUntilStart
+                delay={18}
+                duration={0.62}
+                className="text-nebula-silver"
+                tokenClassNameMap={{ "negocio.": "text-nebula-lilac" }}
+                onComplete={handleHeadingComplete}
+              />
+            )}
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white sm:text-lg">
+            {prefersReducedMotion ? (
+              subheadingText
+            ) : (
+              <SplitText
+                text={subheadingText}
+                active={subheadingActive}
+                hideUntilStart
+                delay={8}
+                duration={0.54}
+                className="text-white"
+                segmentClassName="text-white"
+                onComplete={handleSubheadingComplete}
+              />
+            )}
+          </p>
+        </div>
+      </div>
 
       <motion.div
         initial={false}
@@ -183,8 +192,8 @@ export function HeroLead() {
       >
         <div className="flex flex-col items-center gap-3 text-nebula-haze/85">
           <span className="h-10 w-px bg-gradient-to-b from-white/0 via-white/18 to-white/0" />
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] shadow-[0_0_36px_rgba(83,74,183,0.18)] backdrop-blur-md motion-safe:animate-hero-scroll-cue motion-reduce:animate-none">
-            <ChevronDown className="h-5 w-5" strokeWidth={1.6} />
+          <span className="flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] shadow-[0_0_36px_rgba(83,74,183,0.18)] backdrop-blur-md motion-safe:animate-hero-scroll-cue motion-reduce:animate-none">
+            <ChevronDown className="size-5" strokeWidth={1.6} />
           </span>
         </div>
       </motion.div>

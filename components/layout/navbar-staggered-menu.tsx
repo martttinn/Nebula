@@ -1,19 +1,15 @@
 "use client";
 
 import { StaggeredMenu, type StaggeredMenuItem } from "@/components/StaggeredMenu";
-
-type NavbarLink = {
-  label: string;
-  href: string;
-};
+import type { PublicNavLink } from "@/data/navigation";
 
 type NavbarStaggeredMenuProps = {
-  links: NavbarLink[];
-  ctas: NavbarLink[];
+  links: readonly PublicNavLink[];
+  ctas: readonly PublicNavLink[];
   onOpenChange?: (open: boolean) => void;
 };
 
-function toMenuItem(link: NavbarLink): StaggeredMenuItem {
+function toMenuItem(link: PublicNavLink): StaggeredMenuItem {
   return {
     label: link.label,
     ariaLabel: `Ir a ${link.label}`,

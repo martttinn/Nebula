@@ -15,6 +15,13 @@
 - si una tarea merecería tests pero el repo aún no dispone de esa infraestructura, dilo explícitamente
 - verifica siempre `package.json` o el tooling equivalente antes de citar comandos como hechos
 
+## Verificación de dependencias citadas
+
+- cada vez que una tarea, documento o propuesta mencione paquetes concretos, comprueba si están instalados en el proyecto actual antes de tratarlos como parte del stack
+- la comprobación mínima es `package.json` + lockfile; si el repo usa otro gestor, usa su manifiesto equivalente
+- si faltan dependencias mencionadas y serían necesarias para implementar o validar el cambio, pregunta a Martín cuáles quiere instalar antes de tocar manifiestos o lockfiles
+- no confundas dependencias instaladas con herramientas ejecutadas bajo demanda mediante `npx <paquete>@...`; estas deben documentarse como no instaladas si no aparecen en el manifiesto
+
 ## Comandos útiles del repo
 
 La plantilla deja configurados estos scripts mínimos para `change-log`:
@@ -25,12 +32,20 @@ La plantilla deja configurados estos scripts mínimos para `change-log`:
 - `npm run changes:index`
 - `npm run changes:sync`
 - `npm run design:lint`
+- `npx react-doctor@latest`
 
 Si el repo real tiene `lint`, `build`, `test` u otros comandos, documenta aquí su foto actual verificada.
+
+### Diagnóstico React bajo demanda
+
+- usa `npx react-doctor@latest` cuando el scope pida auditar salud de React/Next.js, rendimiento, corrección, accesibilidad, bundle o arquitectura de componentes
+- trátalo como diagnóstico complementario: no sustituye `lint`, `typecheck`, `build` ni pruebas específicas
+- si el comando propone cambios, revisa cada hallazgo antes de modificar código; no ejecutes fixes automáticos por inercia
 
 ## Auditoría y cambios de dependencias
 
 - si la tarea pide revisar paquetes, vulnerabilidades, drift o upgrades, usa `.agents/workflows/dependency-audit.md` y `.agents/skills/dependency-audit/SKILL.md`
+- si detectas dependencias mencionadas en documentación, prompts o código pero ausentes del proyecto actual, solicita a Martín qué quiere instalar antes de convertirlas en parte del stack
 - por defecto, la auditoría es read-only; no ejecutes fixes automáticos ni upgrades globales sin alcance explícito
 - cualquier cambio en `package.json` o lockfile debe cerrar con validación proporcional al riesgo
 

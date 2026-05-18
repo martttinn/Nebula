@@ -6,6 +6,7 @@ import { motion, useAnimation, type Transition } from "framer-motion";
 export interface NebulaLogoAnimatedProps {
   size?: number;
   fadeDuration?: number;
+  glossy?: boolean;
   glossyDuration?: number;
   paused?: boolean;
   onFadeComplete?: () => void;
@@ -15,6 +16,7 @@ export interface NebulaLogoAnimatedProps {
 export function NebulaLogoAnimated({
   size = 90,
   fadeDuration = 0.9,
+  glossy = true,
   glossyDuration = 3,
   paused = false,
   onFadeComplete,
@@ -25,7 +27,7 @@ export function NebulaLogoAnimated({
   const sheenCtrl = useAnimation();
 
   useEffect(() => {
-    if (!glossyActive) {
+    if (!glossy || !glossyActive) {
       return;
     }
 
@@ -43,7 +45,7 @@ export function NebulaLogoAnimated({
         repeatDelay: 2,
       } satisfies Transition,
     });
-  }, [glossyActive, paused, glossyDuration, sheenCtrl]);
+  }, [glossy, glossyActive, paused, glossyDuration, sheenCtrl]);
 
   const svgHeight = size * (210 / 180);
 
@@ -62,7 +64,9 @@ export function NebulaLogoAnimated({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: fadeDuration, ease: [0.22, 1, 0.36, 1] }}
       onAnimationComplete={() => {
-        setGlossyActive(true);
+        if (glossy) {
+          setGlossyActive(true);
+        }
         onFadeComplete?.();
       }}
     >

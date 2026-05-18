@@ -96,6 +96,13 @@ No asumas el comportamiento actual. Lee el código afectado.
 - sigue `.agents/workflows/dependency-audit.md`
 - trata la revisión como read-only por defecto salvo petición explícita de cambios
 
+## 4.8. Si la tarea menciona paquetes, librerías o herramientas concretas
+
+- verifica contra `package.json`, lockfile y configuración equivalente si cada dependencia mencionada está instalada en el proyecto actual
+- si alguna dependencia mencionada no está instalada, no la trates como parte del stack real ni escribas código que dependa de ella sin confirmación
+- pregunta a Martín cuáles de esas dependencias quiere instalar antes de modificar manifiestos o lockfiles
+- si una herramienta está documentada como bajo demanda con `npx <paquete>@...`, registra que no está instalada y que no requiere instalación persistente para ese uso
+
 ## 5. Si el cambio toca backend sensible: pide confirmación antes de editar
 
 Ver `rules/00-operating-mode.md` y `rules/04-supabase-and-data-rules.md`.

@@ -76,6 +76,13 @@ Artefactos que requieren confirmación explícita:
 - si faltan datos canónicos para documentar arquitectura, stack, flujos, despliegue o reglas operativas, debe preguntar primero a Martín
 - si no hay respuesta confirmada, el documento debe reflejar explícitamente el hueco
 
+## Protocolo de dependencias mencionadas
+
+- antes de presentar una librería, paquete, plugin o herramienta como parte del stack instalado, comprueba `package.json`, lockfile y configuración equivalente del proyecto actual
+- si una tarea, documentación o referencia menciona dependencias que no están instaladas, sepáralas explícitamente como `mencionadas/no instaladas` y no las trates como runtime real
+- si para completar la tarea haría falta instalar dependencias ausentes, pregunta a Martín cuáles quiere instalar antes de modificar manifiestos, lockfiles o código que dependa de ellas
+- excepción: tooling documentado expresamente como ejecución bajo demanda vía `npx <paquete>@...` o servicio externo no requiere instalación local; aun así, debe quedar claro que no es una dependencia instalada
+
 ## Cómo abordar una tarea
 
 1. lee los archivos realmente implicados
@@ -166,6 +173,7 @@ Para tasks directos de implementación, aplica solo los pasos relevantes. No inf
 Pregunta antes de implementar si el cambio implica:
 
 - claims comerciales o datos públicos no verificados
+- instalar dependencias mencionadas pero ausentes del proyecto actual
 - reglas de negocio, UX o copy no documentados
 - naming de conceptos públicos o persistidos
 - alterar metadata, schema o narrativa comercial de alto impacto

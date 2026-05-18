@@ -17,7 +17,6 @@ const DynamicStackIcon = dynamic(
 
 export type {
   TechStackIconName,
-  TechStackIconProps,
   TechStackIconVariant,
 } from "./tech-stack-icon.types";
 

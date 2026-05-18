@@ -40,7 +40,7 @@ export function SectionHeading() {
   );
 }
 
-export function ServiceCardChrome({
+function ServiceCardChrome({
   service,
   children,
   className,
@@ -67,8 +67,6 @@ export function ServiceCardChrome({
         className="absolute inset-0"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 82% 16%, ${hexToRgba(service.accent, 0.24)} 0%, transparent 28%),
-            radial-gradient(circle at 18% 18%, rgba(232,232,240,0.08) 0%, transparent 20%),
             linear-gradient(180deg, rgb(11,12,22), rgb(10,15,46))
           `,
         }}
@@ -76,12 +74,6 @@ export function ServiceCardChrome({
       <div
         className="absolute inset-0 bg-nebula-grid opacity-[0.06]"
         style={{ backgroundSize: "36px 36px" }}
-      />
-      <div
-        className="absolute -left-10 bottom-8 h-40 w-40 rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${hexToRgba(service.accent, 0.22)} 0%, transparent 70%)`,
-        }}
       />
       {children}
       <div
@@ -92,7 +84,7 @@ export function ServiceCardChrome({
   );
 }
 
-export function ServiceCardContent({
+function ServiceCardContent({
   service,
   variant,
 }: {
@@ -145,7 +137,7 @@ export function ServiceCardContent({
           <Link href="/#contacto" aria-label={`Ver más sobre ${service.title}`}>
             Ver más
             <ArrowRight
-              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
               aria-hidden="true"
             />
           </Link>

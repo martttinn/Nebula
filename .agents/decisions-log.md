@@ -4,6 +4,78 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-18 — El runtime público integra Vercel Web Analytics
+
+**Decisión:** La web pública añade `@vercel/analytics` y monta `Analytics` desde `@vercel/analytics/next` en el root layout junto a `SpeedInsights`.
+
+**Motivo:** Martín activó la integración de Web Analytics en Vercel para `somosnebula.com` y pidió dejar el proyecto preparado para empezar a contar visitantes y page views tras el siguiente despliegue.
+
+**Efecto:** El runtime público queda instrumentado con la vía oficial de Vercel para Next.js App Router. La recopilación real de datos depende de que el proyecto esté desplegado en Vercel y de que Web Analytics siga habilitado en el dashboard; no se añade backend propio ni canal de captación nuevo.
+
+**Archivos / artefactos relevantes:** `app/layout.tsx`, `package.json`, `package-lock.json`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-11 — Las dependencias mencionadas deben verificarse contra el proyecto actual antes de instalarse o usarse como stack
+
+**Decisión:** Cualquier dependencia, paquete, plugin o herramienta mencionada por una tarea, documentación o propuesta debe contrastarse contra `package.json`, lockfile y configuración equivalente antes de tratarse como instalada o parte del stack real.
+
+**Motivo:** La incorporación de tooling bajo demanda como React Doctor hizo explícito un riesgo recurrente: confundir dependencias mencionadas con dependencias instaladas. El sistema de agentes debe evitar asumir disponibilidad runtime o modificar manifiestos sin confirmación.
+
+**Efecto:** Si una dependencia mencionada no está instalada, el agente debe marcarla como `mencionada/no instalada` y preguntar a Martín cuáles quiere instalar antes de tocar `package.json`, lockfile o código que dependa de ella. El tooling expresamente documentado como `npx <paquete>@...` queda permitido como ejecución bajo demanda, pero no se presenta como dependencia instalada.
+
+**Archivos / artefactos relevantes:** `AGENTS.md`, `.agents/rules/00-operating-mode.md`, `.agents/rules/06-testing-release-and-docs-rules.md`, `.agents/workflows/task-start.md`, `.agents/workflows/dependency-audit.md`, `.agents/skills/dependency-audit/SKILL.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-11 — React Doctor queda documentado como diagnóstico React bajo demanda
+
+**Decisión:** El stack operativo de Nebula incorpora React Doctor como herramienta de diagnóstico bajo demanda mediante `npx react-doctor@latest`, sin instalarlo ni fijarlo en `package.json`.
+
+**Motivo:** Martín pidió incluir `react-doctor` en la documentación del proyecto, en el sistema de agentes y en la plantilla base. La verificación con npm el `2026-05-11` confirma que el paquete existe en versión `0.1.6` y expone el binario `react-doctor`.
+
+**Efecto:** Las auditorías de salud React/Next.js pueden usar React Doctor como complemento para seguridad, rendimiento, corrección, accesibilidad, bundle y arquitectura. Sus hallazgos deben tratarse como señal diagnóstica, no como fixes automáticos ni sustituto de `lint`, `typecheck` o `build`.
+
+**Archivos / artefactos relevantes:** `README.md`, `.agents/rules/01-project-context.md`, `.agents/rules/06-testing-release-and-docs-rules.md`, `.agents/workflows/dependency-audit.md`, `.agents/skills/dependency-audit/SKILL.md`, `.agents/roles/02-role-performance-audit.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-09 — El footer público adopta cierre de marca + navegación con catálogo compartido
+
+**Decisión:** La home añade un footer sobrio de marca + navegación al final del documento, reutilizando el mismo lockup de marca del navbar y extrayendo los links públicos a un catálogo compartido. Los legales (`Términos y condiciones`, `Política de privacidad`) se muestran ya en footer, pero desactivados mientras no existan sus páginas reales.
+
+**Motivo:** Martín pidió cerrar la home con un footer claro y premium, sin densidad excesiva ni duplicación manual de enlaces entre navbar y footer. Además, los destinos legales faltaban en la navegación pública y convenía exponerlos sin fingir rutas ya publicadas.
+
+**Efecto:** El runtime público gana un cierre global más completo y coherente con la arquitectura actual de anclas internas. `data/navigation.ts` pasa a ser la fuente de verdad para navbar y footer, `components/layout/brand-lockup.tsx` evita duplicar el shell de marca, y el footer refuerza orientación sin competir con `testimonials`.
+
+**Archivos / artefactos relevantes:** `app/page.tsx`, `components/layout/footer.tsx`, `components/layout/brand-lockup.tsx`, `components/layout/navbar.tsx`, `components/layout/navbar-staggered-menu.tsx`, `data/navigation.ts`, `DESIGN.md`, `.agents/rules/01-project-context.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-09 — El cierre `#contacto` se integra como última card de `testimonials` con `GridDistortion` exacto de React Bits
+
+**Decisión:** El cierre comercial asociado a `#contacto` deja de vivir como sección autónoma al final de la home y pasa a integrarse como la última card del stack de `testimonials`, usando `GridDistortion` importado exactamente desde el registry de React Bits, sin editar el componente base.
+
+**Motivo:** La navegación pública ya apuntaba a `/#contacto`, pero el cierre separado duplicaba superficies al final de la home y competía con el propio ritmo de `testimonials`. Martín pidió integrar esa card dentro del carrusel de reseñas para que apareciera como el último panel del mismo flujo sin perder el fondo exacto de React Bits ni la honestidad funcional mientras la página de contacto sigue sin existir.
+
+**Efecto:** `Testimonials` pasa a tener cuatro panels en su stage sticky desktop y cuatro cards en su degradación móvil: tres reseñas verificadas y una card final de contacto. El ancla `#contacto` apunta ahora a esa misma sección, el fondo del panel sigue dependiendo de `components/GridDistortion.tsx` y `components/GridDistortion.css` cargados desde una shell cliente colocalizada dentro de la familia `components/home/testimonials/`, y el botón principal se muestra habilitado como affordance visual sin ruta de redirección mientras el canal real siga pendiente. El árbol mantiene `three` en `0.180.x` como única versión efectiva compatible con `postprocessing`.
+
+**Archivos / artefactos relevantes:** `app/page.tsx`, `components/home/testimonials/**`, `components/GridDistortion.tsx`, `components/GridDistortion.css`, `DESIGN.md`, `.agents/rules/01-project-context.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-08 — El hero sustituye `GridScan` por `DotField` y mantiene el contrato de readiness del preloader
+
+**Decisión:** El fondo principal del hero deja de usar la isla WebGL `GridScan` y pasa a apoyarse en un `DotField` sobre canvas derivado de React Bits, encapsulado dentro de la familia `components/home/hero/`. En el mismo ajuste se retiran del hero el radial decorativo del overlay y la capa local de partículas flotantes. El preloader conserva por compatibilidad el evento `hero-grid-ready` como señal de readiness.
+
+**Motivo:** El hero necesitaba reemplazar su fondo visual sin romper la secuencia actual de entrada ni la coordinación existente entre loader, copy y shell pública. Después, Martín pidió depurar aún más esa superficie quitando ruido atmosférico adicional. Mantener el contrato del evento evita reescribir la orquestación superior para un cambio acotado al fondo.
+
+**Efecto:** El runtime above-the-fold ya no depende de `GridScan` para el render del hero, y el hero queda visualmente más sobrio al descansar sobre `DotField` y la secuencia tipográfica. La transición con la siguiente sección se resuelve ahora con un gradiente aplicado solo en la mitad inferior del hero, dejando intacta la visibilidad del campo en la mitad superior. La salida del preloader sigue esperando la misma señal `hero-grid-ready` emitida ahora por `DotField`. La primitive `HeroParticles` permanece disponible para otras secciones que ya la reutilizan fuera del hero.
+
+**Archivos / artefactos relevantes:** `components/home/hero/index.tsx`, `components/home/hero/dot-field.tsx`, `components/home/hero/dot-field-shell.tsx`, `components/ui/preloader.tsx`, `doc/reference/technical-reference.md`.
+
+---
+
 ## 2026-05-03 — Nebula Studios adopta `AGENTS.md` + `DESIGN.md` + `.agents/` como sistema canónico
 
 **Decisión:** El repo arranca con `AGENTS.md` como bootstrap raíz, `DESIGN.md` como canon visual reutilizable y `.agents/` como capa canónica de reglas, roles, workflows, skills y decisiones.
@@ -246,7 +318,7 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ## 2026-05-04 — La home incorpora una banda de propuesta de valor con lectura palabra a palabra en scroll
 
-**Decisión:** Nebula añade inmediatamente después del hero una sección editorial de propuesta de valor con tres frases cortas y una primitive reusable `WordByWordColorChange` que interpola cada palabra de blanco con opacidad baja a `#E8E8F0` según una progresión de scroll compartida por toda la banda.
+**Decisión:** Nebula añade inmediatamente después del hero una sección editorial de propuesta de valor con dos frases activas y una primitive reusable `WordByWordColorChange` que interpola cada palabra de blanco con opacidad baja a `#E8E8F0` según una progresión de scroll compartida por toda la banda.
 
 **Motivo:** La home necesitaba una segunda capa de autoridad tras el hero: menos atmosférica y más argumental. El objetivo no era sumar otra tarjeta o otro bloque genérico de servicios, sino reforzar diferenciación con statements tajantes y una lectura guiada por scroll que se sienta premium sin romper la sobriedad del sistema.
 
@@ -608,6 +680,114 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 **Motivo:** El patrón base de pinning y primera superposición ya estaba estable. Martín pidió completar la sección con los dos proyectos restantes para que la narrativa de portfolio no se cortase después del primer caso.
 
-**Efecto:** El runtime actual ya expresa la intención original completa de la primitive: pausa tipográfica, takeover del primer proyecto y relevo progresivo hacia segundo y tercer caso. El siguiente ajuste estructural razonable pasa a ser la variante simplificada para móvil/tablet, no la reintroducción de más paneles desktop.
+**Efecto:** El runtime actual ya expresa la intención original completa de la primitive: pausa tipográfica, primer proyecto en dos tiempos y relevo progresivo hacia segundo y tercer caso. La coreografía activa queda fijada como `entrada bottom-up compacta deslizándose sobre el heading sticky + expansión a full-screen / right-to-left / right-to-left`, con empuje del panel saliente por el entrante y sin desplazar el título durante el primer takeover. El siguiente ajuste estructural razonable pasa a ser la variante simplificada para móvil/tablet, no la reintroducción de más paneles desktop.
 
 **Archivos / artefactos relevantes:** `components/home/projects-showcase/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-07 — `projects-showcase` degrada en móvil a lista vertical con CTA visible
+
+**Decisión:** La sección pública `projects-showcase` deja de compartir el mismo stage full-screen en todos los breakpoints y pasa a renderizar en móvil y tablet una lista vertical de cards simplificadas.
+
+**Motivo:** Martín pidió explícitamente que en la versión móvil cada proyecto mostrase su descripción y el botón `Ver más`. El layout sticky heredado de desktop ocultaba demasiado contenido útil dentro de un viewport demasiado rígido para pantallas pequeñas.
+
+**Efecto:** Desktop conserva la narrativa scroll-driven de takeover full-screen. Móvil y tablet ganan una lectura directa y utilitaria: cada proyecto mantiene su visual superior, pero reduce el bloque editorial a título + descripción + CTA, sin estado, metadatos ni stack.
+
+**Archivos / artefactos relevantes:** `components/home/projects-showcase/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-07 — La shell pública adopta una barra superior de progreso de scroll
+
+**Decisión:** El layout global incorpora una barra superior de progreso de scroll fijada al borde superior del viewport, con línea base tenue, fill lilac/silver puro y una inercia ligera propia tipo scrollbar premium, sin glow adicional.
+
+**Motivo:** Martín pidió una señal global de avance del documento que se sintiera sutil, elegante y con suavidad perceptible, y después pidió desplazarla al borde superior para leerla como scrollbar de la página.
+
+**Efecto:** La home gana una referencia continua del progreso total del documento y refuerza el carácter editorial/tecnológico de la shell sin cargar el lateral del viewport. La primitive queda fijada como comportamiento global de layout, no como adorno local de una sola sección, y respeta `prefers-reduced-motion` reduciendo la interpolación ornamental cuando hace falta.
+
+**Archivos / artefactos relevantes:** `app/layout.tsx`, `components/layout/scroll-progress-bar.tsx`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-07 — Remotion se integra como subsistema dev-only aislado del runtime público
+
+**Decisión:** Nebula añade un subsistema `remotion/` para Studio y renders locales de vídeo, separado del runtime público de Next.js y sin reutilización directa de componentes acoplados a `next/image`, `next/font` o lógica scroll-driven.
+
+**Motivo:** Martín quiere empezar a generar vídeos del proyecto desde el mismo repo, pero sin contaminar la web pública con una capa de rendering de vídeo ni comprometer una futura evolución a un sistema más profesional.
+
+**Efecto:** El repo gana scripts locales de vídeo, una composición base `NebulaShowcase`, tokens/fuentes propias de vídeo y una frontera arquitectónica clara entre web pública y sistema de render. El estado objetivo es compartir branding, assets y criterio visual, no runtime-heavy web components.
+
+**Archivos / artefactos relevantes:** `package.json`, `package-lock.json`, `.gitignore`, `remotion/**`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-07 — `testimonials` se coloca después de `projects-showcase` con composición orbital sobria
+
+**Decisión:** La home añade una surface `testimonials` inmediatamente después de `projects-showcase` y antes del cierre comercial futuro. Desktop usa una composición editorial orbital con una cita protagonista centrada y hasta dos apoyos diagonales; móvil y tablet degradan a un stack vertical limpio.
+
+**Motivo:** Después de la capa técnica de proyectos, Nebula necesitaba una prueba social más humana antes del cierre comercial. A la vez, el repo no contiene todavía citas publicables verificadas, así que el diseño debía integrarse sin inventar testimonios ni bloquear la surface.
+
+**Efecto:** La home gana una nueva primitive narrativa de confianza y deja explícito que, mientras no existan testimonios aprobados con nombre, rol y empresa verificables, el catálogo local debe sembrarse con placeholders honestos y sustituibles, nunca con citas fabricadas.
+
+**Archivos / artefactos relevantes:** `app/page.tsx`, `components/home/testimonials/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-08 — `testimonials` se simplifica a carril horizontal estático de tres cards
+
+**Decisión:** La surface `testimonials` abandona la composición orbital inicial y pasa a un carril horizontal estático de exactamente tres cards, reutilizando la misma primitive en desktop, móvil y tablet para facilitar una migración futura a ticker.
+
+**Motivo:** Martín pidió congelar temporalmente la sección como bloque estático y dejarla en formato de lista horizontal, sin cita protagonista, satélites ni layout separado por breakpoint. El valor ahora está en la simplicidad operativa y en preparar una base fácil de evolucionar más adelante.
+
+**Efecto:** `Testimonials` mantiene su función de prueba social, pero con una estructura mucho más directa: tres cards uniformes, ordenadas en un único track horizontal, con overflow natural en pantallas pequeñas y sin motion estructural añadida. En esta fase, la sección se apoya solo en el heading principal, elimina eyebrow, subtítulo y badges internos, y centra la cita dentro de cada card para dejar el foco visual en el propio testimonio. El heading visible adopta además una formulación más accesible para público general, `Lo que dicen nuestros clientes`, con el acento visual recayendo en `clientes`. A fecha `2026-05-08`, el carril aloja ya tres testimonios públicos confirmados: `Raúl Rodríguez / Canal3Networks`, `Javier Martinez / Golden Grama` y `Eduardo Martinez / Future Nova`. La sección queda preparada para pasar a ticker cambiando la mecánica del track, no el contenido ni la card base.
+
+**Archivos / artefactos relevantes:** `components/home/testimonials/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-08 — `testimonials` pasa a stack editorial sticky en desktop
+
+**Decisión:** La surface `testimonials` abandona el carril horizontal estático como solución principal y pasa a un stack editorial sticky de tres cards grandes en desktop, manteniendo una degradación simple a lista vertical en móvil y tablet.
+
+**Motivo:** Tras integrar tres testimonios reales, el carril horizontal seguía comprimiendo demasiado el texto dentro de cards estrechas. Martín eligió priorizar un layout con más aire y mejor lectura antes que reducir agresivamente la tipografía.
+
+**Efecto:** La sección gana más presencia editorial y resuelve mejor reseñas largas: cada card dispone de más ancho y altura útil, la lectura queda menos aglutinada y el scroll revela los testimonios de forma más pausada. La composición desktop toma como referencia estructural la página de servicios de Golden Grama, con paneles centrados, footprint amplio, lectura interior partida en dos zonas y una compresión progresiva de las cards previas a medida que entra la siguiente. Móvil y tablet no heredan esa complejidad y conservan una lista robusta sin sticky.
+
+**Archivos / artefactos relevantes:** `components/home/testimonials/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-08 — `testimonials` se retira temporalmente del runtime y las reseñas pasan a archivo
+
+**Decisión:** La home deja de renderizar cualquier sección pública de `testimonials` hasta reconstruirla desde cero. Las tres reseñas verificadas no se borran: se preservan como archivo repo-safe en `components/home/testimonials/archive.ts`.
+
+**Motivo:** Martín decidió desmontar por completo la surface actual en lugar de seguir iterando sobre una primitive que ya no sirve como base del rediseño.
+
+**Efecto:** La secuencia pública activa de la home vuelve a terminar en `Projects showcase` dentro del runtime actual, sin dejar una sección intermedia de prueba social a medio resolver. El contenido validado de testimonials sigue disponible y tipado para reinsertarlo después sin volver a recopilar ni reescribir las citas.
+
+**Archivos / artefactos relevantes:** `app/page.tsx`, `components/home/testimonials/archive.ts`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-08 — `testimonials` se reintroduce con stack sticky inspirado en Golden Grama y styling Nebula
+
+**Decisión:** La nueva surface `testimonials` de Nebula toma de Golden Grama solo el patrón de aparición y apilado sticky de cards, equivalente al usado en `ServicesClient`. La estética, tipografía, color y chrome vuelven al sistema Nebula.
+
+**Motivo:** Martín corrigió la dirección: el valor de Golden Grama estaba en el flujo de cards que se deslizan y se apilan, no en trasladar su paleta oro ni su tratamiento serif al sitio de Nebula.
+
+**Efecto:** La home recupera la capa de prueba social después de `Projects showcase` con una primitive nueva: cards grandes sticky en desktop, compresión progresiva al entrar la siguiente, fondo atmosférico anclado al mismo stage y un pequeño labio superior visible entre cards para reforzar el apilado. El pinning de runtime se resuelve con una fase de scroll controlada y wrapper fijado explícitamente, no con `position: sticky` puro dentro del shell. Móvil y tablet siguen degradando a lista vertical. El bloque vuelve a sentirse parte de Nebula y no una importación estética ajena, mientras sigue consumiendo las tres reseñas verificadas preservadas en `archive.ts`.
+
+**Archivos / artefactos relevantes:** `app/page.tsx`, `components/home/testimonials/**`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-07 — Los `abstract-icons` de benefits no pueden repetir posición entre frases
+
+**Decisión:** La banda de propuesta de valor fija una regla nueva para su capa ornamental: ninguna imagen abstracta puede reaparecer en la misma ancla espacial dentro de otra frase, ni en desktop ni en móvil.
+
+**Motivo:** Martín detectó repetición visual entre statements distintos. En una sección tan corta y editorial, reciclar la misma posición debilita la sensación de progresión y hace que la ornamentación parezca reutilizada en vez de compuesta para cada mensaje.
+
+**Efecto:** Cada frase de benefits gana una huella espacial propia. Además del ajuste manual de posiciones, el catálogo valida ahora en runtime de módulo que no existan duplicados de anclaje entre frases, lo que evita reintroducir este problema por accidente en cambios futuros.
+
+**Archivos / artefactos relevantes:** `components/home/value-proposition-section/content.ts`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.

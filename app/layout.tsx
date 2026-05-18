@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { LenisProvider } from "@/components/layout/lenis-provider";
+import { ScrollProgressBar } from "@/components/layout/scroll-progress-bar";
 
 import "./globals.css";
 import "lenis/dist/lenis.css";
@@ -32,7 +34,11 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={`${syne.variable} ${inter.variable} min-h-screen bg-background font-sans text-foreground antialiased`}>
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          {children}
+          <ScrollProgressBar />
+        </LenisProvider>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>

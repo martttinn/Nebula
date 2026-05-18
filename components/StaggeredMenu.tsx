@@ -497,5 +497,3 @@ export function StaggeredMenu({
     </>
   );
 }
-
-export default StaggeredMenu;

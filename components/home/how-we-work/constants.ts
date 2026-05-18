@@ -30,9 +30,9 @@ export const DESKTOP_STEP_STOPS = [0.16, 0.38, 0.62, 0.84] as const;
 export const PROCESS_LILAC_RGB = "125,116,224";
 export const PROCESS_HAZE_RGB = "181,177,227";
 export const PROCESS_SILVER_RGB = "232,232,240";
-export const PROCESS_NAVY_TOP = "#0B0C17";
-export const PROCESS_NAVY_MID = "#0D0F24";
-export const PROCESS_NAVY_BOTTOM = "#0A0F2E";
+const PROCESS_NAVY_TOP = "#0B0C17";
+const PROCESS_NAVY_MID = "#0D0F24";
+const PROCESS_NAVY_BOTTOM = "#0A0F2E";
 export const PROCESS_CARD_SURFACE_BACKGROUND =
   `linear-gradient(180deg, ${PROCESS_NAVY_TOP} 0%, ${PROCESS_NAVY_MID} 48%, ${PROCESS_NAVY_BOTTOM} 100%)`;
 export const NODE_SURFACE_BACKGROUND =

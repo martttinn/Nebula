@@ -177,6 +177,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El cambio palabra a palabra debe ocurrir dentro del tramo activo de cada frase, no en una lista vertical acumulativa.
   La banda no debe depender de runway vacío posterior ni de que exista otra sección debajo para completar la revelación de la última frase; el propio stage sticky debe contener su recorrido.
   Puede incorporar dos `abstract-icons` decorativos sincronizados por frase, siempre detrás del copy: deben aparecer a la vez que la frase con un `pop-in` breve, derivar lentamente como objetos en suspensión y salir solo por desvanecimiento al cambiar al siguiente statement. No deben pulsar ni desvanecerse durante su vida activa.
+  Esos `abstract-icons` no deben reutilizar la misma ancla espacial en frases distintas. Cada statement necesita una composición propia y el catálogo debe impedir posiciones repetidas entre frases, tanto en desktop como en móvil.
 - `services-carousel`: carrusel de servicios recuperado de `nebula-legacy` y retemado al sistema actual
   En desktop debe vivir como arco sticky controlado por scroll vertical; en móvil debe degradar a una lista vertical de cards completas, sin carrusel ni swipe horizontal.
   En móvil no debe existir ninguna superficie horizontal que compita con el scroll natural del documento. La navegación debe sentirse nativa: scroll vertical libre, todas las capacidades visibles y ningún gesto oculto obligatorio para descubrir servicios.
@@ -211,12 +212,32 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   Las curvas intermedias deben abrirse con amplitud generosa y radio orgánico. Evita giros tensos, handles demasiado cortos o una S excesivamente rígida entre nodos.
   Esa mayor amplitud debe concentrarse en los tramos que conectan nodos intermedios. La entrada al primer nodo y la salida desde el último deben mantenerse más contenidas para no sobreactuar el gesto en los extremos.
 - `projects-showcase`: stage introductorio de portfolio con tres paneles encadenados
-  El runtime activo ya resuelve un heading grande centrado y tres paneles de proyecto que ascienden desde abajo y se cubren entre sí por scroll. El patrón ya no está en fase de un solo caso: la coreografía encadena primero, segundo y tercer proyecto sobre el mismo stage.
+  El runtime activo ya resuelve un heading grande centrado y tres paneles de proyecto que se relevan por empuje, no por simple solape. La coreografía canónica actual es: primer proyecto desde abajo hacia arriba en formato aún no full-screen, deslizándose por encima del heading sticky sin desplazarlo, asentándose centrado antes de expandirse progresivamente hasta ocupar toda la pantalla; después, segundo de derecha a izquierda empujando el primer panel y tercero también de derecha a izquierda empujando el segundo.
   El heading visible debe seguir el patrón `section-heading` y acentuar la palabra semánticamente fuerte del título; en esta sección, el acento recae en `Proyectos`, no en `destacados`.
+  Durante la entrada bottom-up del primer proyecto, el heading debe permanecer realmente pinned en el centro. Solo puede perder presencia después, mediante un fade/scale leve, cuando el propio panel ya lo ha cubierto y entra en fase de expansión.
+  Mientras ese primer panel siga en su fase compacta y aún no haya llegado a full-screen, puede usar un contorno exterior sutil e integrado en `Silver` para contener mejor la composición. Ese borde debe desvanecerse progresivamente antes de desaparecer por completo al ocupar todo el viewport.
+  En los relevos laterales entre proyectos full-screen, el panel entrante y el saliente deben permanecer en contacto borde con borde durante todo el empuje. No debe abrirse una franja visible del fondo entre ambos.
+  La columna de lectura izquierda debe mantenerse limpia y estable. No uses un gradiente circular lila decorativo detrás del copy; reserva los halos lilas para el fondo general del stage o para el panel visual derecho.
+  El tercer y último proyecto no necesita una coreografía de salida específica: completa su takeover full-screen y el stage cede después al siguiente bloque mediante scroll normal, sin encogido adicional ni reveal solapado de la sección siguiente por detrás.
   La atmósfera del bloque debe mantenerse sobria: base `Void`, dos halos lilas muy contenidos y sin WebGL ni elementos que compitan con el hero o con `process`.
   Ningún panel debe leerse como una card. Cada proyecto se comporta como un takeover de viewport completo, con columna de lectura y media frame dominante embebidos dentro de una misma superficie full-screen.
-  Mientras no exista portfolio público completo, los CTAs pueden seguir siendo no navegables y el estado del proyecto debe expresarse con copy prudente y verificable.
-  La simplificación a lista vertical en móvil y tablet sigue siendo una mejora pendiente; el runtime actual comparte aún la misma surface full-screen entre breakpoints.
+  Mientras no exista portfolio público completo, la columna debe resolver un único CTA primario `Ver más`, todavía no navegable si hace falta, y el estado del proyecto debe expresarse con copy prudente y verificable.
+  En móvil y tablet, la sección ya degrada a una lista vertical de cards simplificadas: visual superior, título, descripción y CTA visible en cada proyecto, sin estado, metadatos ni stack. El stage sticky full-screen queda reservado a desktop.
+- `testimonials`: capa de prueba social con motion de stack inspirada en Golden Grama y estética Nebula
+  La primitive debe recuperar el flujo sticky de cards apiladas que Golden Grama usa en `ServicesClient`: cada card ocupa casi un viewport, entra por scroll, queda fijada y se comprime ligeramente cuando aparece la siguiente.
+  Ese patrón de motion es la referencia externa. La estética no debe importarse de Golden Grama: la surface tiene que seguir siendo claramente Nebula, con base `Void/Navy`, acentos `Lilac`, tipografía `Syne + Inter`, rejilla sutil y sin paleta oro ni serif editorial ajena al sistema.
+  En desktop, la sección completa debe convertirse en una stage sticky real: cuando el header y la primera card entran por completo en viewport, ese conjunto permanece fijado en pantalla mientras continúa el scroll. A partir de ahí, cada nueva card entra desde abajo, se desliza por encima de la anterior y queda apilada sobre ella dentro del mismo stage.
+  En runtime, ese pinning desktop no debe depender de `position: sticky` puro dentro del shell. Resuélvelo con runway vertical de sección y una stage fijada de forma explícita durante la fase activa para evitar drift o pérdida de fijación al cambiar de viewport.
+  El fondo atmosférico desktop forma parte del mismo stage fijado; no puede seguir desplazándose mientras las cards permanecen ancladas.
+  La base visible al arrancar el stage es siempre `header + primera card`; no debe existir un tramo donde el heading se escape antes de empezar el apilado ni un comportamiento de lista vertical convencional en desktop.
+  Cada reseña visible se resuelve como una gran card dentro de ese stack sticky centrado, con footprint amplio, borde fino, grid interno `4/8` y una división estructural clara entre identidad a la izquierda y cita a la derecha. En móvil y tablet, la sección degrada a una lista vertical simple, sin sticky.
+  La columna izquierda usa labels técnicos sobrios en `Lilac`, reglas finas y nombre del cliente en `Syne`; la derecha debe resolver una jerarquía editorial de dos niveles: un claim corto en `Syne` y un contexto secundario en `Inter` más ligero. La reseña completa puede mantenerse como fuente repo-safe, pero no debe renderizarse entera si convierte la card en un bloque pesado.
+  La jerarquía interna de cada card debe ser geométricamente estable: el bloque de identidad permanece a la izquierda y el bloque de testimonio queda centrado en la banda principal de lectura. La longitud de una reseña puede exigir adaptar el copy visible, pero no debe desplazar esa caja ni forzar tipografía display sobre párrafos largos.
+  La compresión progresiva entre cards debe sentirse suave y continua. No es un carrusel ni un simple reveal por fade: el usuario debe percibir cómo las cards se apilan y se relevan mientras hace scroll.
+  El apilado no debe resolverse con panels perfectamente coincidentes. Cuando una card nueva toma el frente, debe dejar visible un pequeño labio superior de la card inmediatamente anterior para reforzar la sensación de stack físico.
+  La última card del stack es el cierre comercial actual de la home. No vive como sección autónoma: aparece integrada en `testimonials`, usa `GridDistortion` exacto de React Bits como fondo y recoge el ancla `#contacto`.
+  Ese panel final debe mantener copy corto, centrado y honesto; mientras no exista la página de contacto, el botón principal puede mostrarse habilitado como affordance visual, pero no debe redirigir ni fingir un flujo de captación conectado.
+  Si existe `prefers-reduced-motion`, la compresión ornamental debe neutralizarse y la sección debe mantener legibilidad y jerarquía sin depender del efecto sticky.
 - `panel-base`: tarjetas y módulos principales
 - `panel-muted`: soporte contextual o comparativas
 - `button-primary`: CTA principal claro y luminoso
@@ -231,6 +252,17 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El CTA desktop del navbar debe resolverse como botón outlined estándar: transparente en reposo, borde claro, texto `Silver` y hover blanco con texto negro.
   Los links centrales deben responder al hover con una inercia suave: microescala y transición más larga con curva elástica contenida, evitando desplazamientos físicos que puedan reencender el hover al salir.
   En móvil y tablet el navbar colapsa a lockup + hamburguesa de tres líneas anclada al extremo derecho del shell, sin cápsula secundaria ni en reposo ni al abrir; el toggle debe hacer morph suave a `X` mediante transformación de barras, no por swap brusco de iconos. Al abrir, la navegación se resuelve con un overlay escalonado dark-tech a pantalla completa, usando el mismo tratamiento tipográfico para todos los destinos, incluido `Contactar`.
+- `footer`: cierre global sobrio de marca + navegación, sin competir con la última card de `testimonials`
+  El footer debe apoyarse sobre `Void/Navy`, con borde superior fino, grid sutil y una composición por columnas claramente estructurada en desktop.
+  La primera columna prioriza el lockup de marca y un claim corto; las siguientes columnas resuelven navegación principal y legal por separado usando los mismos links públicos del navbar.
+  Los links legales pueden ser visibles antes de existir como páginas reales, pero en ese estado deben mostrarse desactivados de forma explícita y sin fingir navegación operativa.
+  En móvil el bloque colapsa a composición centrada, manteniendo jerarquía clara entre marca, navegación principal y legales.
+- `scroll-progress-bar`: indicador global de progreso de scroll anclado al borde superior del viewport
+  Debe sentirse como una señal técnica de navegación, no como un widget. La base es una línea horizontal finísima, casi como un scrollbar elevado, con una luz activa lilac/silver que progresa con el documento.
+  El extremo activo de esa línea puede cerrar con punta redondeada en el lado derecho para suavizar el avance sin convertir la pieza en una cápsula gruesa.
+  La animación no puede responder con rigidez al scroll bruto: debe usar una inercia ligera propia, incluso si el sitio ya monta `Lenis`, para que el gesto se lea elegante y continuo.
+  En `prefers-reduced-motion` debe mantener utilidad, pero sin trailing apreciable ni interpolación ornamental.
+  El patrón debe convivir con el navbar fixed sin competir con él: vive pegado al borde superior real de la ventana y no necesita nodos, glow, cápsulas ni chrome adicional.
 - `section-heading`: titulares principales de sección en `Syne`, mayoritariamente en `Silver`, con una única palabra clave en `Lilac` como acento de marca.
   Ese acento debe recaer en el término semánticamente más importante del titular y no en partículas auxiliares.
   El patrón debe sentirse preciso y contenido: un único acento por heading, sin degradados ni alternancias multicolor dentro del mismo título.
