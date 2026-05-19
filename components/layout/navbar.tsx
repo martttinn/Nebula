@@ -6,8 +6,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BrandLockup } from "@/components/layout/brand-lockup";
 import { NavbarStaggeredMenu } from "@/components/layout/navbar-staggered-menu";
+import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
-import { PUBLIC_NAV_CTAS, PUBLIC_NAV_LINKS, type PublicNavLink } from "@/data/navigation";
+import { PUBLIC_NAV_CTAS, PUBLIC_NAVBAR_LINKS, type PublicNavLink } from "@/data/navigation";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +26,7 @@ export function Navbar({
   logoHref = "/",
   logoLabel = siteConfig.name,
   brandText = "Nebula",
-  links = PUBLIC_NAV_LINKS,
+  links = PUBLIC_NAVBAR_LINKS,
   ctas = PUBLIC_NAV_CTAS,
 }: NavbarProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -107,9 +108,14 @@ export function Navbar({
                   size="sm"
                   variant="secondary"
                   hoverScale={1.05}
-                  className="border-white/35 bg-transparent px-4 text-xs text-nebula-silver shadow-none hover:border-white hover:bg-white hover:text-black"
+                  className="relative isolate overflow-hidden border-white/35 bg-transparent px-4 text-xs text-nebula-silver shadow-none hover:border-white hover:bg-white hover:text-black"
                 >
-                  <Link href={cta.href}>{cta.label}</Link>
+                  <Link href={cta.href}>
+                    <span className="relative z-10">{cta.label}</span>
+                    {!prefersReducedMotion ? (
+                      <BorderBeam size={40} initialOffset={20} />
+                    ) : null}
+                  </Link>
                 </Button>
               ))}
             </div>

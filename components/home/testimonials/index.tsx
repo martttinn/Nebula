@@ -9,6 +9,7 @@ import {
 import { HeroParticles } from "@/components/home/hero/particles";
 import { Button } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/section-title";
+import { siteConfig } from "@/lib/site";
 
 import { HOME_TESTIMONIAL_ARCHIVE } from "./archive";
 import {
@@ -216,11 +217,16 @@ function FinalCtaCardSurface() {
           </p>
           <div className="mt-9 flex items-center justify-center">
             <Button
-              type="button"
+              asChild
               size="lg"
               className="pointer-events-auto px-6"
             >
-              {TESTIMONIALS_CTA_COPY.buttonLabel}
+              <a
+                href={siteConfig.contactHref}
+                aria-label={`Solicitar consultoría por email a ${siteConfig.contactEmail}`}
+              >
+                {TESTIMONIALS_CTA_COPY.buttonLabel}
+              </a>
             </Button>
           </div>
         </div>

@@ -4,6 +4,18 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-19 — El contacto público usa datos directos versionados
+
+**Decisión:** Nebula Studios centraliza el email público `hola@somosnebula.com` y el teléfono `+34 622 028 550` en `lib/site.ts`. El CTA final de `#contacto` abre `mailto:hola@somosnebula.com` y el footer muestra email + teléfono con hrefs directos.
+
+**Motivo:** Martín confirmó el correo y el teléfono de contacto operativo. Hasta ahora el cierre de contacto estaba preparado visualmente pero sin ruta real completa, porque no existían página `/contacto`, formulario ni backend de captación.
+
+**Efecto:** La home ya ofrece canales comerciales directos sin inventar una integración avanzada. La navegación pública sigue llevando a `/#contacto`, el botón final de consultoría abre el cliente de correo y el footer permite contactar por email o teléfono. Siguen pendientes la página de contacto, formulario, calendario, CRM y cualquier backend live.
+
+**Archivos / artefactos relevantes:** `lib/site.ts`, `components/home/testimonials/index.tsx`, `components/layout/footer.tsx`, `DESIGN.md`, `.agents/rules/01-project-context.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
+
+---
+
 ## 2026-05-18 — `HeroParticles` se restaura como atmósfera de continuidad
 
 **Decisión:** `HeroParticles` vuelve a montarse en `services-carousel`, `how-we-work` y `testimonials`, tanto en las variantes desktop como en las degradaciones móviles donde ya existía antes de la optimización de Speed Insights.
@@ -82,7 +94,7 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 **Motivo:** La navegación pública ya apuntaba a `/#contacto`, pero el cierre separado duplicaba superficies al final de la home y competía con el propio ritmo de `testimonials`. Martín pidió integrar esa card dentro del carrusel de reseñas para que apareciera como el último panel del mismo flujo sin perder el fondo exacto de React Bits ni la honestidad funcional mientras la página de contacto sigue sin existir.
 
-**Efecto:** `Testimonials` pasa a tener cuatro panels en su stage sticky desktop y cuatro cards en su degradación móvil: tres reseñas verificadas y una card final de contacto. El ancla `#contacto` apunta ahora a esa misma sección, el fondo del panel sigue dependiendo de `components/GridDistortion.tsx` y `components/GridDistortion.css` cargados desde una shell cliente colocalizada dentro de la familia `components/home/testimonials/`, y el botón principal se muestra habilitado como affordance visual sin ruta de redirección mientras el canal real siga pendiente. El árbol mantiene `three` en `0.180.x` como única versión efectiva compatible con `postprocessing`.
+**Efecto:** `Testimonials` pasa a tener cuatro panels en su stage sticky desktop y cuatro cards en su degradación móvil: tres reseñas verificadas y una card final de contacto. El ancla `#contacto` apunta ahora a esa misma sección, el fondo del panel sigue dependiendo de `components/GridDistortion.tsx` y `components/GridDistortion.css` cargados desde una shell cliente colocalizada dentro de la familia `components/home/testimonials/`, y en su integración inicial el botón principal se mostraba habilitado como affordance visual sin ruta de redirección hasta confirmar un canal real. El árbol mantiene `three` en `0.180.x` como única versión efectiva compatible con `postprocessing`.
 
 **Archivos / artefactos relevantes:** `app/page.tsx`, `components/home/testimonials/**`, `components/GridDistortion.tsx`, `components/GridDistortion.css`, `DESIGN.md`, `.agents/rules/01-project-context.md`, `doc/reference/technical-reference.md`, `doc/reference/domain-reference.md`, `doc/change-log/**`.
 

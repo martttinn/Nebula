@@ -53,7 +53,8 @@ Esta lista es una foto del repositorio, no una garantía permanente. Si una tare
 - existe `supabase/` con `config.toml`, `seed.sql` y `migrations/` para trabajo local y versionado de esquema
 - no existe hoy ningún `proxy` o `middleware` montado para conectar Supabase en runtime público
 - no existe `app/api/**` ni una capa backend live operativa verificada
-- no existe todavía un formulario conectado, calendario, email operativo versionado ni otra integración real de captación; el cierre actual de contacto vive dentro de `testimonials` y usa un CTA visual habilitado sin ruta de redirección mientras esa página y ese canal no existan
+- existen datos operativos versionados para contacto directo: email `hola@somosnebula.com` y teléfono `+34 622 028 550`
+- no existe todavía un formulario conectado, calendario ni backend de captación; el cierre actual de contacto vive dentro de `testimonials` y su CTA principal resuelve por `mailto:` al email confirmado mientras la página de contacto y el flujo avanzado no existan
 - la validación automatizada disponible hoy es `lint`, `typecheck`, `build`, React Doctor bajo demanda (`npx react-doctor@latest`) y el tooling repo-local de `change-log` (`changes:validate`, `changes:index`, `changes:sync`)
 - el subsistema `doc/change-log/` ya expone tooling repo-local en `package.json` y `scripts/`
 

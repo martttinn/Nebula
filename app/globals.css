@@ -147,6 +147,41 @@ body::before {
   .animate-hero-scroll-cue {
     animation: hero-scroll-cue 2.2s ease-in-out infinite;
   }
+
+  /* Compatibilidad Tailwind 3 para el BorderBeam original de Magic UI. */
+  .border-\(length\:--border-beam-width\) {
+    border-width: var(--border-beam-width);
+  }
+
+  .bg-linear-to-l {
+    background-image: linear-gradient(to left, var(--tw-gradient-stops));
+  }
+
+  .from-\(--color-from\) {
+    --tw-gradient-from: var(--color-from) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+
+  .via-\(--color-to\) {
+    --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--color-to) var(--tw-gradient-via-position), var(--tw-gradient-to);
+  }
+
+  .mask-\[linear-gradient\(transparent\,transparent\)\,linear-gradient\(\#000\,\#000\)\] {
+    -webkit-mask-image: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    mask-image: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+  }
+
+  .mask-intersect {
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .\[mask-clip\:padding-box\,border-box\] {
+    -webkit-mask-clip: padding-box, border-box;
+    mask-clip: padding-box, border-box;
+  }
 }
 
 .skip-link {

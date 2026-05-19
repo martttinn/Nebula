@@ -100,6 +100,10 @@ components:
     textColor: "{colors.text}"
     rounded: "{rounded.full}"
     padding: "{spacing.sm}"
+  brand-logo:
+    sourcePath: "/brand-logos/{name}.svg"
+    defaultLayout: "rectangular"
+    defaultSize: "md"
   section-heading:
     textColor: "{colors.text}"
     accentColor: "{colors.lilac}"
@@ -158,6 +162,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
 
 - `page-shell`: fondo base y respiración general
 - `preloader`: overlay full-screen de branding breve con logo animado y barra de progreso, reservado para la entrada inicial de la home; su duracion debe ser acotada para no bloquear artificialmente el primer contenido ni el LCP real del hero.
+- `brand-logo`: wrapper centralizado para mostrar logos SVG de tecnologías, clientes o marcas externas desde `/public/brand-logos`. Debe usarse en modo `square` para símbolos compactos y sutiles, y en modo `rectangular` para wordmarks o logotipos completos, sin duplicar paths ni dimensiones hardcodeadas en cada sección.
 - `hero-shell`: bloque de autoridad con headline, CTA y pieza de identidad
   En la home actual debe priorizar un único heading contundente en `Syne`, un subheading claro en `Inter` y dos CTAs al cierre del bloque, con composición centrada sobre el viewport.
   Cuando se use motion de entrada en el copy principal, la secuencia preferida es: heading primero, subheading después y CTAs al final, con transiciones legibles y sin solaparse con el preloader.
@@ -238,7 +243,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El apilado no debe resolverse con panels perfectamente coincidentes. Cuando una card nueva toma el frente, debe dejar visible un pequeño labio superior de la card inmediatamente anterior para reforzar la sensación de stack físico.
   La última card del stack es el cierre comercial actual de la home. No vive como sección autónoma: aparece integrada en `testimonials`, usa `GridDistortion` exacto de React Bits como fondo y recoge el ancla `#contacto`.
   El fondo `GridDistortion` de esa card debe cargarse bajo demanda por proximidad al viewport; antes de entrar en rango debe mostrarse un fallback estático equivalente para no adelantar WebGL ni el asset pesado del CTA al primer render.
-  Ese panel final debe mantener copy corto, centrado y honesto; mientras no exista la página de contacto, el botón principal puede mostrarse habilitado como affordance visual, pero no debe redirigir ni fingir un flujo de captación conectado.
+  Ese panel final debe mantener copy corto, centrado y honesto. Mientras no exista la página de contacto, el botón principal puede resolver el contacto por `mailto:` al email confirmado del estudio, pero no debe fingir formulario, calendario ni automatización de captación conectada.
   Si existe `prefers-reduced-motion`, la compresión ornamental debe neutralizarse y la sección debe mantener legibilidad y jerarquía sin depender del efecto sticky.
 - `panel-base`: tarjetas y módulos principales
 - `panel-muted`: soporte contextual o comparativas
@@ -250,15 +255,18 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   El contorno del shell debe leerse con grosor homogéneo en todo el recorrido, sin highlights superiores que dupliquen visualmente el borde.
   Debe ocultarse al hacer scroll descendente y reaparecer al remontar o al volver cerca del top, siguiendo el patrón de `nebula-legacy`; si el menú responsive está abierto, el navbar no debe desaparecer.
   El lockup de marca visible usa el símbolo oficial oscuro seguido de la palabra `NEBULA` en Syne.
-  En desktop, todos los destinos del navbar, incluido `Servicios`, vuelven a resolverse como links inline simples dentro del shell principal, sin chevrons ni previews expandidas.
-  El CTA desktop del navbar debe resolverse como botón outlined estándar: transparente en reposo, borde claro, texto `Silver` y hover blanco con texto negro.
+  En desktop, todos los destinos activos del navbar, incluido `Servicios`, vuelven a resolverse como links inline simples dentro del shell principal, sin chevrons ni previews expandidas. `Blog` no debe mostrarse en el navbar mientras no exista una superficie pública real para ese destino.
+  El CTA desktop del navbar debe resolverse como botón outlined con el `BorderBeam` original de Magic UI sobre el borde: transparente en reposo, texto `Silver`, contenedor `relative overflow-hidden` y hover blanco con texto negro sin tocar la implementación copiada del componente.
   Los links centrales deben responder al hover con una inercia suave: microescala y transición más larga con curva elástica contenida, evitando desplazamientos físicos que puedan reencender el hover al salir.
   En móvil y tablet el navbar colapsa a lockup + hamburguesa de tres líneas anclada al extremo derecho del shell, sin cápsula secundaria ni en reposo ni al abrir; el toggle debe hacer morph suave a `X` mediante transformación de barras, no por swap brusco de iconos. Al abrir, la navegación se resuelve con un overlay escalonado dark-tech a pantalla completa, usando el mismo tratamiento tipográfico para todos los destinos, incluido `Contactar`.
 - `footer`: cierre global sobrio de marca + navegación, sin competir con la última card de `testimonials`
   El footer debe apoyarse sobre `Void/Navy`, con borde superior fino, grid sutil y una composición por columnas claramente estructurada en desktop.
-  La primera columna prioriza el lockup de marca y un claim corto; las siguientes columnas resuelven navegación principal y legal por separado usando los mismos links públicos del navbar.
+  En desktop, su estructura canónica es una fila superior de cuatro columnas: marca/contacto como columna principal más ancha y tres columnas secundarias de enlaces. Debajo debe vivir un separador horizontal completo y una barra inferior con copyright a la izquierda y enlaces legales a la derecha.
+  La primera columna prioriza el lockup de marca, un claim corto, los datos de contacto confirmados del estudio y una fila de botones sociales cuadrados inspirada en el footer de Canal3. Las siguientes columnas resuelven navegación principal y legal por separado usando los mismos links públicos del navbar.
+  Los links de contacto deben tener una microinteracción propia: icono con borde y fondo activo, color de texto elevado y foco visible equivalente. No deben renderizar subrayado bajo el texto, brillo blanco interno ni glow/sombra luminosa sobre el icono. El efecto puede usar transform visual, pero no debe cambiar el espacio ocupado ni convertir el bloque en una card.
+  Los botones sociales usan superficie glass `40px`, radio medio, borde fino, icono centrado y hover con color propio de cada red, elevación vertical corta y foco visible. No deben incorporar labels visibles ni desplazar el grid.
   Los links legales pueden ser visibles antes de existir como páginas reales, pero en ese estado deben mostrarse desactivados de forma explícita y sin fingir navegación operativa.
-  En móvil el bloque colapsa a composición centrada, manteniendo jerarquía clara entre marca, navegación principal y legales.
+  En móvil el bloque colapsa a una composición vertical, manteniendo jerarquía clara entre marca, navegación principal y legales.
 - `scroll-progress-bar`: indicador global de progreso de scroll anclado al borde superior del viewport
   Debe sentirse como una señal técnica de navegación, no como un widget. La base es una línea horizontal finísima, casi como un scrollbar elevado, con una luz activa lilac/silver que progresa con el documento.
   El extremo activo de esa línea puede cerrar con punta redondeada en el lado derecho para suavizar el avance sin convertir la pieza en una cápsula gruesa.

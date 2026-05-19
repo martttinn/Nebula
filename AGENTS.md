@@ -149,7 +149,7 @@ Si una tarea mezcla varios roles, elige uno como principal y usa los demás solo
 ## Notas operativas
 
 - Este repo es hoy una web pública de marketing para Nebula Studios, centrada en posicionamiento premium, claridad técnica y captación cualificada.
-- No existe a fecha `2026-05-03` una capa backend live verificada ni un canal comercial live conectado.
+- No existe a fecha `2026-05-19` una capa backend live verificada, formulario, calendario ni CRM de captación conectado. Sí existen datos de contacto versionados: email `hola@somosnebula.com` y teléfono `+34 622 028 550`.
 - Sí existe un bootstrap repo-safe de Supabase (`lib/supabase/**` + `supabase/**`) para evolución futura, pero no debe confundirse con un backend funcional ya desplegado.
 - React Doctor forma parte del stack operativo como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado en `package.json` y sus hallazgos deben verificarse antes de convertirlos en cambios.
 - Las herramientas bajo demanda vía `npx <paquete>@...` no deben confundirse con dependencias instaladas; si el uso pasa a requerir integración persistente, hay que confirmarlo antes con Martín.

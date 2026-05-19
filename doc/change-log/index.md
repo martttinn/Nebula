@@ -5,10 +5,21 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 175
-- Grupos registrados: 169
+- Entradas registradas: 186
+- Grupos registrados: 180
 
 ## Ultimos cambios
+- `2026-05-19` [`NBS-CHG-2026-05-19-204`](entries/2026/05/NBS-CHG-2026-05-19-204--integracion-de-borderbeam-en-cta-del-navbar.md) - Integracion de BorderBeam en CTA del navbar - `frontend` - grupo [`NBS-TSK-2026-180`](groups/2026/NBS-TSK-2026-180.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-203`](entries/2026/05/NBS-CHG-2026-05-19-203--ajuste-de-redes-sociales-del-footer.md) - Ajuste de redes sociales del footer - `frontend` - grupo [`NBS-TSK-2026-179`](groups/2026/NBS-TSK-2026-179.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-202`](entries/2026/05/NBS-CHG-2026-05-19-202--retirada-del-glow-de-contacto-del-footer.md) - Retirada del glow de contacto del footer - `frontend` - grupo [`NBS-TSK-2026-178`](groups/2026/NBS-TSK-2026-178.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-201`](entries/2026/05/NBS-CHG-2026-05-19-201--limpieza-del-hover-de-contacto-del-footer.md) - Limpieza del hover de contacto del footer - `frontend` - grupo [`NBS-TSK-2026-177`](groups/2026/NBS-TSK-2026-177.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-200`](entries/2026/05/NBS-CHG-2026-05-19-200--retirada-de-blog-del-navbar.md) - Retirada de Blog del navbar - `frontend` - grupo [`NBS-TSK-2026-176`](groups/2026/NBS-TSK-2026-176.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-199`](entries/2026/05/NBS-CHG-2026-05-19-199--botones-sociales-en-el-footer.md) - Botones sociales en el footer - `frontend` - grupo [`NBS-TSK-2026-175`](groups/2026/NBS-TSK-2026-175.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-198`](entries/2026/05/NBS-CHG-2026-05-19-198--hover-de-contacto-en-el-footer.md) - Hover de contacto en el footer - `frontend` - grupo [`NBS-TSK-2026-174`](groups/2026/NBS-TSK-2026-174.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-197`](entries/2026/05/NBS-CHG-2026-05-19-197--activacion-del-telefono-de-contacto-publico.md) - Activacion del telefono de contacto publico - `frontend` - grupo [`NBS-TSK-2026-173`](groups/2026/NBS-TSK-2026-173.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-196`](entries/2026/05/NBS-CHG-2026-05-19-196--componente-brand-logo.md) - Componente BrandLogo para logos externos - `frontend` - grupo [`NBS-TSK-2026-172`](groups/2026/NBS-TSK-2026-172.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-195`](entries/2026/05/NBS-CHG-2026-05-19-195--reestructuracion-del-layout-del-footer.md) - Reestructuracion del layout del footer - `frontend` - grupo [`NBS-TSK-2026-171`](groups/2026/NBS-TSK-2026-171.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-194`](entries/2026/05/NBS-CHG-2026-05-19-194--activacion-del-email-de-contacto-publico.md) - Activacion del email de contacto publico - `frontend` - grupo [`NBS-TSK-2026-170`](groups/2026/NBS-TSK-2026-170.md)
 - `2026-05-18` [`NBS-CHG-2026-05-18-193`](entries/2026/05/NBS-CHG-2026-05-18-193--restauracion-de-heroparticles-en-home-publica.md) - Restauracion de HeroParticles en home publica - `frontend` - grupo [`NBS-TSK-2026-169`](groups/2026/NBS-TSK-2026-169.md)
 - `2026-05-18` [`NBS-CHG-2026-05-18-192`](entries/2026/05/NBS-CHG-2026-05-18-192--optimizacion-de-speed-insights-en-home-publica.md) - Optimizacion de Speed Insights en home publica - `frontend` - grupo [`NBS-TSK-2026-168`](groups/2026/NBS-TSK-2026-168.md)
 - `2026-05-18` [`NBS-CHG-2026-05-18-191`](entries/2026/05/NBS-CHG-2026-05-18-191--integracion-de-vercel-web-analytics.md) - Integracion de Vercel Web Analytics - `frontend` - grupo [`NBS-TSK-2026-167`](groups/2026/NBS-TSK-2026-167.md)
@@ -190,6 +201,17 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-180`](groups/2026/NBS-TSK-2026-180.md) - Integracion de BorderBeam en CTA del navbar - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-179`](groups/2026/NBS-TSK-2026-179.md) - Ajuste de redes sociales del footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-178`](groups/2026/NBS-TSK-2026-178.md) - Retirada del glow de contacto del footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-177`](groups/2026/NBS-TSK-2026-177.md) - Limpieza del hover de contacto del footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-176`](groups/2026/NBS-TSK-2026-176.md) - Retirada de Blog del navbar - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-175`](groups/2026/NBS-TSK-2026-175.md) - Botones sociales en el footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-174`](groups/2026/NBS-TSK-2026-174.md) - Hover de contacto en el footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-173`](groups/2026/NBS-TSK-2026-173.md) - Activacion del telefono de contacto publico - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-172`](groups/2026/NBS-TSK-2026-172.md) - Primitive BrandLogo para logos externos - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-171`](groups/2026/NBS-TSK-2026-171.md) - Reestructuracion del layout del footer - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-170`](groups/2026/NBS-TSK-2026-170.md) - Activacion del email de contacto publico - 2026-05-19 -> 2026-05-19 - 1 cambios
 - [`NBS-TSK-2026-169`](groups/2026/NBS-TSK-2026-169.md) - Restauracion de HeroParticles en la home publica - 2026-05-18 -> 2026-05-18 - 1 cambios
 - [`NBS-TSK-2026-168`](groups/2026/NBS-TSK-2026-168.md) - Optimizacion de Speed Insights en la home publica - 2026-05-18 -> 2026-05-18 - 1 cambios
 - [`NBS-TSK-2026-167`](groups/2026/NBS-TSK-2026-167.md) - Integracion de Vercel Web Analytics - 2026-05-18 -> 2026-05-18 - 1 cambios

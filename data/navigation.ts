@@ -12,6 +12,13 @@ export const PUBLIC_NAV_LINKS = [
   { label: "Blog", href: "/#blog" },
 ] as const satisfies readonly PublicNavLink[];
 
+export const PUBLIC_NAVBAR_LINKS = [
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Proyectos", href: "/#proyectos" },
+  { label: "Precios", href: "/#precios" },
+  { label: "Nosotros", href: "/#sobre-nosotros" },
+] as const satisfies readonly PublicNavLink[];
+
 export const PUBLIC_NAV_CTAS = [
   { label: "Contactar", href: "/#contacto" },
 ] as const satisfies readonly PublicNavLink[];
