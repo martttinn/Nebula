@@ -198,7 +198,7 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ## 2026-05-03 — `Server Components` por defecto y motion aislado en islas cliente
 
-**Decisión:** La política por defecto del repo es `Server Components first`. Framer Motion y cualquier interacción se aíslan en componentes cliente pequeños y justificados.
+**Decisión:** La política por defecto del repo es `Server Components first`. Motion for React y cualquier interacción se aíslan en componentes cliente pequeños y justificados.
 
 **Motivo:** La web necesita una percepción premium, pero no a costa de aumentar sin control el bundle cliente o la hidratación.
 
@@ -376,9 +376,9 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
-## 2026-05-05 — El toggle hamburguesa del navbar responsive morfea a `X` con `framer-motion`
+## 2026-05-05 — El toggle hamburguesa del navbar responsive morfea a `X` con Motion
 
-**Decisión:** La navegación responsive de Nebula deja de alternar dos SVGs estáticos para el toggle y pasa a resolver la transición hamburguesa → `X` con tres barras animadas mediante `framer-motion`.
+**Decisión:** La navegación responsive de Nebula deja de alternar dos SVGs estáticos para el toggle y pasa a resolver la transición hamburguesa → `X` con tres barras animadas mediante Motion for React.
 
 **Motivo:** Martín pidió una transición visible y más pulida entre el icono cerrado y el estado abierto del menú móvil. El swap brusco anterior funcionaba, pero se sentía más como reemplazo de asset que como transformación del mismo control.
 

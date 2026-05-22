@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -123,7 +123,7 @@ function ServiceCardContent({
         </div>
       </div>
       <p
-        className={`mx-auto overflow-hidden text-center text-nebula-haze/82 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] ${isMobile ? "max-w-[17rem] text-[0.98rem] leading-[1.58]" : "max-w-[16.5rem] text-[0.93rem] leading-[1.56]"}`}
+        className={`mx-auto overflow-hidden text-center text-nebula-silver/82 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] ${isMobile ? "max-w-[17rem] text-[0.98rem] leading-[1.58]" : "max-w-[16.5rem] text-[0.93rem] leading-[1.56]"}`}
       >
         {service.subtitle}
       </p>

@@ -54,7 +54,8 @@ export type BrandLogoProps = Omit<
   "children"
 > & {
   /**
-   * Nombre del SVG dentro de `/public/brand-logos`, sin la extensión `.svg`.
+   * Nombre del archivo dentro de `/public/brand-logos`.
+   * Si no incluye extensión, se resuelve como `.svg`.
    */
   name: string;
   /**
@@ -69,7 +70,9 @@ export type BrandLogoProps = Omit<
 };
 
 function getBrandLogoSrc(name: string) {
-  return `/brand-logos/${name.replace(/\.svg$/i, "")}.svg`;
+  const hasExtension = /\.[a-z0-9]+$/i.test(name);
+
+  return `/brand-logos/${hasExtension ? name : `${name}.svg`}`;
 }
 
 export function BrandLogo({

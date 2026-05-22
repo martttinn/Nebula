@@ -6,12 +6,11 @@ import {
   useScroll,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 
 import { HeroParticles } from "@/components/home/hero/particles";
 
 import {
-  MOBILE_TIMELINE_LINE_LEFT,
   PATH_END_Y_OFFSET,
   PATH_DRAW_END_PROGRESS,
   PATH_START_Y_OFFSET,
@@ -199,21 +198,13 @@ export function HowWeWorkSection() {
 
         <div className="px-5 sm:px-8 md:hidden">
           <ol className="relative grid gap-8">
-            <div
-              className="pointer-events-none absolute top-4 bottom-4 w-px"
-              style={{
-                left: MOBILE_TIMELINE_LINE_LEFT,
-                background:
-                  "linear-gradient(to bottom, rgba(181,177,227,0.18), rgba(83,74,183,0.52), rgba(181,177,227,0.18))",
-              }}
-              aria-hidden="true"
-            />
-
             {STEPS.map((step, index) => (
               <MobileCard
                 key={step.number}
                 step={step}
                 index={index}
+                isFirst={index === 0}
+                isLast={index === STEPS.length - 1}
                 reducedMotion={reducedMotion}
               />
             ))}

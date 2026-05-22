@@ -43,7 +43,7 @@ Antes de concluir nada:
 
 1. revisa el worktree real (`git status`)
 2. inspecciona la estructura top-level del repo
-3. contrasta `package.json`, `tsconfig.json`, `next.config.mjs` y `tailwind.config.ts`
+3. contrasta `package.json`, `tsconfig.json`, `next.config.mjs` y `tailwind.config.cjs`
 4. localiza las superficies dueñas del sistema:
    - `app/`
    - `components/`

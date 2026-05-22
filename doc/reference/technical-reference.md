@@ -11,29 +11,30 @@ Documento mínimo para describir la arquitectura técnica real de la web públic
 
 ## 2. Stack verificado
 
-Verificado el **2026-05-09** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y dependencias instaladas:
+Verificado el **2026-05-19** contra `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.cjs` y dependencias instaladas:
 
-- Next.js `16.2.4`
-- React `18.3.1`
-- React DOM `18.3.1`
-- TypeScript `^5`
-- Tailwind CSS `3.4.19`
-- Framer Motion `11.18.2`
+- Next.js `16.2.6`
+- React `19.2.6`
+- React DOM `19.2.6`
+- TypeScript `6.0.3`
+- Tailwind CSS `4.3.0`
+- `@tailwindcss/postcss` `4.3.0`
+- Motion for React `12.39.0` vía `motion/react`
 - GSAP `3.15.x`
 - Lenis `1.3.23`
-- Motion `12.38.x`
-- Three.js `0.180.x`
+- PostCSS `8.5.15`
+- Three.js `0.184.x`
 - Postprocessing `6.39.x`
-- Remotion `4.0.457`
-- `@remotion/cli` `4.0.457`
-- `@remotion/google-fonts` `4.0.457`
+- Remotion `4.0.463`
+- `@remotion/cli` `4.0.463`
+- `@remotion/google-fonts` `4.0.463`
 - `@vercel/analytics` `2.0.1`
 - `@vercel/speed-insights` `2.0.0`
 - `tech-stack-icons` `3.7.1`
 - React Doctor `0.2.1` verificado por ejecucion bajo demanda el `2026-05-18`; uso con `npx react-doctor@latest`, no instalado en `package.json`
 - `class-variance-authority`, `@radix-ui/react-slot`, `clsx`, `tailwind-merge`
 - `@supabase/ssr`, `@supabase/supabase-js`
-- Supabase CLI repo-local (`supabase`)
+- Supabase CLI repo-local (`supabase`) `2.100.1`
 - sin tests automatizados dedicados; la validación disponible hoy es `lint`, `typecheck`, `build` y scripts de `change-log`
 
 ## 3. Estructura del repo
@@ -77,7 +78,7 @@ Verificado el **2026-05-09** contra `package.json`, `tsconfig.json`, `next.confi
 - `components/ui/lazy-tech-stack-icon.tsx`: fallback cliente con `next/dynamic` + `IntersectionObserver`, reservado para superficies que no puedan permanecer server-side
 - `supabase/`: configuración del CLI local, seeds y migraciones versionadas
 - `.agents/`: reglas, roles, workflows, skills y decisiones del sistema de agentes
-- `DESIGN.md`: canon visual reutilizable, conectado con los tokens de `app/globals.css`, `tailwind.config.ts` y primitives UI
+- `DESIGN.md`: canon visual reutilizable, conectado con los tokens de `app/globals.css`, `tailwind.config.cjs` y primitives UI
 - `doc/`: referencia técnica, dominio y `change-log`
 - `scripts/`: tooling del `change-log`
 
@@ -115,7 +116,7 @@ Política estructural activa para `components/home/`:
 - el scroll raíz del sitio puede suavizarse con `Lenis`, con anclas internas habilitadas y offset para el navbar fijo; cualquier superficie anidada que deba preservar interacción propia debe evaluarse con opt-out granular y nunca con bloqueo total si rompe la navegación natural del documento
 - el root layout monta también un indicador global de progreso de scroll en el borde superior del viewport, tipo scrollbar fino, con línea base muy tenue, fill lilac/silver y una interpolación ligera propia para que el avance no quede duro ni dependiente del valor instantáneo del scroll
 - el navbar público replica el patrón de `nebula-legacy`: se oculta al hacer scroll descendente pasado un umbral, reaparece al remontar o cerca del top y se mantiene visible mientras el menú responsive está abierto
-- en móvil y tablet, el navbar colapsa a lockup + hamburguesa, y usa un overlay escalonado fullscreen basado en `StaggeredMenu`; el toggle morfea a `X` con `framer-motion`, y todos los destinos activos del navbar, incluido `Contactar`, se renderizan como links tipográficos del mismo sistema, con cierre por `Escape`, foco inicial dentro del panel y retorno de foco al trigger. Desktop mantiene la navegación inline y el CTA premium originales
+- en móvil y tablet, el navbar colapsa a lockup + hamburguesa, y usa un overlay escalonado fullscreen basado en `StaggeredMenu`; el toggle morfea a `X` con Motion for React vía `motion/react`, y todos los destinos activos del navbar, incluido `Contactar`, se renderizan como links tipográficos del mismo sistema, con cierre por `Escape`, foco inicial dentro del panel y retorno de foco al trigger. Desktop mantiene la navegación inline y el CTA premium originales
 - el navbar público deja solo el CTA `Contactar`, resuelto ahora sobre la primitive estándar `Button` como outlined transparente en reposo, con borde claro, hover blanco con texto negro, escala `1.05` y `BorderBeam` original de Magic UI montado dentro del link en desktop; con `prefers-reduced-motion`, el beam animado no se renderiza
 - los links centrales del navbar usan una transición con inercia suave en `hover`, basada en microescala y curva elástica contenida, evitando desplazamiento físico para no reactivar el hover al salir
 - en desktop, `Servicios` vuelve a resolverse como link inline simple dentro del navbar, sin chevron, dropdown ni expansión integrada; `Blog` queda fuera del navbar visible mientras no exista una superficie pública real de blog

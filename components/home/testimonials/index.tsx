@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { useReducedMotion } from "motion/react";
 
 import { HeroParticles } from "@/components/home/hero/particles";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/section-title";
 import { siteConfig } from "@/lib/site";
 
-import { HOME_TESTIMONIAL_ARCHIVE } from "./archive";
+import {
+  HOME_TESTIMONIAL_ARCHIVE,
+  type HomeTestimonialArchiveEntry,
+} from "./archive";
 import {
   TESTIMONIALS_CTA_COPY,
   TESTIMONIALS_CTA_GRID_IMAGE_SRC,
@@ -20,19 +21,22 @@ import { TestimonialsGridDistortionShell } from "./grid-distortion-shell";
 
 const TESTIMONIALS_SECTION_BACKGROUND =
   "radial-gradient(circle_at_16%_18%,rgba(83,74,183,0.18),transparent_24%),radial-gradient(circle_at_82%_68%,rgba(181,177,227,0.1),transparent_28%),linear-gradient(180deg,#09090F_0%,#090A12_40%,#09090F_100%)";
-const DESKTOP_STAGE_HEIGHT = 440;
+const TESTIMONIALS_STAGE_HEIGHT = 440;
+const COMPACT_TESTIMONIALS_MEDIA_QUERY = "(max-width: 1023px)";
 const CARD_REVEAL_RANGES = [
   [0, 0],
   [0.18, 0.38],
   [0.44, 0.64],
   [0.7, 0.9],
 ] as const;
-const CARD_STACK_SCALE_STEP = 0.032;
-const CARD_STACK_LIP_SIZE = 18;
+const DESKTOP_CARD_STACK_SCALE_STEP = 0.032;
+const DESKTOP_CARD_STACK_LIP_SIZE = 18;
+const COMPACT_CARD_STACK_SCALE_STEP = 0.022;
+const COMPACT_CARD_STACK_LIP_SIZE = 10;
 const CARD_COMPRESSION_LEAD_IN = 0.14;
 const CARD_COMPRESSION_COMPLETE_AT = 0.72;
 
-type TestimonialEntry = (typeof HOME_TESTIMONIAL_ARCHIVE)[number];
+type TestimonialEntry = HomeTestimonialArchiveEntry;
 type TestimonialsStackCard =
   | {
       kind: "testimonial";
@@ -72,6 +76,26 @@ function getCardRevealProgress(progress: number, index: number) {
   const [start, end] = CARD_REVEAL_RANGES[index];
 
   return getWindowProgress(progress, start, end);
+}
+
+function useIsCompactTestimonialsViewport() {
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(COMPACT_TESTIMONIALS_MEDIA_QUERY);
+    const updateViewportMode = () => {
+      setIsCompactViewport(mediaQuery.matches);
+    };
+
+    updateViewportMode();
+    mediaQuery.addEventListener("change", updateViewportMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewportMode);
+    };
+  }, []);
+
+  return isCompactViewport;
 }
 
 function useTestimonialsStageState(ref: React.RefObject<HTMLElement | null>) {
@@ -143,7 +167,7 @@ function TestimonialCardSurface({
   testimonial: TestimonialEntry;
 }) {
   return (
-    <article className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B0C16] shadow-panel">
+    <article className="relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0B0C16] shadow-panel sm:rounded-[2rem]">
       <div className="absolute inset-0 bg-[#0B0C16]" />
       <div
         className="absolute inset-0"
@@ -156,40 +180,53 @@ function TestimonialCardSurface({
         className="absolute inset-0 bg-nebula-grid opacity-[0.06]"
         style={{ backgroundSize: "36px 36px" }}
       />
-      <div className="pointer-events-none absolute inset-0 rounded-[2rem] border border-white/[0.06]" />
+      <div className="pointer-events-none absolute inset-0 rounded-[1.5rem] border border-white/[0.06] sm:rounded-[2rem]" />
 
-      <div className="relative z-10 flex h-full flex-col gap-10 p-7 sm:p-8 md:p-10 xl:flex-row xl:gap-14 xl:p-16">
-        <div className="relative space-y-8 xl:w-[32%] xl:min-w-[18rem] xl:pr-10">
+      <div className="relative z-10 flex h-full flex-col gap-6 p-5 sm:gap-8 sm:p-7 md:p-10 xl:flex-row xl:gap-14 xl:p-16">
+        <div className="relative space-y-5 sm:space-y-7 xl:w-[32%] xl:min-w-[18rem] xl:space-y-8 xl:pr-10">
           <div className="absolute right-0 top-0 hidden h-full w-px bg-[linear-gradient(180deg,rgba(232,232,240,0)_0%,rgba(232,232,240,0.12)_14%,rgba(83,74,183,0.46)_50%,rgba(232,232,240,0.12)_86%,rgba(232,232,240,0)_100%)] xl:block" />
 
-          <div className="space-y-3 pb-6">
+          <div className="space-y-2 pb-4 sm:space-y-3 sm:pb-5 xl:pb-6">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-nebula-lilac/90">
               Cliente
             </p>
-            <p className="border-l border-white/10 pl-4 font-display text-[2rem] font-bold leading-[0.94] tracking-[-0.05em] text-nebula-silver md:text-[2.3rem]">
+            <p className="border-l border-white/10 pl-4 font-display text-[1.35rem] font-bold leading-[0.96] tracking-[-0.05em] text-nebula-silver sm:text-[1.7rem] md:text-[2.05rem] lg:text-[2.3rem]">
               {testimonial.author}
             </p>
           </div>
 
-          <div className="space-y-3 pb-6">
+          <div className="space-y-2 pb-4 sm:space-y-3 sm:pb-5 xl:pb-6">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-nebula-lilac/90">
-              Empresa y cargo
+              Empresa
             </p>
-            <p className="border-l border-white/10 pl-4 text-[1rem] leading-relaxed text-nebula-silver/86">
-              {testimonial.company}
-              <span className="text-nebula-silver/40"> — </span>
+            <div className="flex min-w-0 items-center gap-3 border-l border-white/10 pl-4 text-[0.9rem] leading-relaxed text-nebula-silver/86 sm:text-[0.95rem] md:text-[1rem]">
+              {testimonial.companyLogo ? (
+                <BrandLogo
+                  name={testimonial.companyLogo.name}
+                  label={testimonial.companyLogo.label}
+                  layout="square"
+                  size="sm"
+                  decorative
+                />
+              ) : null}
+              <p className="min-w-0">{testimonial.company}</p>
+            </div>
+          </div>
+
+          <div className="space-y-2 pb-4 sm:space-y-3 sm:pb-5 xl:pb-6">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-nebula-lilac/90">
+              Cargo
+            </p>
+            <p className="border-l border-white/10 pl-4 text-[0.9rem] leading-relaxed text-nebula-silver/86 sm:text-[0.95rem] md:text-[1rem]">
               {testimonial.role}
             </p>
           </div>
         </div>
 
-        <div className="relative flex flex-1 min-h-0 items-center xl:pl-6">
+        <div className="relative flex min-h-0 flex-1 items-center border-t border-nebula-lilac/15 pt-5 pl-3 sm:pt-6 sm:pl-5 xl:border-t-0 xl:pt-0 xl:pl-6">
           <blockquote className="relative z-10 max-w-[42rem] space-y-5">
-            <p className="max-w-[15ch] font-display text-[2.1rem] font-bold leading-[0.98] tracking-[-0.05em] text-nebula-silver sm:text-[2.35rem] xl:text-[3.05rem]">
+            <p className="max-w-[17ch] font-display text-[1.45rem] font-bold leading-[1.02] tracking-[-0.05em] text-nebula-silver sm:max-w-[15ch] sm:text-[1.8rem] md:text-[2.15rem] lg:text-[2.35rem] xl:text-[3.05rem]">
               &quot;{testimonial.headline}&quot;
-            </p>
-            <p className="max-w-[34rem] text-[1.02rem] leading-[1.75] text-nebula-haze/82 sm:text-[1.08rem]">
-              {testimonial.summary}
             </p>
           </blockquote>
         </div>
@@ -200,7 +237,7 @@ function TestimonialCardSurface({
 
 function FinalCtaCardSurface() {
   return (
-    <article className="pointer-events-auto relative h-full w-full overflow-hidden rounded-[2rem] border border-white/10 bg-[#080B15] shadow-[0_28px_120px_rgba(0,0,0,0.4)]">
+    <article className="pointer-events-auto relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#080B15] shadow-[0_28px_120px_rgba(0,0,0,0.4)] sm:rounded-[2rem]">
       <TestimonialsGridDistortionShell
         imageSrc={TESTIMONIALS_CTA_GRID_IMAGE_SRC}
       />
@@ -212,7 +249,7 @@ function FinalCtaCardSurface() {
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white">
             {TESTIMONIALS_CTA_COPY.eyebrow}
           </p>
-          <p className="mx-auto mt-5 max-w-[13ch] font-display text-[2.65rem] font-bold leading-[0.92] tracking-[-0.06em] text-white sm:text-[3.2rem] xl:text-[4.15rem]">
+          <p className="mx-auto mt-5 max-w-[13ch] font-display text-[2.25rem] font-bold leading-[0.94] tracking-[-0.06em] text-white sm:text-[3.2rem] xl:text-[4.15rem]">
             {TESTIMONIALS_CTA_COPY.title}
           </p>
           <div className="mt-9 flex items-center justify-center">
@@ -235,112 +272,15 @@ function FinalCtaCardSurface() {
   );
 }
 
-function MobileTestimonialCard({
-  testimonial,
-  index,
-}: {
-  testimonial: TestimonialEntry;
-  index: number;
-}) {
-  const prefersReducedMotion = useReducedMotion();
-  const reducedMotion = prefersReducedMotion ?? false;
-
-  return (
-    <motion.article
-      className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B0C16] shadow-panel"
-      initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.48,
-        delay: reducedMotion ? 0 : index * 0.06,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
-      <div className="absolute inset-0 bg-[#0B0C16]" />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(180deg, rgb(11,12,22), rgb(10,15,46))",
-        }}
-      />
-      <div
-        className="absolute inset-0 bg-nebula-grid opacity-[0.06]"
-        style={{ backgroundSize: "36px 36px" }}
-      />
-      <div className="pointer-events-none absolute inset-0 rounded-[2rem] border border-white/[0.06]" />
-
-      <div className="relative z-10 grid gap-8 p-6 sm:p-7">
-        <div className="space-y-6">
-          <div className="space-y-3 pb-5">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-nebula-lilac/90">
-              Cliente
-            </p>
-            <p className="border-l border-white/10 pl-4 font-display text-[2rem] font-bold leading-[0.94] tracking-[-0.05em] text-nebula-silver">
-              {testimonial.author}
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-nebula-lilac/90">
-              Empresa y cargo
-            </p>
-            <p className="border-l border-white/10 pl-4 text-[1rem] leading-relaxed text-nebula-silver/86">
-              {testimonial.company}
-              <span className="text-nebula-silver/40"> — </span>
-              {testimonial.role}
-            </p>
-          </div>
-        </div>
-
-        <div className="relative flex min-h-[16rem] items-center border-t border-nebula-lilac/15 pt-6 pl-5">
-          <blockquote className="relative z-10 space-y-4">
-            <p className="font-display text-[1.82rem] font-bold leading-[1] tracking-[-0.05em] text-nebula-silver">
-              &quot;{testimonial.headline}&quot;
-            </p>
-            <p className="text-[0.98rem] leading-[1.72] text-nebula-haze/82">
-              {testimonial.summary}
-            </p>
-          </blockquote>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-function MobileFinalCtaCard({
-  index,
-}: {
-  index: number;
-}) {
-  const prefersReducedMotion = useReducedMotion();
-  const reducedMotion = prefersReducedMotion ?? false;
-
-  return (
-    <motion.div
-      className="relative"
-      initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.48,
-        delay: reducedMotion ? 0 : index * 0.06,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
-      <FinalCtaCardSurface />
-    </motion.div>
-  );
-}
-
-function DesktopStackedTestimonialCard({
+function StackedTestimonialCard({
   card,
   index,
   total,
   progress,
   phase,
   reducedMotion,
+  stackLipSize,
+  stackScaleStep,
 }: {
   card: TestimonialsStackCard;
   index: number;
@@ -348,6 +288,8 @@ function DesktopStackedTestimonialCard({
   progress: number;
   phase: TestimonialsStagePhase;
   reducedMotion: boolean;
+  stackLipSize: number;
+  stackScaleStep: number;
 }) {
   const timelineProgress = phase === "after" ? 1 : progress;
   const revealStart = CARD_REVEAL_RANGES[index][0];
@@ -376,14 +318,14 @@ function DesktopStackedTestimonialCard({
       : getWindowProgress(timelineProgress, compressionStart, compressionEnd);
   const compressionEased = easeInOutCubic(compressionProgress);
   const targetScale = nextCardRange
-    ? 1 - (total - index) * CARD_STACK_SCALE_STEP
+    ? 1 - (total - index) * stackScaleStep
     : 1;
   const scale = nextCardRange
     ? lerp(1, targetScale, compressionEased)
     : 1;
   const y = reducedMotion || index === 0 ? 0 : lerp(115, 0, easedReveal);
   const opacity = reducedMotion || index === 0 ? 1 : lerp(0.92, 1, easedReveal);
-  const stackOffset = index * CARD_STACK_LIP_SIZE;
+  const stackOffset = index * stackLipSize;
 
   if (!isVisible && phase !== "after") {
     return null;
@@ -391,7 +333,7 @@ function DesktopStackedTestimonialCard({
 
   return (
     <div
-      className="absolute inset-x-0 bottom-0"
+      className="absolute inset-x-0 bottom-0 will-change-transform"
       style={{
         opacity,
         top: `${stackOffset}px`,
@@ -409,7 +351,7 @@ function DesktopStackedTestimonialCard({
   );
 }
 
-function DesktopStickyTestimonialsStage({
+function StickyTestimonialsStage({
   cards,
 }: {
   cards: readonly TestimonialsStackCard[];
@@ -417,6 +359,13 @@ function DesktopStickyTestimonialsStage({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const reducedMotion = prefersReducedMotion ?? false;
+  const isCompactViewport = useIsCompactTestimonialsViewport();
+  const stackLipSize = isCompactViewport
+    ? COMPACT_CARD_STACK_LIP_SIZE
+    : DESKTOP_CARD_STACK_LIP_SIZE;
+  const stackScaleStep = isCompactViewport
+    ? COMPACT_CARD_STACK_SCALE_STEP
+    : DESKTOP_CARD_STACK_SCALE_STEP;
   const {
     phase,
     progress,
@@ -425,8 +374,8 @@ function DesktopStickyTestimonialsStage({
   return (
     <div
       ref={stageRef}
-      className="relative hidden lg:block"
-      style={{ height: `${DESKTOP_STAGE_HEIGHT}svh` }}
+      className="relative"
+      style={{ height: `${TESTIMONIALS_STAGE_HEIGHT}svh` }}
     >
       <div
         className={
@@ -445,18 +394,18 @@ function DesktopStickyTestimonialsStage({
         />
         <HeroParticles />
 
-        <div className="section-shell relative grid h-screen grid-rows-[auto_minmax(0,1fr)] gap-8 py-20 xl:py-24">
+        <div className="section-shell relative grid h-[100svh] grid-rows-[auto_minmax(0,1fr)] gap-5 pt-28 pb-8 sm:gap-6 sm:pt-32 sm:pb-10 lg:gap-8 lg:py-20 xl:py-24">
           <div className="mx-auto max-w-4xl text-center">
             <SectionTitle
-              className="text-balance font-display text-4xl font-bold leading-[0.96] tracking-[-0.055em] text-nebula-silver sm:text-5xl lg:text-6xl"
+              className="text-balance font-display text-[2.35rem] font-bold leading-[0.96] tracking-[-0.055em] text-nebula-silver sm:text-5xl lg:text-6xl"
               leadingText="Lo que dicen nuestros"
               accentText="clientes"
             />
           </div>
 
-          <div className="relative mx-auto min-h-0 h-full w-full max-w-[80vw] xl:max-w-[82vw]">
+          <div className="relative mx-auto h-full min-h-0 w-full max-w-[min(100%,42rem)] lg:max-w-[80vw] xl:max-w-[82vw]">
             {cards.map((card, index) => (
-              <DesktopStackedTestimonialCard
+              <StackedTestimonialCard
                 key={card.id}
                 card={card}
                 index={index}
@@ -464,6 +413,8 @@ function DesktopStickyTestimonialsStage({
                 progress={progress}
                 phase={phase}
                 reducedMotion={reducedMotion}
+                stackLipSize={stackLipSize}
+                stackScaleStep={stackScaleStep}
               />
             ))}
           </div>
@@ -495,45 +446,14 @@ export function TestimonialsSection() {
     <section
       id="contacto"
       aria-labelledby="testimonios-title"
-      className="relative overflow-x-hidden bg-nebula-void py-24 lg:py-0"
+      className="relative overflow-x-hidden bg-nebula-void"
     >
       <div id="testimonios" className="absolute inset-x-0 top-0" aria-hidden="true" />
-      <div
-        className="pointer-events-none absolute inset-0 lg:hidden"
-        style={{ backgroundImage: TESTIMONIALS_SECTION_BACKGROUND }}
-        aria-hidden="true"
-      />
-      <div className="lg:hidden">
-        <HeroParticles />
-      </div>
       <h2 id="testimonios-title" className="sr-only">
         Lo que dicen nuestros clientes
       </h2>
 
-      <DesktopStickyTestimonialsStage cards={visibleCards} />
-
-      <div className="section-shell relative z-10 lg:hidden">
-        <div className="mx-auto max-w-4xl text-center">
-          <SectionTitle
-            className="text-balance font-display text-4xl font-bold leading-[0.96] tracking-[-0.055em] text-nebula-silver sm:text-5xl"
-            leadingText="Lo que dicen nuestros"
-            accentText="clientes"
-          />
-        </div>
-        <div className="mt-12 grid gap-6 lg:hidden">
-          {visibleCards.map((card, index) =>
-            card.kind === "testimonial" ? (
-              <MobileTestimonialCard
-                key={card.id}
-                testimonial={card.testimonial}
-                index={index}
-              />
-            ) : (
-              <MobileFinalCtaCard key={card.id} index={index} />
-            ),
-          )}
-        </div>
-      </div>
+      <StickyTestimonialsStage cards={visibleCards} />
     </section>
   );
 }

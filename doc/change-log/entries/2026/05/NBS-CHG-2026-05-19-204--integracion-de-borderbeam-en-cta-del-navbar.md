@@ -51,6 +51,7 @@ Martín pidió integrar el efecto de Magic UI en el botón de contacto del navba
 - Se añade `components/magicui/border-beam.tsx` con el componente original de Magic UI.
 - Se monta `BorderBeam` dentro del link `Contactar` del navbar desktop.
 - Se ajusta el CTA del navbar con `relative isolate overflow-hidden` para que el beam pueda recorrer el borde.
+- Se calibra el gradiente del beam con un `backgroundImage` explicito (`#B5B1E3`, `#7B74D4`, `#534AB7`) porque los props originales de Magic UI usan `colorTo` como stop `via` dominante y no como extremo equilibrado.
 - Se evita renderizar el beam si `prefers-reduced-motion` está activo.
 - Se añaden utilidades CSS literales en `app/globals.css` para compatibilidad entre las clases Tailwind 4 del componente original y el stack actual Tailwind 3.4.x.
 - `DESIGN.md` y `technical-reference` documentan el nuevo canon y la procedencia del componente.
@@ -84,6 +85,7 @@ El cambio queda acotado a la primitive externa copiada, el consumo del navbar, u
 - `npm run typecheck`
 - `npm run build`
 - smoke visual desktop en `http://localhost:3001`
+- comprobacion Playwright del `background-image` inline del beam con los stops `#B5B1E3`, `#7B74D4` y `#534AB7`
 - `npm run changes:sync`
 
 ## Pendientes / limites

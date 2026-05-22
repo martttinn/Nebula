@@ -3,7 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { SplitText } from "@/components/ui/split-text";
@@ -173,9 +173,8 @@ export function HeroLead() {
         }}
         className="pointer-events-none absolute inset-x-0 bottom-7 flex justify-center sm:bottom-8"
       >
-        <div className="flex flex-col items-center gap-3 text-nebula-haze/85">
-          <span className="h-10 w-px bg-gradient-to-b from-white/0 via-white/18 to-white/0" />
-          <span className="flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] shadow-[0_0_36px_rgba(83,74,183,0.18)] backdrop-blur-md motion-safe:animate-hero-scroll-cue motion-reduce:animate-none">
+        <div className="hero-scroll-cue-motion flex flex-col items-center text-nebula-haze/85">
+          <span className="flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] shadow-[0_0_36px_rgba(83,74,183,0.18)] backdrop-blur-md">
             <ChevronDown className="size-5" strokeWidth={1.6} />
           </span>
         </div>

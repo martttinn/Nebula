@@ -5,10 +5,21 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 186
-- Grupos registrados: 180
+- Entradas registradas: 197
+- Grupos registrados: 191
 
 ## Ultimos cambios
+- `2026-05-21` [`NBS-CHG-2026-05-21-215`](entries/2026/05/NBS-CHG-2026-05-21-215--stack-sticky-movil-en-testimonials.md) - Stack sticky movil en testimonials - `frontend` - grupo [`NBS-TSK-2026-191`](groups/2026/NBS-TSK-2026-191.md)
+- `2026-05-21` [`NBS-CHG-2026-05-21-214`](entries/2026/05/NBS-CHG-2026-05-21-214--ajuste-final-de-la-guia-movil-del-proceso.md) - Ajuste final de la guia movil del proceso - `frontend` - grupo [`NBS-TSK-2026-190`](groups/2026/NBS-TSK-2026-190.md)
+- `2026-05-21` [`NBS-CHG-2026-05-21-213`](entries/2026/05/NBS-CHG-2026-05-21-213--snap-programatico-en-projects-showcase.md) - Snap programatico en projects-showcase - `frontend` - grupo [`NBS-TSK-2026-189`](groups/2026/NBS-TSK-2026-189.md)
+- `2026-05-21` [`NBS-CHG-2026-05-21-212`](entries/2026/05/NBS-CHG-2026-05-21-212--correccion-de-la-flecha-de-scroll-del-hero.md) - Correccion de la flecha de scroll del hero - `frontend` - grupo [`NBS-TSK-2026-188`](groups/2026/NBS-TSK-2026-188.md)
+- `2026-05-20` [`NBS-CHG-2026-05-20-211`](entries/2026/05/NBS-CHG-2026-05-20-211--logo-de-canal3-networks-en-testimonials.md) - Logo de Canal3 Networks en testimonials - `frontend` - grupo [`NBS-TSK-2026-187`](groups/2026/NBS-TSK-2026-187.md)
+- `2026-05-20` [`NBS-CHG-2026-05-20-210`](entries/2026/05/NBS-CHG-2026-05-20-210--retirada-del-subtitulo-visible-en-testimonials.md) - Retirada del subtitulo visible en testimonials - `frontend` - grupo [`NBS-TSK-2026-186`](groups/2026/NBS-TSK-2026-186.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-209`](entries/2026/05/NBS-CHG-2026-05-19-209--restauracion-de-textos-secundarios-en-blanco.md) - Restauracion de textos secundarios en blanco - `frontend` - grupo [`NBS-TSK-2026-185`](groups/2026/NBS-TSK-2026-185.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-208`](entries/2026/05/NBS-CHG-2026-05-19-208--logos-de-empresa-en-testimonials.md) - Logos de empresa en testimonials - `frontend` - grupo [`NBS-TSK-2026-184`](groups/2026/NBS-TSK-2026-184.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-207`](entries/2026/05/NBS-CHG-2026-05-19-207--actualizacion-mayor-del-stack-base.md) - Actualizacion mayor del stack base - `frontend` - grupo [`NBS-TSK-2026-183`](groups/2026/NBS-TSK-2026-183.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-206`](entries/2026/05/NBS-CHG-2026-05-19-206--migracion-de-framer-motion-a-motion.md) - Migracion de Framer Motion a Motion - `frontend` - grupo [`NBS-TSK-2026-182`](groups/2026/NBS-TSK-2026-182.md)
+- `2026-05-19` [`NBS-CHG-2026-05-19-205`](entries/2026/05/NBS-CHG-2026-05-19-205--actualizacion-patch-de-nextjs.md) - Actualizacion patch de Next.js - `frontend` - grupo [`NBS-TSK-2026-181`](groups/2026/NBS-TSK-2026-181.md)
 - `2026-05-19` [`NBS-CHG-2026-05-19-204`](entries/2026/05/NBS-CHG-2026-05-19-204--integracion-de-borderbeam-en-cta-del-navbar.md) - Integracion de BorderBeam en CTA del navbar - `frontend` - grupo [`NBS-TSK-2026-180`](groups/2026/NBS-TSK-2026-180.md)
 - `2026-05-19` [`NBS-CHG-2026-05-19-203`](entries/2026/05/NBS-CHG-2026-05-19-203--ajuste-de-redes-sociales-del-footer.md) - Ajuste de redes sociales del footer - `frontend` - grupo [`NBS-TSK-2026-179`](groups/2026/NBS-TSK-2026-179.md)
 - `2026-05-19` [`NBS-CHG-2026-05-19-202`](entries/2026/05/NBS-CHG-2026-05-19-202--retirada-del-glow-de-contacto-del-footer.md) - Retirada del glow de contacto del footer - `frontend` - grupo [`NBS-TSK-2026-178`](groups/2026/NBS-TSK-2026-178.md)
@@ -201,6 +212,17 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-191`](groups/2026/NBS-TSK-2026-191.md) - Stack sticky movil en testimonials - 2026-05-21 -> 2026-05-21 - 1 cambios
+- [`NBS-TSK-2026-190`](groups/2026/NBS-TSK-2026-190.md) - Ajuste final de la guia movil del proceso - 2026-05-21 -> 2026-05-21 - 1 cambios
+- [`NBS-TSK-2026-189`](groups/2026/NBS-TSK-2026-189.md) - Snap programatico en projects-showcase - 2026-05-21 -> 2026-05-21 - 1 cambios
+- [`NBS-TSK-2026-188`](groups/2026/NBS-TSK-2026-188.md) - Correccion de la flecha de scroll del hero - 2026-05-21 -> 2026-05-21 - 1 cambios
+- [`NBS-TSK-2026-187`](groups/2026/NBS-TSK-2026-187.md) - Logo de Canal3 Networks en testimonials - 2026-05-20 -> 2026-05-20 - 1 cambios
+- [`NBS-TSK-2026-186`](groups/2026/NBS-TSK-2026-186.md) - Retirada del subtitulo visible en testimonials - 2026-05-20 -> 2026-05-20 - 1 cambios
+- [`NBS-TSK-2026-185`](groups/2026/NBS-TSK-2026-185.md) - Restauracion de textos secundarios en blanco - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-184`](groups/2026/NBS-TSK-2026-184.md) - Logos de empresa en testimonials - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-183`](groups/2026/NBS-TSK-2026-183.md) - Actualizacion mayor del stack base - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-182`](groups/2026/NBS-TSK-2026-182.md) - Migracion de Framer Motion a Motion - 2026-05-19 -> 2026-05-19 - 1 cambios
+- [`NBS-TSK-2026-181`](groups/2026/NBS-TSK-2026-181.md) - Actualizacion patch de Next.js - 2026-05-19 -> 2026-05-19 - 1 cambios
 - [`NBS-TSK-2026-180`](groups/2026/NBS-TSK-2026-180.md) - Integracion de BorderBeam en CTA del navbar - 2026-05-19 -> 2026-05-19 - 1 cambios
 - [`NBS-TSK-2026-179`](groups/2026/NBS-TSK-2026-179.md) - Ajuste de redes sociales del footer - 2026-05-19 -> 2026-05-19 - 1 cambios
 - [`NBS-TSK-2026-178`](groups/2026/NBS-TSK-2026-178.md) - Retirada del glow de contacto del footer - 2026-05-19 -> 2026-05-19 - 1 cambios

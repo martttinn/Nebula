@@ -6,7 +6,7 @@ import {
   useMotionTemplate,
   useTransform,
   type MotionValue,
-} from "framer-motion";
+} from "motion/react";
 
 import { SectionTitle } from "@/components/ui/section-title";
 
@@ -21,6 +21,9 @@ import {
   IMAGE_NODE_MOBILE_SIZE,
   MOBILE_CARD_ACCENT_BACKGROUND,
   MOBILE_CARD_DESCRIPTION_LINE_CLAMP,
+  MOBILE_TIMELINE_LINE_BRIDGE,
+  MOBILE_TIMELINE_LINE_LEFT,
+  MOBILE_TIMELINE_NODE_CENTER_Y,
   NODE_REVEAL_ACTIVE_SCALE,
   NODE_REVEAL_BASE_SCALE,
   NODE_SURFACE_BACKGROUND,
@@ -155,7 +158,7 @@ function DesktopCard({
 
   return (
     <motion.article
-      className="relative z-10 w-full max-w-[39rem] overflow-hidden rounded-[2rem] border border-white/[0.06] bg-transparent px-8 py-7 shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-sm"
+      className="relative z-10 w-full max-w-[39rem] overflow-hidden rounded-[2rem] border border-white/[0.06] bg-transparent px-8 py-7 shadow-[0_30px_90px_rgba(0,0,0,0.42)] backdrop-blur-xs"
       style={{
         opacity,
         x,
@@ -271,13 +274,23 @@ export function DesktopRow({
 export function MobileCard({
   step,
   index,
+  isFirst,
+  isLast,
   reducedMotion,
 }: {
   step: Step;
   index: number;
+  isFirst: boolean;
+  isLast: boolean;
   reducedMotion: boolean;
 }) {
   const nodeInitialOpacity = step.imageSrc ? IMAGE_NODE_BASE_OPACITY : 1;
+  const timelineTop = isFirst
+    ? MOBILE_TIMELINE_NODE_CENTER_Y
+    : -MOBILE_TIMELINE_LINE_BRIDGE;
+  const timelineBottom = isLast
+    ? `calc(100% - ${MOBILE_TIMELINE_NODE_CENTER_Y}px)`
+    : -MOBILE_TIMELINE_LINE_BRIDGE;
 
   return (
     <motion.li
@@ -287,6 +300,18 @@ export function MobileCard({
       viewport={{ once: true, amount: 0.35 }}
       transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
+      <span
+        className="pointer-events-none absolute z-0 w-px"
+        style={{
+          left: MOBILE_TIMELINE_LINE_LEFT,
+          top: timelineTop,
+          bottom: timelineBottom,
+          background:
+            "linear-gradient(to bottom, rgba(181,177,227,0.18), rgba(83,74,183,0.52), rgba(181,177,227,0.18))",
+        }}
+        aria-hidden="true"
+      />
+
       <motion.div
         className={
           step.imageSrc

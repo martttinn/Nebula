@@ -1,6 +1,6 @@
 ---
 name: dependency-audit
-description: Audit package and dependency health in Nebula Studios, including Next.js, React, Tailwind, framer-motion, lucide-react, class-variance-authority, Radix primitives, eslint, TypeScript, lockfile drift, vulnerabilities and release implications. Use when Codex needs to review package.json/package-lock.json, Next.js upgrades, React compatibility, dependency security, or package/tooling drift in this repo.
+description: Audit package and dependency health in Nebula Studios, including Next.js, React, Tailwind, Motion for React, lucide-react, class-variance-authority, Radix primitives, eslint, TypeScript, lockfile drift, vulnerabilities and release implications. Use when Codex needs to review package.json/package-lock.json, Next.js upgrades, React compatibility, dependency security, or package/tooling drift in this repo.
 ---
 
 # Dependency Audit
@@ -19,7 +19,7 @@ Audita dependencias de Nebula Studios con mentalidad read-only por defecto. El o
 
 ## Preflight
 
-1. lee `package.json`, `package-lock.json`, `next.config.mjs`, `tailwind.config.ts` y `tsconfig.json`
+1. lee `package.json`, `package-lock.json`, `next.config.mjs`, `tailwind.config.cjs` y `tsconfig.json`
 2. ejecuta `git status --short` y separa cambios previos ajenos de los hallazgos de auditoría
 3. extrae las dependencias, paquetes y herramientas concretas mencionadas por el usuario, la documentación o el scope de la tarea
 4. comprueba en `package.json` y `package-lock.json` cuáles están instaladas realmente y cuáles solo están mencionadas
@@ -65,7 +65,7 @@ npm ls <package>
 
 - comprueba coherencia entre `next`, `react`, `react-dom`, TypeScript, ESLint y librerías críticas del runtime
 - separa `wanted`, `latest` y compatibilidad real con el stack instalado
-- presta atención especial a librerías visuales o con peso en bundle como `framer-motion`, `lucide-react`, Radix o primitives tipo shadcn/ui
+- presta atención especial a librerías visuales o con peso en bundle como `motion`, `lucide-react`, Radix o primitives tipo shadcn/ui
 
 ### Vulnerabilidades
 

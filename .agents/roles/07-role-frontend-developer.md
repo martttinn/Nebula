@@ -33,7 +33,7 @@ Interfaces web y mobile de alto impacto visual y técnico:
 
 **Estilos y animación:**
 - TailwindCSS como sistema, no como atajo
-- Framer Motion para animaciones declarativas de UI
+- Motion for React para animaciones declarativas de UI
 - GSAP cuando la coreografía necesita precisión quirúrgica
 - CSS custom properties como sistema de tokens vivo
 - React Spring para física de movimiento natural

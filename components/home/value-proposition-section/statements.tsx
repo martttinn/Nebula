@@ -10,7 +10,7 @@ import {
   useSpring,
   useTransform,
   type MotionValue,
-} from "framer-motion";
+} from "motion/react";
 
 import { WordByWordColorChange } from "@/components/ui/word-by-word-color-change";
 

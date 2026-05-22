@@ -9,6 +9,10 @@ export type HomeTestimonialArchiveEntry = {
   author: string;
   role: string;
   company: string;
+  companyLogo?: {
+    name: string;
+    label: string;
+  };
   featured?: boolean;
   status: "verified-public-copy";
 };
@@ -23,7 +27,11 @@ export const HOME_TESTIMONIAL_ARCHIVE = [
       "Valoramos su disponibilidad y que entienden lo que necesitamos antes de proponer soluciones.",
     author: "Raúl Rodríguez",
     role: "Gerente",
-    company: "Canal3Networks",
+    company: "Canal3 Networks",
+    companyLogo: {
+      name: "c3.png",
+      label: "Canal3 Networks",
+    },
     featured: true,
     status: "verified-public-copy",
   },
@@ -37,6 +45,10 @@ export const HOME_TESTIMONIAL_ARCHIVE = [
     author: "Javier Martinez",
     role: "Gerente",
     company: "Golden Grama",
+    companyLogo: {
+      name: "gg.png",
+      label: "Golden Grama",
+    },
     status: "verified-public-copy",
   },
   {
@@ -49,6 +61,10 @@ export const HOME_TESTIMONIAL_ARCHIVE = [
     author: "Eduardo Martinez",
     role: "Gerente",
     company: "Future Nova",
+    companyLogo: {
+      name: "fn.png",
+      label: "Future Nova",
+    },
     status: "verified-public-copy",
   },
 ] as const satisfies readonly HomeTestimonialArchiveEntry[];

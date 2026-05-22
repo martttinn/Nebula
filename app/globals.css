@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.cjs";
 
 :root {
   --background: #09090f;
@@ -83,7 +82,7 @@ body::before {
   }
 
   .panel-muted {
-    @apply border border-nebula-line/80 bg-nebula-navy/40 backdrop-blur-sm;
+    @apply border border-nebula-line/80 bg-nebula-navy/40 backdrop-blur-xs;
   }
 
   .glass-pill {
@@ -104,8 +103,188 @@ body::before {
       0 20px 60px rgba(0, 0, 0, 0.32);
   }
 
+  .navbar-link {
+    color: rgba(232, 232, 240, 0.92);
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+      background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .navbar-link:hover,
+  .navbar-link:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e8e8f0;
+    transform: translate3d(0, 0, 0) scale(1.03);
+  }
+
   .section-shell {
     @apply relative z-10 mx-auto w-full max-w-[var(--page-width)] px-5 sm:px-8 lg:px-10;
+  }
+
+  .footer-copy {
+    color: rgba(232, 232, 240, 0.78);
+  }
+
+  .footer-nav-title {
+    color: rgba(232, 232, 240, 0.82);
+  }
+
+  .footer-nav-disabled {
+    color: rgba(232, 232, 240, 0.72);
+  }
+
+  .footer-legal-copy {
+    color: rgba(171, 167, 199, 0.62);
+  }
+
+  .footer-legal-copy .footer-nav-disabled {
+    color: inherit;
+  }
+
+  .footer-legal-copy .footer-nav-link {
+    color: inherit;
+  }
+
+  .footer-legal-copy .footer-nav-link:hover,
+  .footer-legal-copy .footer-nav-link:focus-visible {
+    color: rgba(232, 232, 240, 0.86);
+  }
+
+  .footer-nav-link {
+    color: rgba(232, 232, 240, 0.86);
+    transition:
+      color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .footer-nav-link:hover,
+  .footer-nav-link:focus-visible {
+    color: #e8e8f0;
+    transform: translate3d(0.25rem, 0, 0);
+  }
+
+  .footer-contact-link {
+    color: rgba(232, 232, 240, 0.86);
+    outline: none;
+    transition:
+      color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .footer-contact-link:hover,
+  .footer-contact-link:focus-visible {
+    color: #e8e8f0;
+    transform: translate3d(0.25rem, 0, 0);
+  }
+
+  .footer-contact-link:focus-visible {
+    box-shadow:
+      0 0 0 2px rgba(83, 74, 183, 0.35),
+      0 0 0 6px #09090f;
+  }
+
+  .footer-contact-icon {
+    color: #534ab7;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.03);
+    transition:
+      border-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .footer-contact-svg {
+    transition:
+      color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .footer-contact-link:hover .footer-contact-icon,
+  .footer-contact-link:focus-visible .footer-contact-icon {
+    border-color: rgba(83, 74, 183, 0.45);
+    background-color: rgba(83, 74, 183, 0.1);
+    transform: scale(1.05);
+  }
+
+  .footer-contact-link:hover .footer-contact-svg,
+  .footer-contact-link:focus-visible .footer-contact-svg {
+    color: #e8e8f0;
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .footer-social-link {
+    color: rgba(232, 232, 240, 0.76);
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    outline: none;
+    backdrop-filter: blur(12px);
+    transition:
+      border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .footer-social-link:hover,
+  .footer-social-link:focus-visible {
+    color: #e8e8f0;
+    transform: translate3d(0, -0.25rem, 0);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-social-link:focus-visible {
+    box-shadow:
+      0 0 0 2px rgba(83, 74, 183, 0.35),
+      0 0 0 6px #09090f,
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-social-icon {
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .footer-social-link--instagram:hover,
+  .footer-social-link--instagram:focus-visible {
+    border-color: rgba(220, 39, 67, 0.5);
+    background-image: linear-gradient(
+      to top right,
+      rgba(240, 148, 51, 0.2),
+      rgba(220, 39, 67, 0.2),
+      rgba(188, 24, 136, 0.2)
+    );
+    box-shadow:
+      0 10px 15px -3px rgba(220, 39, 67, 0.2),
+      0 4px 6px -4px rgba(220, 39, 67, 0.2);
+  }
+
+  .footer-social-link--instagram:hover .footer-social-icon--instagram,
+  .footer-social-link--instagram:focus-visible .footer-social-icon--instagram {
+    color: #dc2743;
+  }
+
+  .footer-social-link--linkedin:hover,
+  .footer-social-link--linkedin:focus-visible {
+    border-color: rgba(10, 102, 194, 0.5);
+    background-color: rgba(10, 102, 194, 0.2);
+    box-shadow:
+      0 10px 15px -3px rgba(10, 102, 194, 0.2),
+      0 4px 6px -4px rgba(10, 102, 194, 0.2);
+  }
+
+  .footer-social-link--linkedin:hover .footer-social-icon--linkedin,
+  .footer-social-link--linkedin:focus-visible .footer-social-icon--linkedin {
+    color: #0a66c2;
   }
 
   .hairline {
@@ -144,11 +323,17 @@ body::before {
     display: none;
   }
 
-  .animate-hero-scroll-cue {
+  .hero-scroll-cue-motion {
     animation: hero-scroll-cue 2.2s ease-in-out infinite;
   }
 
-  /* Compatibilidad Tailwind 3 para el BorderBeam original de Magic UI. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-cue-motion {
+      animation: none;
+    }
+  }
+
+  /* Compatibilidad explicita para el BorderBeam original de Magic UI. */
   .border-\(length\:--border-beam-width\) {
     border-width: var(--border-beam-width);
   }

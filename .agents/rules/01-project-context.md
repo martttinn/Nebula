@@ -14,18 +14,19 @@ Sí existe un bootstrap repo-safe de Supabase en `lib/supabase/**` y `supabase/*
 
 ## Stack verificado en el repo
 
-Verificado localmente el **9 de mayo de 2026** contra `package.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.ts` y el árbol real del repo.
+Verificado localmente el **19 de mayo de 2026** contra `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.cjs` y el árbol real del repo.
 
-- Next.js `16.2.4`
-- React `18.3.1`
-- React DOM `18.3.1`
-- TypeScript estricto
-- Tailwind CSS `3.4.19`
-- Framer Motion `11.18.2`
-- Three.js `0.180.x`
+- Next.js `16.2.6`
+- React `19.2.6`
+- React DOM `19.2.6`
+- TypeScript `6.0.3` estricto
+- Tailwind CSS `4.3.0`
+- PostCSS `8.5.15` con `@tailwindcss/postcss` `4.3.0`
+- Motion for React `12.39.0` vía `motion/react`
+- Three.js `0.184.x`
 - Postprocessing `6.39.x`
 - `tech-stack-icons` `3.7.1`
-- React Doctor `0.1.6` como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado ni fijado en `package.json`
+- React Doctor `0.2.1` como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado ni fijado en `package.json`
 - App Router
 - primitives tipo shadcn/ui con `class-variance-authority`, `@radix-ui/react-slot`, `clsx` y `tailwind-merge`
 

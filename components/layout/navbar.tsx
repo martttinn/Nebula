@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { BrandLockup } from "@/components/layout/brand-lockup";
 import { NavbarStaggeredMenu } from "@/components/layout/navbar-staggered-menu";
@@ -20,6 +20,11 @@ export type NavbarProps = {
   links?: readonly PublicNavLink[];
   ctas?: readonly PublicNavLink[];
 };
+
+const NAVBAR_CTA_BEAM_STYLE = {
+  backgroundImage:
+    "linear-gradient(to left, transparent 0%, #B5B1E3 22%, #7B74D4 50%, #534AB7 76%, transparent 100%)",
+} satisfies CSSProperties;
 
 export function Navbar({
   className,
@@ -92,7 +97,7 @@ export function Navbar({
                   <Link
                     key={`${link.href}-${link.label}`}
                     href={link.href}
-                    className="rounded-full px-3 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-nebula-haze/82 transition-[background-color,color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform hover:scale-[1.03] hover:bg-white/[0.08] hover:text-nebula-silver sm:px-4"
+                    className="navbar-link rounded-full px-3 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.22em] sm:px-4"
                   >
                     {link.label}
                   </Link>
@@ -113,7 +118,13 @@ export function Navbar({
                   <Link href={cta.href}>
                     <span className="relative z-10">{cta.label}</span>
                     {!prefersReducedMotion ? (
-                      <BorderBeam size={40} initialOffset={20} />
+                      <BorderBeam
+                        size={40}
+                        initialOffset={20}
+                        colorFrom="#B5B1E3"
+                        colorTo="#534AB7"
+                        style={NAVBAR_CTA_BEAM_STYLE}
+                      />
                     ) : null}
                   </Link>
                 </Button>

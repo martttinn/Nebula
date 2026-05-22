@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
@@ -29,6 +30,31 @@ const FIRST_PROJECT_HEADING_FADE_START =
   FIRST_PROJECT_EXPAND_START + FIRST_PROJECT_EXPAND_WINDOW * 0.18;
 const FIRST_PROJECT_HEADING_FADE_END =
   FIRST_PROJECT_EXPAND_START + FIRST_PROJECT_EXPAND_WINDOW * 0.58;
+const PROJECT_REVEAL_WINDOWS = [
+  {
+    start: PROJECT_REVEAL_STARTS[0],
+    end: FIRST_PROJECT_EXPAND_START,
+  },
+  {
+    start: PROJECT_REVEAL_STARTS[1],
+    end: PROJECT_REVEAL_STARTS[1] + PROJECT_REVEAL_DURATION,
+  },
+  {
+    start: PROJECT_REVEAL_STARTS[2],
+    end: 1,
+  },
+] as const;
+const PROJECT_SCROLL_SNAP_POINTS = [
+  FIRST_PROJECT_EXPAND_START,
+  FIRST_PROJECT_EXPAND_END,
+  PROJECT_REVEAL_WINDOWS[1].end,
+  PROJECT_REVEAL_WINDOWS[2].end,
+] as const;
+const PROJECT_SCROLL_SNAP_DEBOUNCE_MS = 180;
+const PROJECT_SCROLL_SNAP_DURATION = 0.48;
+const PROJECT_SCROLL_SNAP_MIN_WIDTH_QUERY = "(min-width: 1024px)";
+const PROJECT_SCROLL_SNAP_REDUCED_MOTION_QUERY =
+  "(prefers-reduced-motion: reduce)";
 
 type FeaturedProjectStackItem = {
   label: string;
@@ -154,9 +180,13 @@ function easeInOutCubic(value: number) {
 }
 
 function getProjectRevealProgress(progress: number, index: number) {
-  const revealStart = PROJECT_REVEAL_STARTS[index];
+  const revealWindow = PROJECT_REVEAL_WINDOWS[index];
 
-  return clamp((progress - revealStart) / PROJECT_REVEAL_DURATION, 0, 1);
+  if (!revealWindow) {
+    return 0;
+  }
+
+  return getWindowProgress(progress, revealWindow.start, revealWindow.end);
 }
 
 function getWindowProgress(progress: number, start: number, end: number) {
@@ -209,6 +239,22 @@ function getExitOffsets(direction: FeaturedProjectRevealDirection, factor: numbe
         y: -PROJECT_VERTICAL_TRAVEL * factor,
       };
   }
+}
+
+function getNearestProjectSnapProgress(progress: number) {
+  let nearestProgress = FIRST_PROJECT_EXPAND_START;
+  let nearestDistance = Math.abs(progress - nearestProgress);
+
+  for (const snapProgress of PROJECT_SCROLL_SNAP_POINTS) {
+    const distance = Math.abs(progress - snapProgress);
+
+    if (distance < nearestDistance) {
+      nearestProgress = snapProgress;
+      nearestDistance = distance;
+    }
+  }
+
+  return nearestProgress;
 }
 
 function useProjectsSectionState(ref: React.RefObject<HTMLElement | null>) {
@@ -274,6 +320,147 @@ function useProjectsSectionState(ref: React.RefObject<HTMLElement | null>) {
   return state;
 }
 
+function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!lenis) {
+      return;
+    }
+
+    const desktopQuery = window.matchMedia(PROJECT_SCROLL_SNAP_MIN_WIDTH_QUERY);
+    const reducedMotionQuery = window.matchMedia(
+      PROJECT_SCROLL_SNAP_REDUCED_MOTION_QUERY,
+    );
+    let snapTimeoutId: number | undefined;
+    let snapReleaseTimeoutId: number | undefined;
+    let isSnapping = false;
+
+    const clearSnapTimeout = () => {
+      if (snapTimeoutId != null) {
+        window.clearTimeout(snapTimeoutId);
+        snapTimeoutId = undefined;
+      }
+    };
+
+    const releaseSnapLock = () => {
+      isSnapping = false;
+
+      if (snapReleaseTimeoutId != null) {
+        window.clearTimeout(snapReleaseTimeoutId);
+        snapReleaseTimeoutId = undefined;
+      }
+    };
+
+    const getSectionScrollMetrics = () => {
+      if (!ref.current) {
+        return null;
+      }
+
+      const rect = ref.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const scrollWithinSection = -rect.top;
+      const pinEnd = rect.height - viewportHeight;
+
+      if (pinEnd <= 0) {
+        return null;
+      }
+
+      return {
+        pinEnd,
+        progress: clamp(scrollWithinSection / pinEnd, 0, 1),
+        scrollWithinSection,
+        sectionTop: window.scrollY + rect.top,
+      };
+    };
+
+    const snapToNearestRestingState = () => {
+      if (
+        isSnapping ||
+        !desktopQuery.matches ||
+        reducedMotionQuery.matches
+      ) {
+        return;
+      }
+
+      const metrics = getSectionScrollMetrics();
+
+      if (!metrics) {
+        return;
+      }
+
+      const {
+        pinEnd,
+        progress,
+        scrollWithinSection,
+        sectionTop,
+      } = metrics;
+
+      if (
+        scrollWithinSection <= 0 ||
+        scrollWithinSection >= pinEnd ||
+        progress < PROJECT_REVEAL_WINDOWS[0].start
+      ) {
+        return;
+      }
+
+      const targetProgress = getNearestProjectSnapProgress(progress);
+      const targetScrollY = sectionTop + targetProgress * pinEnd;
+
+      if (Math.abs(window.scrollY - targetScrollY) < 2) {
+        return;
+      }
+
+      isSnapping = true;
+      lenis.scrollTo(targetScrollY, {
+        duration: PROJECT_SCROLL_SNAP_DURATION,
+        easing: easeOutCubic,
+        lock: true,
+        onComplete: releaseSnapLock,
+      });
+      snapReleaseTimeoutId = window.setTimeout(
+        releaseSnapLock,
+        PROJECT_SCROLL_SNAP_DURATION * 1000 + 220,
+      );
+    };
+
+    const scheduleSnap = () => {
+      if (
+        isSnapping ||
+        !desktopQuery.matches ||
+        reducedMotionQuery.matches
+      ) {
+        return;
+      }
+
+      clearSnapTimeout();
+      snapTimeoutId = window.setTimeout(
+        snapToNearestRestingState,
+        PROJECT_SCROLL_SNAP_DEBOUNCE_MS,
+      );
+    };
+
+    const handlePreferenceChange = () => {
+      clearSnapTimeout();
+      releaseSnapLock();
+    };
+
+    window.addEventListener("scroll", scheduleSnap, { passive: true });
+    window.addEventListener("resize", handlePreferenceChange, { passive: true });
+    desktopQuery.addEventListener("change", handlePreferenceChange);
+    reducedMotionQuery.addEventListener("change", handlePreferenceChange);
+
+    return () => {
+      clearSnapTimeout();
+      releaseSnapLock();
+      window.removeEventListener("scroll", scheduleSnap);
+      window.removeEventListener("resize", handlePreferenceChange);
+      desktopQuery.removeEventListener("change", handlePreferenceChange);
+      reducedMotionQuery.removeEventListener("change", handlePreferenceChange);
+    };
+  }, [lenis, ref]);
+}
+
 function ProjectCard({
   project,
   index,
@@ -292,7 +479,8 @@ function ProjectCard({
   const isVisible = phase !== "before" && timelineProgress >= revealStart;
   const isFirstProject = index === 0;
   const nextProject = FEATURED_PROJECTS[index + 1];
-  const nextRevealStart = PROJECT_REVEAL_STARTS[index + 1];
+  const nextRevealWindow = PROJECT_REVEAL_WINDOWS[index + 1];
+  const nextRevealStart = nextRevealWindow?.start;
   const exitProgress =
     nextRevealStart == null
       ? 0
@@ -380,7 +568,7 @@ function ProjectCard({
               <h3 className="max-w-[11ch] font-display text-[2.65rem] font-bold leading-[0.9] tracking-[-0.055em] text-nebula-silver sm:text-[3rem] xl:text-[3.5rem]">
                 {project.title}
               </h3>
-              <p className="max-w-[32ch] text-[1rem] leading-[1.68] text-nebula-haze/86 xl:text-[1.04rem]">
+              <p className="max-w-[32ch] text-[1rem] leading-[1.68] text-nebula-silver/86 xl:text-[1.04rem]">
                 {project.problemSolved}
               </p>
               <dl className="grid gap-4 text-sm">
@@ -517,7 +705,7 @@ function MobileProjectCard({
             <h3 className="max-w-[11ch] font-display text-[2.2rem] font-bold leading-[0.9] tracking-[-0.055em] text-nebula-silver sm:text-[2.5rem]">
               {project.title}
             </h3>
-            <p className="max-w-[34ch] text-[0.98rem] leading-[1.72] text-nebula-haze/86">
+            <p className="max-w-[34ch] text-[0.98rem] leading-[1.72] text-nebula-silver/86">
               {project.problemSolved}
             </p>
           </div>
@@ -542,6 +730,8 @@ function MobileProjectCard({
 
 export function ProjectsShowcaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  useProjectsScrollSnap(sectionRef);
+
   const {
     phase,
     progress,

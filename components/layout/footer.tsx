@@ -68,17 +68,15 @@ const FOOTER_SOCIAL_LINKS = [
     href: siteConfig.social.instagram,
     label: "Instagram",
     icon: InstagramIcon,
-    linkClassName:
-      "hover:border-[#dc2743]/50 hover:bg-gradient-to-tr hover:from-[#f09433]/20 hover:via-[#dc2743]/20 hover:to-[#bc1888]/20 hover:shadow-[#dc2743]/20 focus-visible:border-[#dc2743]/50 focus-visible:bg-[#dc2743]/12",
-    iconClassName: "group-hover/social:text-[#dc2743] group-focus-visible/social:text-[#dc2743]",
+    linkClassName: "footer-social-link--instagram",
+    iconClassName: "footer-social-icon--instagram",
   },
   {
     href: siteConfig.social.linkedin,
     label: "LinkedIn",
     icon: LinkedinIcon,
-    linkClassName:
-      "hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/20 hover:shadow-[#0A66C2]/20 focus-visible:border-[#0A66C2]/50 focus-visible:bg-[#0A66C2]/20",
-    iconClassName: "group-hover/social:text-[#0A66C2] group-focus-visible/social:text-[#0A66C2]",
+    linkClassName: "footer-social-link--linkedin",
+    iconClassName: "footer-social-icon--linkedin",
   },
 ] as const;
 
@@ -95,7 +93,7 @@ function FooterNavItem({
     return (
       <span
         aria-disabled="true"
-        className="inline-flex cursor-not-allowed text-sm leading-relaxed text-nebula-haze/46"
+        className="footer-nav-disabled inline-flex cursor-not-allowed text-sm leading-relaxed"
       >
         {label}
       </span>
@@ -105,7 +103,7 @@ function FooterNavItem({
   return (
     <Link
       href={href}
-      className="inline-flex w-fit text-sm leading-relaxed text-nebula-haze/82 transition-[color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform hover:translate-x-1 hover:text-nebula-silver"
+      className="footer-nav-link inline-flex w-fit text-sm leading-relaxed"
     >
       {label}
     </Link>
@@ -136,7 +134,7 @@ export function Footer() {
               brandText="Nebula"
               className="justify-start"
             />
-            <p className="mt-6 max-w-[34rem] text-sm leading-[1.78] text-nebula-haze/76">
+            <p className="footer-copy mt-6 max-w-[34rem] text-sm leading-[1.78]">
               {FOOTER_CLAIM}
             </p>
             <div className="mt-8 space-y-3">
@@ -145,11 +143,11 @@ export function Footer() {
                   key={href}
                   href={href}
                   aria-label={ariaLabel}
-                  className="group/contact flex w-fit items-center gap-4 rounded-full pr-3 text-sm font-medium text-nebula-haze/82 outline-none transition-[color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:translate-x-1 hover:text-nebula-silver focus-visible:text-nebula-silver focus-visible:ring-2 focus-visible:ring-nebula-lilac/35 focus-visible:ring-offset-4 focus-visible:ring-offset-[#09090F]"
+                  className="footer-contact-link flex w-fit items-center gap-4 rounded-full pr-3 text-sm font-medium"
                 >
-                  <span className="relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/[0.03] text-nebula-lilac transition-[border-color,background-color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/contact:scale-105 group-hover/contact:border-nebula-lilac/45 group-hover/contact:bg-nebula-lilac/10 group-focus-visible/contact:scale-105 group-focus-visible/contact:border-nebula-lilac/45 group-focus-visible/contact:bg-nebula-lilac/10">
+                  <span className="footer-contact-icon relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border">
                     <Icon
-                      className="relative size-4 transition-[color,transform] duration-500 group-hover/contact:-translate-y-px group-hover/contact:text-nebula-silver group-focus-visible/contact:-translate-y-px group-focus-visible/contact:text-nebula-silver"
+                      className="footer-contact-svg relative size-4"
                       aria-hidden="true"
                     />
                   </span>
@@ -166,10 +164,10 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Abrir ${label} de ${siteConfig.name}`}
-                  className={`group/social relative flex size-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] text-nebula-haze/66 shadow-sm outline-none backdrop-blur-md transition-[border-color,background-color,box-shadow,color,transform] duration-300 hover:-translate-y-1 hover:text-nebula-silver hover:shadow-lg focus-visible:-translate-y-1 focus-visible:text-nebula-silver focus-visible:ring-2 focus-visible:ring-nebula-lilac/35 focus-visible:ring-offset-4 focus-visible:ring-offset-[#09090F] ${linkClassName}`}
+                  className={`footer-social-link relative flex size-10 items-center justify-center overflow-hidden rounded-xl border ${linkClassName}`}
                 >
                   <Icon
-                    className={`relative size-[1.125rem] transition-colors duration-300 ${iconClassName}`}
+                    className={`footer-social-icon relative size-[1.125rem] ${iconClassName}`}
                     aria-hidden="true"
                   />
                 </a>
@@ -179,7 +177,7 @@ export function Footer() {
 
           {FOOTER_NAV_GROUPS.map((group) => (
             <div key={group.title} className="text-left">
-              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-nebula-silver/74">
+              <p className="footer-nav-title text-[0.7rem] font-semibold uppercase tracking-[0.22em]">
                 {group.title}
               </p>
               <nav aria-label={`Enlaces de ${group.title.toLowerCase()} del pie`} className="mt-5">
@@ -200,9 +198,14 @@ export function Footer() {
         </div>
 
         <div className="mt-14 border-t border-white/10 pt-8">
-          <div className="flex flex-col gap-6 text-sm text-nebula-haze/46 lg:flex-row lg:items-center lg:justify-between">
-            <div>
+          <div className="footer-legal-copy flex flex-col gap-6 text-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
               <p>© {currentYear} {siteConfig.name}. Todos los derechos reservados.</p>
+              <span
+                aria-hidden="true"
+                className="hidden size-1 rounded-full bg-current opacity-35 sm:block"
+              />
+              <p>Desarrollado por {siteConfig.name}.</p>
             </div>
 
             <nav aria-label="Enlaces legales secundarios">

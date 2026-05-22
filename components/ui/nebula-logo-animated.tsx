@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useId, useState } from "react";
-import { motion, useAnimation, type Transition } from "framer-motion";
+import { motion, useAnimation, type Transition } from "motion/react";
 
 export interface NebulaLogoAnimatedProps {
   size?: number;
