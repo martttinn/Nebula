@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -49,10 +48,12 @@ const graphemeSegmenter =
 
 function segmentCharacters(text: string): TextUnit[] {
   if (graphemeSegmenter) {
-    return Array.from(graphemeSegmenter.segment(text)).map((segment, index) => ({
-      id: `char-${index}-${segment.segment}`,
-      value: segment.segment,
-    }));
+    return Array.from(graphemeSegmenter.segment(text)).map(
+      (segment, index) => ({
+        id: `char-${index}-${segment.segment}`,
+        value: segment.segment,
+      }),
+    );
   }
 
   return Array.from(text).map((value, index) => ({
@@ -99,7 +100,10 @@ export function SplitText({
   onComplete,
   ...props
 }: SplitTextProps) {
-  const tokens = React.useMemo(() => segmentText(text, splitType), [text, splitType]);
+  const tokens = React.useMemo(
+    () => segmentText(text, splitType),
+    [text, splitType],
+  );
   const completionCalledRef = React.useRef(false);
 
   React.useEffect(() => {
@@ -153,6 +157,23 @@ export function SplitText({
     [indexedTokens],
   );
 
+  React.useEffect(() => {
+    if (!active || completionCalledRef.current || totalAnimatedUnits === 0) {
+      return;
+    }
+
+    const totalDurationMs =
+      duration * 1000 + delay * Math.max(totalAnimatedUnits - 1, 0);
+    const timer = window.setTimeout(() => {
+      completionCalledRef.current = true;
+      onComplete?.();
+    }, totalDurationMs);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [active, delay, duration, onComplete, totalAnimatedUnits]);
+
   return (
     <span
       className={cn(
@@ -177,37 +198,28 @@ export function SplitText({
             <span key={token.id} className={styles.word}>
               {token.units.map((unit) => {
                 return (
-                  <motion.span
+                  <span
                     key={unit.id}
                     className={cn(
                       styles.segment,
+                      active ? styles.segmentActive : styles.segmentPending,
+                      hideUntilStart &&
+                        !active &&
+                        styles.segmentHiddenBeforeStart,
                       segmentClassName,
                       tokenClassNameMap?.[token.value],
                     )}
-                    initial={{ opacity: 0, y: "0.68em", filter: "blur(9px)" }}
-                    animate={
-                      active
-                        ? { opacity: 1, y: "0em", filter: "blur(0px)" }
-                        : { opacity: hideUntilStart ? 0 : 1, y: "0em", filter: "blur(0px)" }
+                    style={
+                      {
+                        "--split-text-delay": active
+                          ? `${delay * unit.animationIndex}ms`
+                          : "0ms",
+                        "--split-text-duration": `${duration}s`,
+                      } as React.CSSProperties
                     }
-                    transition={{
-                      duration,
-                      delay: active ? (delay / 1000) * unit.animationIndex : 0,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    onAnimationComplete={() => {
-                      if (
-                        active &&
-                        unit.animationIndex === totalAnimatedUnits - 1 &&
-                        !completionCalledRef.current
-                      ) {
-                        completionCalledRef.current = true;
-                        onComplete?.();
-                      }
-                    }}
                   >
                     {unit.value}
-                  </motion.span>
+                  </span>
                 );
               })}
             </span>

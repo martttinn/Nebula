@@ -3,10 +3,11 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { SplitText } from "@/components/ui/split-text";
+import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 const headingLeadingText = "Software que hace crecer tu ";
 const headingAccentText = "negocio.";
@@ -16,7 +17,7 @@ const HERO_INTRO_START_EVENT = "hero-intro-start";
 const HERO_INTRO_FALLBACK_MS = 1300;
 
 export function HeroLead() {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [subheadingActive, setSubheadingActive] = useState(false);
   const [actionsVisible, setActionsVisible] = useState(false);
   const [scrollCueVisible, setScrollCueVisible] = useState(false);
@@ -47,7 +48,10 @@ export function HeroLead() {
       schedule(() => setSubheadingActive(true), 120);
     };
 
-    const fallbackTimer = window.setTimeout(startSequence, HERO_INTRO_FALLBACK_MS);
+    const fallbackTimer = window.setTimeout(
+      startSequence,
+      HERO_INTRO_FALLBACK_MS,
+    );
     timersRef.current.push(fallbackTimer);
 
     window.addEventListener(HERO_INTRO_START_EVENT, startSequence);
@@ -107,47 +111,21 @@ export function HeroLead() {
         </div>
       </div>
 
-      <motion.div
-        initial={false}
-        animate={
+      <div
+        className={cn(
+          "mt-10 flex flex-col items-center gap-3 transition-[opacity,transform] duration-[420ms] ease-out sm:flex-row sm:items-center sm:justify-center motion-reduce:transition-none",
           actionsVisible || prefersReducedMotion
-            ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: 12 }
-        }
-        transition={{
-          duration: 0.42,
-          ease: [0.22, 1, 0.36, 1],
-          staggerChildren: 0.05,
-        }}
-        className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center"
+            ? "translate-y-0 opacity-100"
+            : "translate-y-3 opacity-0",
+        )}
       >
-        <motion.div
-          initial={false}
-          animate={
-            actionsVisible || prefersReducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 12 }
-          }
-          transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div>
           <Button asChild size="lg">
             <Link href="/#contacto">Contactar</Link>
           </Button>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={false}
-          animate={
-            actionsVisible || prefersReducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 12 }
-          }
-          transition={{
-            duration: 0.42,
-            delay: prefersReducedMotion ? 0 : 0.05,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
+        <div>
           <Button
             asChild
             size="lg"
@@ -156,29 +134,24 @@ export function HeroLead() {
           >
             <Link href="/#servicios">Ver servicios</Link>
           </Button>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
-      <motion.div
+      <div
         aria-hidden="true"
-        initial={false}
-        animate={
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-7 flex justify-center transition-[opacity,transform] duration-[420ms] ease-out sm:bottom-8 motion-reduce:transition-none",
           scrollCueVisible || prefersReducedMotion
-            ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: 12 }
-        }
-        transition={{
-          duration: 0.42,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="pointer-events-none absolute inset-x-0 bottom-7 flex justify-center sm:bottom-8"
+            ? "translate-y-0 opacity-100"
+            : "translate-y-3 opacity-0",
+        )}
       >
         <div className="hero-scroll-cue-motion flex flex-col items-center text-nebula-haze/85">
           <span className="flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] shadow-[0_0_36px_rgba(83,74,183,0.18)] backdrop-blur-md">
             <ChevronDown className="size-5" strokeWidth={1.6} />
           </span>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

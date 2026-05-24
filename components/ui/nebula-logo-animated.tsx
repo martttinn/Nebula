@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useId, useState } from "react";
-import { motion, useAnimation, type Transition } from "motion/react";
+import React, { useEffect, useId, useState, type CSSProperties } from "react";
 
 export interface NebulaLogoAnimatedProps {
   size?: number;
@@ -24,33 +23,25 @@ export function NebulaLogoAnimated({
 }: NebulaLogoAnimatedProps) {
   const uid = useId().replace(/:/g, "u");
   const [glossyActive, setGlossyActive] = useState(false);
-  const sheenCtrl = useAnimation();
 
   useEffect(() => {
-    if (!glossy || !glossyActive) {
-      return;
-    }
+    const timer = window.setTimeout(() => {
+      if (glossy) {
+        setGlossyActive(true);
+      }
 
-    if (paused) {
-      sheenCtrl.stop();
-      return;
-    }
+      onFadeComplete?.();
+    }, fadeDuration * 1000);
 
-    sheenCtrl.start({
-      translateX: [-110, 270],
-      transition: {
-        duration: glossyDuration,
-        ease: "linear",
-        repeat: Infinity,
-        repeatDelay: 2,
-      } satisfies Transition,
-    });
-  }, [glossy, glossyActive, paused, glossyDuration, sheenCtrl]);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [fadeDuration, glossy, onFadeComplete]);
 
   const svgHeight = size * (210 / 180);
 
   return (
-    <motion.svg
+    <svg
       width={size}
       height={svgHeight}
       viewBox="0 0 180 210"
@@ -59,51 +50,95 @@ export function NebulaLogoAnimated({
       aria-label="Nebula logo"
       role="img"
       className={className}
-      style={{ display: "block", overflow: "visible" }}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: fadeDuration, ease: [0.22, 1, 0.36, 1] }}
-      onAnimationComplete={() => {
-        if (glossy) {
-          setGlossyActive(true);
-        }
-        onFadeComplete?.();
+      style={{
+        animation: `nebula-logo-enter ${fadeDuration}s cubic-bezier(0.22, 1, 0.36, 1) both`,
+        display: "block",
+        overflow: "visible",
       }}
     >
       <defs>
-        <linearGradient id={`${uid}-g0`} x1="108" y1="0" x2="175.087" y2="95.8389" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g0`}
+          x1="108"
+          y1="0"
+          x2="175.087"
+          y2="95.8389"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="white" />
           <stop offset="0.25" stopColor="#D4D0F8" />
           <stop offset="0.6" stopColor="#7B74D4" />
           <stop offset="1" stopColor="#534AB7" />
         </linearGradient>
-        <linearGradient id={`${uid}-g1`} x1="90" y1="53" x2="192.922" y2="142.067" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g1`}
+          x1="90"
+          y1="53"
+          x2="192.922"
+          y2="142.067"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#7B74D4" />
           <stop offset="0.3" stopColor="#534AB7" />
           <stop offset="1" stopColor="#1A1A2E" />
         </linearGradient>
-        <linearGradient id={`${uid}-g2`} x1="90" y1="105" x2="147.124" y2="202.927" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g2`}
+          x1="90"
+          y1="105"
+          x2="147.124"
+          y2="202.927"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#534AB7" />
           <stop offset="0.5" stopColor="#26215C" />
           <stop offset="1" stopColor="#0A0F2E" />
         </linearGradient>
-        <linearGradient id={`${uid}-g3`} x1="72" y1="105" x2="4.91275" y2="200.839" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g3`}
+          x1="72"
+          y1="105"
+          x2="4.91275"
+          y2="200.839"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#26215C" />
           <stop offset="0.6" stopColor="#0F0F1A" />
           <stop offset="1" stopColor="#09090F" />
         </linearGradient>
-        <linearGradient id={`${uid}-g4`} x1="90" y1="53" x2="-12.9224" y2="142.067" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g4`}
+          x1="90"
+          y1="53"
+          x2="-12.9224"
+          y2="142.067"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#3D3890" />
           <stop offset="0.4" stopColor="#1A1A2E" />
           <stop offset="1" stopColor="#0A0F2E" />
         </linearGradient>
-        <linearGradient id={`${uid}-g5`} x1="72" y1="0" x2="4.91275" y2="95.8389" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g5`}
+          x1="72"
+          y1="0"
+          x2="4.91275"
+          y2="95.8389"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#E8E8F0" />
           <stop offset="0.3" stopColor="#AFA9EC" />
           <stop offset="0.7" stopColor="#6B63CC" />
           <stop offset="1" stopColor="#534AB7" />
         </linearGradient>
-        <linearGradient id={`${uid}-g6`} x1="0" y1="0" x2="0" y2="105" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${uid}-g6`}
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="105"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="white" stopOpacity="0.15" />
           <stop offset="1" stopColor="white" stopOpacity="0" />
         </linearGradient>
@@ -129,7 +164,16 @@ export function NebulaLogoAnimated({
 
       <g clipPath={`url(#${uid}-clip)`}>
         {glossyActive && (
-          <motion.g initial={{ translateX: -100 }} animate={sheenCtrl}>
+          <g
+            style={
+              {
+                animation: paused
+                  ? undefined
+                  : `nebula-logo-sheen ${glossyDuration}s linear 0s infinite`,
+                transform: "translate3d(-110px, 0, 0)",
+              } as CSSProperties
+            }
+          >
             <rect
               x="0"
               y="-20"
@@ -139,9 +183,9 @@ export function NebulaLogoAnimated({
               transform="rotate(-22, 22, 105)"
               style={{ mixBlendMode: "screen" }}
             />
-          </motion.g>
+          </g>
         )}
       </g>
-    </motion.svg>
+    </svg>
   );
 }

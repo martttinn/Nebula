@@ -1,14 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import { BrandLockup } from "@/components/layout/brand-lockup";
 import { NavbarStaggeredMenu } from "@/components/layout/navbar-staggered-menu";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
-import { PUBLIC_NAV_CTAS, PUBLIC_NAVBAR_LINKS, type PublicNavLink } from "@/data/navigation";
+import {
+  PUBLIC_NAV_CTAS,
+  PUBLIC_NAVBAR_LINKS,
+  type PublicNavLink,
+} from "@/data/navigation";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +43,6 @@ export function Navbar({
   links = PUBLIC_NAVBAR_LINKS,
   ctas = PUBLIC_NAV_CTAS,
 }: NavbarProps) {
-  const prefersReducedMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
@@ -51,9 +59,17 @@ export function Navbar({
       const currentScrollY = window.scrollY;
       const lastScrollY = lastScrollYRef.current;
 
-      if (currentScrollY < lastScrollY || currentScrollY < 50 || isMobileMenuOpen) {
+      if (
+        currentScrollY < lastScrollY ||
+        currentScrollY < 50 ||
+        isMobileMenuOpen
+      ) {
         setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 50 && !isMobileMenuOpen) {
+      } else if (
+        currentScrollY > lastScrollY &&
+        currentScrollY > 50 &&
+        !isMobileMenuOpen
+      ) {
         setIsVisible(false);
       }
 
@@ -68,15 +84,11 @@ export function Navbar({
   }, [isMobileMenuOpen]);
 
   return (
-    <motion.header
-      className="fixed inset-x-0 top-4 z-50 px-4 sm:top-5 sm:px-6"
-      initial={false}
-      animate={{ y: isVisible ? 0 : -160 }}
-      transition={
-        prefersReducedMotion
-          ? { duration: 0 }
-          : { duration: 0.3, ease: "easeInOut" }
-      }
+    <header
+      className={cn(
+        "fixed inset-x-0 top-4 z-50 px-4 transition-transform duration-300 ease-in-out motion-reduce:transition-none sm:top-5 sm:px-6",
+        isVisible ? "translate-y-0" : "-translate-y-40",
+      )}
     >
       <div className={cn("mx-auto w-full max-w-[74rem]", className)}>
         <div className="hidden xl:block">
@@ -117,7 +129,7 @@ export function Navbar({
                 >
                   <Link href={cta.href}>
                     <span className="relative z-10">{cta.label}</span>
-                    {!prefersReducedMotion ? (
+                    <span className="motion-reduce:hidden">
                       <BorderBeam
                         size={40}
                         initialOffset={20}
@@ -125,7 +137,7 @@ export function Navbar({
                         colorTo="#534AB7"
                         style={NAVBAR_CTA_BEAM_STYLE}
                       />
-                    ) : null}
+                    </span>
                   </Link>
                 </Button>
               ))}
@@ -134,7 +146,10 @@ export function Navbar({
         </div>
 
         <div className="relative xl:hidden">
-          <div aria-hidden className="glass-pill pointer-events-none absolute inset-0" />
+          <div
+            aria-hidden
+            className="glass-pill pointer-events-none absolute inset-0"
+          />
           <nav
             aria-label="Principal"
             className="relative flex w-full items-center gap-4 px-4 py-3 sm:px-5"
@@ -153,6 +168,6 @@ export function Navbar({
           </nav>
         </div>
       </div>
-    </motion.header>
+    </header>
   );
 }

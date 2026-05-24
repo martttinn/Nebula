@@ -21,6 +21,31 @@
 .segment {
   display: inline-block;
   will-change: transform, opacity, filter;
+  transition:
+    opacity var(--split-text-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--split-text-delay, 0ms),
+    transform var(--split-text-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--split-text-delay, 0ms),
+    filter var(--split-text-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--split-text-delay, 0ms);
+}
+
+.segmentPending {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+.segmentHiddenBeforeStart {
+  opacity: 0;
+  transform: translate3d(0, 0.68em, 0);
+  filter: blur(9px);
+}
+
+.segmentActive {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
 }
 
 .space {

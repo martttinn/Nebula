@@ -13,6 +13,8 @@ import React, {
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 
+import "@/components/StaggeredMenu.css";
+
 function subscribeToHydration() {
   return () => {};
 }
@@ -66,7 +68,11 @@ export function StaggeredMenu({
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const pendingOpenRef = useRef(false);
   const initialOpenHandledRef = useRef(false);
-  const canUsePortal = useSyncExternalStore(subscribeToHydration, () => true, () => false);
+  const canUsePortal = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false,
+  );
 
   useLayoutEffect(() => {
     if (!canUsePortal || !isOverlayMounted) {
@@ -81,7 +87,9 @@ export function StaggeredMenu({
       }
 
       const preLayers = preContainer
-        ? (Array.from(preContainer.querySelectorAll(".sm-prelayer")) as HTMLElement[])
+        ? (Array.from(
+            preContainer.querySelectorAll(".sm-prelayer"),
+          ) as HTMLElement[])
         : [];
       preLayerElsRef.current = preLayers;
 
@@ -111,13 +119,18 @@ export function StaggeredMenu({
       closeTweenRef.current = null;
     }
 
-    const itemEls = Array.from(panel.querySelectorAll(".sm-panel-itemLabel")) as HTMLElement[];
+    const itemEls = Array.from(
+      panel.querySelectorAll(".sm-panel-itemLabel"),
+    ) as HTMLElement[];
     const numberEls = Array.from(
       panel.querySelectorAll(".sm-panel-list[data-numbering] .sm-panel-item"),
     ) as HTMLElement[];
 
     const offscreen = position === "left" ? -100 : 100;
-    const layerStates = layers.map((element) => ({ element, start: offscreen }));
+    const layerStates = layers.map((element) => ({
+      element,
+      start: offscreen,
+    }));
 
     if (itemEls.length) {
       gsap.set(itemEls, { yPercent: 140, rotate: 10 });
@@ -198,42 +211,49 @@ export function StaggeredMenu({
     timeline.play(0);
   }, [buildOpenTimeline]);
 
-  const playClose = useCallback((onComplete?: () => void) => {
-    openTlRef.current?.kill();
-    openTlRef.current = null;
+  const playClose = useCallback(
+    (onComplete?: () => void) => {
+      openTlRef.current?.kill();
+      openTlRef.current = null;
 
-    const panel = panelRef.current;
-    const layers = preLayerElsRef.current;
-    if (!panel) {
-      onComplete?.();
-      return;
-    }
-
-    closeTweenRef.current?.kill();
-    const offscreen = position === "left" ? -100 : 100;
-    closeTweenRef.current = gsap.to([...layers, panel], {
-      xPercent: offscreen,
-      duration: 0.32,
-      ease: "power3.in",
-      overwrite: "auto",
-      onComplete: () => {
-        const itemEls = Array.from(panel.querySelectorAll(".sm-panel-itemLabel")) as HTMLElement[];
-        if (itemEls.length) {
-          gsap.set(itemEls, { yPercent: 140, rotate: 10 });
-        }
-
-        const numberEls = Array.from(
-          panel.querySelectorAll(".sm-panel-list[data-numbering] .sm-panel-item"),
-        ) as HTMLElement[];
-        if (numberEls.length) {
-          gsap.set(numberEls, { "--sm-num-opacity": 0 });
-        }
-
-        busyRef.current = false;
+      const panel = panelRef.current;
+      const layers = preLayerElsRef.current;
+      if (!panel) {
         onComplete?.();
-      },
-    });
-  }, [position]);
+        return;
+      }
+
+      closeTweenRef.current?.kill();
+      const offscreen = position === "left" ? -100 : 100;
+      closeTweenRef.current = gsap.to([...layers, panel], {
+        xPercent: offscreen,
+        duration: 0.32,
+        ease: "power3.in",
+        overwrite: "auto",
+        onComplete: () => {
+          const itemEls = Array.from(
+            panel.querySelectorAll(".sm-panel-itemLabel"),
+          ) as HTMLElement[];
+          if (itemEls.length) {
+            gsap.set(itemEls, { yPercent: 140, rotate: 10 });
+          }
+
+          const numberEls = Array.from(
+            panel.querySelectorAll(
+              ".sm-panel-list[data-numbering] .sm-panel-item",
+            ),
+          ) as HTMLElement[];
+          if (numberEls.length) {
+            gsap.set(numberEls, { "--sm-num-opacity": 0 });
+          }
+
+          busyRef.current = false;
+          onComplete?.();
+        },
+      });
+    },
+    [position],
+  );
 
   const restoreFocusToTrigger = useCallback(() => {
     const focusTarget = lastFocusedRef.current ?? toggleBtnRef.current;
@@ -251,9 +271,10 @@ export function StaggeredMenu({
       return;
     }
 
-    lastFocusedRef.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : toggleBtnRef.current;
+    lastFocusedRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : toggleBtnRef.current;
     openRef.current = true;
     pendingOpenRef.current = true;
     setIsOverlayMounted(true);
@@ -370,9 +391,13 @@ export function StaggeredMenu({
     closeMenu();
   }, [closeMenu]);
 
-  const rootClassName = (className ? `${className} ` : "") + "staggered-menu-wrapper";
-  const overlayClassName = (className ? `${className} ` : "") + "staggered-menu-overlay";
-  const sharedStyle = accentColor ? ({ "--sm-accent": accentColor } as React.CSSProperties) : undefined;
+  const rootClassName =
+    (className ? `${className} ` : "") + "staggered-menu-wrapper";
+  const overlayClassName =
+    (className ? `${className} ` : "") + "staggered-menu-overlay";
+  const sharedStyle = accentColor
+    ? ({ "--sm-accent": accentColor } as React.CSSProperties)
+    : undefined;
   const iconTransition = prefersReducedMotion
     ? { duration: 0 }
     : {
@@ -390,14 +415,20 @@ export function StaggeredMenu({
     >
       <div ref={preLayersRef} className="sm-prelayers" aria-hidden="true">
         {(() => {
-          const raw = colors.length ? colors.slice(0, 4) : ["#1e1e22", "#35353c"];
+          const raw = colors.length
+            ? colors.slice(0, 4)
+            : ["#1e1e22", "#35353c"];
           const palette = [...raw];
           if (palette.length >= 3) {
             palette.splice(Math.floor(palette.length / 2), 1);
           }
 
           return palette.map((color, index) => (
-            <div key={index} className="sm-prelayer" style={{ background: color }} />
+            <div
+              key={index}
+              className="sm-prelayer"
+              style={{ background: color }}
+            />
           ));
         })()}
       </div>
@@ -412,11 +443,17 @@ export function StaggeredMenu({
         tabIndex={-1}
       >
         <div className="sm-panel-inner">
-          <ul className="sm-panel-list" role="list" data-numbering={displayItemNumbering || undefined}>
+          <ul
+            className="sm-panel-list"
+            role="list"
+            data-numbering={displayItemNumbering || undefined}
+          >
             {items.length ? (
               items.map((item, index) => {
                 const itemKey = `${item.label}-${index}`;
-                const itemLabel = <span className="sm-panel-itemLabel">{item.label}</span>;
+                const itemLabel = (
+                  <span className="sm-panel-itemLabel">{item.label}</span>
+                );
                 const commonProps = {
                   className: "sm-panel-item",
                   "aria-label": item.ariaLabel,
@@ -463,7 +500,11 @@ export function StaggeredMenu({
 
   return (
     <>
-      <div className={rootClassName} style={sharedStyle} data-position={position}>
+      <div
+        className={rootClassName}
+        style={sharedStyle}
+        data-position={position}
+      >
         <button
           ref={toggleBtnRef}
           className="sm-toggle"
@@ -507,7 +548,9 @@ export function StaggeredMenu({
           </span>
         </button>
       </div>
-      {canUsePortal && isOverlayMounted ? createPortal(overlayContent, document.body) : null}
+      {canUsePortal && isOverlayMounted
+        ? createPortal(overlayContent, document.body)
+        : null}
     </>
   );
 }

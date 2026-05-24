@@ -851,3 +851,15 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 **Efecto:** Cada frase de benefits gana una huella espacial propia. Además del ajuste manual de posiciones, el catálogo valida ahora en runtime de módulo que no existan duplicados de anclaje entre frases, lo que evita reintroducir este problema por accidente en cambios futuros.
 
 **Archivos / artefactos relevantes:** `components/home/value-proposition-section/content.ts`, `DESIGN.md`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
+## 2026-05-24 — Las microanimaciones above-the-fold no deben arrastrar Motion si CSS conserva el resultado
+
+**Decisión:** Las primitives del primer viewport con animaciones simples deben resolverse con CSS transitions/keyframes o estado React minimo antes de importar `motion/react`. Motion se reserva para superficies scroll-driven o interacciones donde aporte mecanica real.
+
+**Motivo:** PageSpeed mobile siguio marcando coste de JavaScript, main thread y JS no usado. En la home, varias piezas above-the-fold (`Button`, `BorderBeam`, `Preloader`, `SplitText`, `NebulaLogoAnimated`, `HeroLead` y navbar) usaban Motion para microanimaciones que CSS puede reproducir sin cambiar la apariencia.
+
+**Efecto:** El primer viewport reduce dependencias de arranque y el CSS del menu responsive sale de la ruta critica. El menu escalonado, GSAP y Motion siguen disponibles de forma diferida donde la interaccion lo justifica.
+
+**Archivos / artefactos relevantes:** `components/animate-ui/primitives/buttons/button.tsx`, `components/magicui/border-beam.tsx`, `components/ui/preloader.tsx`, `components/ui/split-text.tsx`, `components/ui/nebula-logo-animated.tsx`, `components/home/hero/lead.tsx`, `components/layout/navbar*.tsx`, `components/StaggeredMenu.tsx`, `lib/use-prefers-reduced-motion.ts`, `doc/change-log/**`.

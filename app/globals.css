@@ -58,6 +58,48 @@ body::before {
   }
 }
 
+@keyframes border-beam-forward {
+  from {
+    offset-distance: var(--border-beam-start);
+  }
+
+  to {
+    offset-distance: var(--border-beam-end);
+  }
+}
+
+@keyframes border-beam-reverse {
+  from {
+    offset-distance: var(--border-beam-start);
+  }
+
+  to {
+    offset-distance: var(--border-beam-end);
+  }
+}
+
+@keyframes nebula-logo-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nebula-logo-sheen {
+  from {
+    transform: translate3d(-110px, 0, 0);
+  }
+
+  to {
+    transform: translate3d(270px, 0, 0);
+  }
+}
+
 ::selection {
   color: #09090f;
   background: rgba(232, 232, 240, 0.9);
@@ -350,12 +392,16 @@ body::before {
 
   .via-\(--color-to\) {
     --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--color-to) var(--tw-gradient-via-position), var(--tw-gradient-to);
+    --tw-gradient-stops:
+      var(--tw-gradient-from), var(--color-to) var(--tw-gradient-via-position),
+      var(--tw-gradient-to);
   }
 
   .mask-\[linear-gradient\(transparent\,transparent\)\,linear-gradient\(\#000\,\#000\)\] {
-    -webkit-mask-image: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
-    mask-image: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    -webkit-mask-image:
+      linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    mask-image:
+      linear-gradient(transparent, transparent), linear-gradient(#000, #000);
   }
 
   .mask-intersect {

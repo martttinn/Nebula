@@ -1,12 +1,17 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import { motion, type HTMLMotionProps } from "motion/react";
+import type { ComponentPropsWithoutRef, CSSProperties, Ref } from "react";
 
-const MotionSlot = motion.create(Slot);
+import { cn } from "@/lib/utils";
 
-type ButtonProps = Omit<HTMLMotionProps<"button">, "ref"> & {
-  ref?: React.Ref<HTMLButtonElement>;
+type ButtonStyle = CSSProperties & {
+  "--button-hover-scale": number;
+  "--button-tap-scale": number;
+};
+
+type ButtonProps = ComponentPropsWithoutRef<"button"> & {
+  ref?: Ref<HTMLButtonElement>;
   asChild?: boolean;
   hoverScale?: number;
   tapScale?: number;
@@ -16,14 +21,25 @@ function Button({
   hoverScale = 1.05,
   tapScale = 0.95,
   asChild = false,
+  className,
+  style,
   ...props
 }: ButtonProps) {
-  const Component = asChild ? MotionSlot : motion.button;
+  const Component = asChild ? Slot : "button";
 
   return (
     <Component
-      whileTap={{ scale: tapScale }}
-      whileHover={{ scale: hoverScale }}
+      className={cn(
+        "motion-safe:transition-transform motion-safe:hover:scale-[var(--button-hover-scale)] motion-safe:active:scale-[var(--button-tap-scale)]",
+        className,
+      )}
+      style={
+        {
+          "--button-hover-scale": hoverScale,
+          "--button-tap-scale": tapScale,
+          ...style,
+        } as ButtonStyle
+      }
       {...props}
     />
   );

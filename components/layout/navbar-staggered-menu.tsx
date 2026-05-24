@@ -1,12 +1,19 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ComponentType,
+} from "react";
 
-import type { StaggeredMenuItem, StaggeredMenuProps } from "@/components/StaggeredMenu";
+import type {
+  StaggeredMenuItem,
+  StaggeredMenuProps,
+} from "@/components/StaggeredMenu";
 import type { PublicNavLink } from "@/data/navigation";
-
-import "@/components/StaggeredMenu.css";
 
 type NavbarStaggeredMenuProps = {
   links: readonly PublicNavLink[];
@@ -16,8 +23,20 @@ type NavbarStaggeredMenuProps = {
 
 const MENU_IDLE_PRELOAD_DELAY_MS = 5200;
 
+let staggeredMenuPreloadPromise: Promise<
+  ComponentType<StaggeredMenuProps>
+> | null = null;
+
+function preloadStaggeredMenu() {
+  staggeredMenuPreloadPromise ??= import("@/components/StaggeredMenu").then(
+    (module) => module.StaggeredMenu,
+  );
+
+  return staggeredMenuPreloadPromise;
+}
+
 const DynamicStaggeredMenu = dynamic<StaggeredMenuProps>(
-  () => import("@/components/StaggeredMenu").then((module) => module.StaggeredMenu),
+  () => preloadStaggeredMenu(),
   {
     ssr: false,
     loading: () => <MenuTriggerFallback />,
@@ -34,7 +53,10 @@ function toMenuItem(link: PublicNavLink): StaggeredMenuItem {
 
 type BrowserWindowWithIdle = Window &
   typeof globalThis & {
-    requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+    requestIdleCallback?: (
+      callback: () => void,
+      options?: { timeout: number },
+    ) => number;
     cancelIdleCallback?: (handle: number) => void;
   };
 
@@ -43,11 +65,17 @@ type MenuTriggerFallbackProps = {
   onIntent?: () => void;
 };
 
-function MenuTriggerFallback({ onActivate, onIntent }: MenuTriggerFallbackProps) {
+function MenuTriggerFallback({
+  onActivate,
+  onIntent,
+}: MenuTriggerFallbackProps) {
   return (
-    <div className="nebula-navbar-menu staggered-menu-wrapper" data-position="right">
+    <div
+      className="pointer-events-auto relative z-[1] flex items-center justify-end"
+      data-position="right"
+    >
       <button
-        className="sm-toggle"
+        className="relative inline-flex min-h-12 min-w-12 cursor-pointer items-center justify-center rounded-full border border-transparent bg-transparent p-[0.45rem] text-nebula-silver transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-nebula-lilac/80"
         aria-label="Abrir menú"
         aria-expanded={false}
         aria-controls="staggered-menu-panel"
@@ -57,11 +85,14 @@ function MenuTriggerFallback({ onActivate, onIntent }: MenuTriggerFallbackProps)
         onTouchStart={onIntent}
         type="button"
       >
-        <span className="sm-icon" aria-hidden="true">
-          <span className="sm-icon-lines">
-            <span className="sm-icon-line" style={{ transform: "translateY(-5px)" }} />
-            <span className="sm-icon-line" />
-            <span className="sm-icon-line" style={{ transform: "translateY(5px)" }} />
+        <span
+          className="relative inline-flex size-5 items-center justify-center"
+          aria-hidden="true"
+        >
+          <span className="relative size-full">
+            <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-[6px] rounded-full bg-current" />
+            <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 rounded-full bg-current" />
+            <span className="absolute left-0 top-1/2 h-0.5 w-full translate-y-1 rounded-full bg-current" />
           </span>
         </span>
       </button>
@@ -84,8 +115,8 @@ export function NavbarStaggeredMenu({
     [ctas, links],
   );
 
-  const loadMenu = useCallback(() => {
-    setShouldLoadMenu(true);
+  const preloadMenu = useCallback(() => {
+    void preloadStaggeredMenu();
   }, []);
 
   const activateMenu = useCallback(() => {
@@ -114,11 +145,13 @@ export function NavbarStaggeredMenu({
       const browserWindow = window as BrowserWindowWithIdle;
 
       if (browserWindow.requestIdleCallback) {
-        idleHandle = browserWindow.requestIdleCallback(loadMenu, { timeout: 1200 });
+        idleHandle = browserWindow.requestIdleCallback(preloadMenu, {
+          timeout: 1200,
+        });
         return;
       }
 
-      loadMenu();
+      preloadMenu();
     }, MENU_IDLE_PRELOAD_DELAY_MS);
 
     return () => {
@@ -129,7 +162,7 @@ export function NavbarStaggeredMenu({
         browserWindow.cancelIdleCallback?.(idleHandle);
       }
     };
-  }, [loadMenu, shouldLoadMenu]);
+  }, [preloadMenu, shouldLoadMenu]);
 
   return (
     <div className="ml-auto flex shrink-0 items-center xl:hidden">
@@ -152,7 +185,7 @@ export function NavbarStaggeredMenu({
           items={items}
         />
       ) : (
-        <MenuTriggerFallback onActivate={activateMenu} onIntent={loadMenu} />
+        <MenuTriggerFallback onActivate={activateMenu} onIntent={preloadMenu} />
       )}
     </div>
   );
