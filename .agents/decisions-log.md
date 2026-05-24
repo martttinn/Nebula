@@ -4,6 +4,18 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-22 — PageSpeed mobile se optimiza sin cambiar la direccion visual
+
+**Decisión:** La home publica mantiene la misma composicion visual, pero desplaza trabajo no critico fuera del arranque: el `Preloader` conserva su presencia de marca sin intervalos de estado React, el `StaggeredMenu` responsive carga su overlay y GSAP por intencion/idle, y los badges tecnologicos usan un subconjunto SVG local en vez del catalogo monolitico de `tech-stack-icons`.
+
+**Motivo:** La auditoria mobile de PageSpeed Insights del `2026-05-22` marco `Performance 85`, `Speed Index 6.9s`, `TBT 280ms`, `main thread work 4.2s` y `JS execution 1.6s`. Servidor, imagenes, cache y SEO estaban correctos; el cuello de botella estaba en JavaScript/hidratacion y trabajo de main thread.
+
+**Efecto:** El resultado visual queda alineado con el runtime anterior, pero se reduce el coste de arranque y desaparece el chunk cliente masivo derivado de `tech-stack-icons`. La mejora real en PageSpeed/CrUX solo queda confirmada tras despliegue y nueva medicion sobre el dominio publicado.
+
+**Archivos / artefactos relevantes:** `components/ui/preloader.tsx`, `components/layout/navbar-staggered-menu.tsx`, `components/StaggeredMenu.tsx`, `components/ui/local-tech-stack-icons.tsx`, `components/ui/lazy-tech-stack-icon.tsx`, `components/ui/tech-stack-icon.tsx`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
 ## 2026-05-19 — El contacto público usa datos directos versionados
 
 **Decisión:** Nebula Studios centraliza el email público `hola@somosnebula.com` y el teléfono `+34 622 028 550` en `lib/site.ts`. El CTA final de `#contacto` abre `mailto:hola@somosnebula.com` y el footer muestra email + teléfono con hrefs directos.

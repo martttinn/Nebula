@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 import { NebulaLogoAnimated } from "@/components/ui/nebula-logo-animated";
 
 const PRELOADER_MIN_DURATION_MS = 900;
-const PRELOADER_PROGRESS_INTERVAL_MS = 20;
 const PRELOADER_EXIT_HOLD_MS = 220;
 const PRELOADER_SAFETY_TIMEOUT_MS = 2500;
 const HERO_INTRO_START_EVENT = "hero-intro-start";
+const SCROLL_LOCKED_KEYS = new Set([
+  "ArrowUp",
+  "ArrowDown",
+  "PageUp",
+  "PageDown",
+  "Home",
+  "End",
+  "Space",
+]);
 
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
@@ -47,17 +55,7 @@ export function Preloader() {
     };
 
     const preventScrollKeys = (event: KeyboardEvent) => {
-      const blockedKeys = new Set([
-        "ArrowUp",
-        "ArrowDown",
-        "PageUp",
-        "PageDown",
-        "Home",
-        "End",
-        "Space",
-      ]);
-
-      if (blockedKeys.has(event.code)) {
+      if (SCROLL_LOCKED_KEYS.has(event.code)) {
         event.preventDefault();
       }
     };
@@ -99,26 +97,13 @@ export function Preloader() {
     let minTimePassed = false;
     let finished = false;
 
-    const duration = PRELOADER_MIN_DURATION_MS;
-    const interval = PRELOADER_PROGRESS_INTERVAL_MS;
-    const steps = duration / interval;
-    const increment = 95 / steps;
-
-    const timer = window.setInterval(() => {
-      setProgress((previous) => {
-        const next = previous + increment;
-        return next >= 95 ? 95 : next;
-      });
-    }, interval);
-
     const finish = () => {
       if (finished) {
         return;
       }
 
       finished = true;
-      window.clearInterval(timer);
-      setProgress(100);
+      setIsExiting(true);
       window.dispatchEvent(new CustomEvent(HERO_INTRO_START_EVENT));
 
       window.setTimeout(() => {
@@ -143,7 +128,7 @@ export function Preloader() {
     const minTimer = window.setTimeout(() => {
       minTimePassed = true;
       tryToFinish();
-    }, duration);
+    }, PRELOADER_MIN_DURATION_MS);
 
     const safetyTimeout = window.setTimeout(() => {
       minTimePassed = true;
@@ -152,7 +137,6 @@ export function Preloader() {
     }, PRELOADER_SAFETY_TIMEOUT_MS);
 
     return () => {
-      window.clearInterval(timer);
       window.clearTimeout(minTimer);
       window.clearTimeout(safetyTimeout);
       window.removeEventListener("hero-grid-ready", onHeroReady);
@@ -187,8 +171,12 @@ export function Preloader() {
             <motion.div
               className="absolute top-0 left-0 h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
               initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
-              transition={{ ease: "linear", duration: 0.02 }}
+              animate={{ width: isExiting ? "100%" : "95%" }}
+              transition={
+                isExiting
+                  ? { ease: "easeOut", duration: 0.16 }
+                  : { ease: "linear", duration: PRELOADER_MIN_DURATION_MS / 1000 }
+              }
             />
           </div>
         </motion.div>

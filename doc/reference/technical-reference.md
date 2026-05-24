@@ -31,7 +31,7 @@ Verificado el **2026-05-19** contra `package.json`, `package-lock.json`, `tsconf
 - `@vercel/analytics` `2.0.1`
 - `@vercel/speed-insights` `2.0.0`
 - `tech-stack-icons` `3.7.1`
-- React Doctor `0.2.1` verificado por ejecucion bajo demanda el `2026-05-18`; uso con `npx react-doctor@latest`, no instalado en `package.json`
+- React Doctor `0.2.2` verificado por ejecucion bajo demanda el `2026-05-22`; uso con `npx react-doctor@latest`, no instalado en `package.json`
 - `class-variance-authority`, `@radix-ui/react-slot`, `clsx`, `tailwind-merge`
 - `@supabase/ssr`, `@supabase/supabase-js`
 - Supabase CLI repo-local (`supabase`) `2.100.1`
@@ -74,8 +74,9 @@ Verificado el **2026-05-19** contra `package.json`, `package-lock.json`, `tsconf
 - `components/ui/preloader.tsx`: overlay de entrada con branding y barra de progreso para la home pública, coordinado con el readiness del hero y con salida acotada para no bloquear innecesariamente el primer contenido
 - `components/ui/split-text.tsx`: primitive reusable inspirada en `SplitText` de React Bits para reveals escalonados por caracteres o palabras
 - `components/ui/nebula-logo-animated.tsx`: logotipo animado reutilizado desde `nebula-legacy` para el preloader
-- `components/ui/tech-stack-icon.tsx`: wrapper server-first sobre `tech-stack-icons` para iconografía tecnológica sin contaminar bundles cliente por accidente
-- `components/ui/lazy-tech-stack-icon.tsx`: fallback cliente con `next/dynamic` + `IntersectionObserver`, reservado para superficies que no puedan permanecer server-side
+- `components/ui/local-tech-stack-icons.tsx`: subconjunto local de SVGs de tecnologias usadas por la home publica, pensado para evitar cargar el catalogo monolitico de `tech-stack-icons` en cliente
+- `components/ui/tech-stack-icon.tsx`: wrapper server-first sobre el subconjunto local de iconos tecnologicos
+- `components/ui/lazy-tech-stack-icon.tsx`: wrapper cliente de compatibilidad sobre el subconjunto local de iconos tecnologicos; conserva la API anterior pero ya no usa `next/dynamic` ni `IntersectionObserver`
 - `supabase/`: configuración del CLI local, seeds y migraciones versionadas
 - `.agents/`: reglas, roles, workflows, skills y decisiones del sistema de agentes
 - `DESIGN.md`: canon visual reutilizable, conectado con los tokens de `app/globals.css`, `tailwind.config.cjs` y primitives UI
@@ -107,16 +108,16 @@ Política estructural activa para `components/home/`:
 - `nebula-legacy` sigue existiendo como superficie de referencia puntual para migrar piezas visuales seleccionadas, como el preloader, el logo animado y ahora el carrusel de servicios
 - `DESIGN.md` y la implementación base están alineados en palette, tipografía y components shell
 - la home monta ya el navbar pill reusable como navegación visible de primer nivel
-- la home monta también un `Preloader` de branding con salida coordinada con la señal `hero-grid-ready` emitida por el fondo del hero; mientras permanece visible bloquea scroll e interaccion global del contenido subyacente y detiene explícitamente la instancia root de `Lenis`. La duracion minima queda acotada en `900ms`, el timeout de seguridad en `2500ms` y la señal `hero-intro-start` se lanza antes de ocultar el overlay para que la secuencia del hero no espere a que termine todo el fade del loader
+- la home monta también un `Preloader` de branding con salida coordinada con la señal `hero-grid-ready` emitida por el fondo del hero; mientras permanece visible bloquea scroll e interaccion global del contenido subyacente y detiene explícitamente la instancia root de `Lenis`. La duracion minima queda acotada en `900ms`, el timeout de seguridad en `2500ms` y la señal `hero-intro-start` se lanza antes de ocultar el overlay para que la secuencia del hero no espere a que termine todo el fade del loader. La barra de progreso se anima con una timeline de Motion, no con actualizaciones continuas de estado React
 - inmediatamente después del hero, la home añade una banda editorial de propuesta de valor con dos frases activas y cambio de color palabra a palabra guiado por scroll
 - el icono del sitio usa `app/icon.svg` con el símbolo oficial oscuro de Nebula
 - el root layout monta ya `Analytics` desde `@vercel/analytics/next` y `SpeedInsights` desde `@vercel/speed-insights/next`, de modo que el runtime queda preparado para recoger page views, visitantes y métricas de rendimiento reales cuando exista despliegue en Vercel y Web Analytics esté habilitado en el dashboard
 - las variants reutilizables de botón comparten ya una base motion importada desde `animate-ui`, mientras mantienen el styling propio de Nebula en la capa wrapper
-- cualquier consumo de `tech-stack-icons` debe pasar por wrappers propios: `components/ui/tech-stack-icon.tsx` como ruta recomendada server-first y `components/ui/lazy-tech-stack-icon.tsx` solo cuando un icono deba vivir obligatoriamente dentro de un Client Component; el paquete publica un bundle monolítico y no debe importarse de forma directa en islands cliente críticas
+- cualquier icono tecnologico usado por la home publica debe pasar por wrappers propios y, mientras el set sea reducido, por el subconjunto local de `components/ui/local-tech-stack-icons.tsx`. `tech-stack-icons` sigue instalado por historico del repo, pero el runtime publico no debe importarlo para casos de pocos iconos porque el paquete publica un bundle monolitico
 - el scroll raíz del sitio puede suavizarse con `Lenis`, con anclas internas habilitadas y offset para el navbar fijo; cualquier superficie anidada que deba preservar interacción propia debe evaluarse con opt-out granular y nunca con bloqueo total si rompe la navegación natural del documento
 - el root layout monta también un indicador global de progreso de scroll en el borde superior del viewport, tipo scrollbar fino, con línea base muy tenue, fill lilac/silver y una interpolación ligera propia para que el avance no quede duro ni dependiente del valor instantáneo del scroll
 - el navbar público replica el patrón de `nebula-legacy`: se oculta al hacer scroll descendente pasado un umbral, reaparece al remontar o cerca del top y se mantiene visible mientras el menú responsive está abierto
-- en móvil y tablet, el navbar colapsa a lockup + hamburguesa, y usa un overlay escalonado fullscreen basado en `StaggeredMenu`; el toggle morfea a `X` con Motion for React vía `motion/react`, y todos los destinos activos del navbar, incluido `Contactar`, se renderizan como links tipográficos del mismo sistema, con cierre por `Escape`, foco inicial dentro del panel y retorno de foco al trigger. Desktop mantiene la navegación inline y el CTA premium originales
+- en móvil y tablet, el navbar colapsa a lockup + hamburguesa, y usa un overlay escalonado fullscreen basado en `StaggeredMenu`; el toggle morfea a `X` con Motion for React vía `motion/react`, y todos los destinos activos del navbar, incluido `Contactar`, se renderizan como links tipográficos del mismo sistema, con cierre por `Escape`, foco inicial dentro del panel y retorno de foco al trigger. Desktop mantiene la navegación inline y el CTA premium originales. El codigo pesado del overlay responsive y GSAP se carga de forma diferida por intencion del usuario o idle tardio, manteniendo un trigger visual equivalente en el HTML inicial
 - el navbar público deja solo el CTA `Contactar`, resuelto ahora sobre la primitive estándar `Button` como outlined transparente en reposo, con borde claro, hover blanco con texto negro, escala `1.05` y `BorderBeam` original de Magic UI montado dentro del link en desktop; con `prefers-reduced-motion`, el beam animado no se renderiza
 - los links centrales del navbar usan una transición con inercia suave en `hover`, basada en microescala y curva elástica contenida, evitando desplazamiento físico para no reactivar el hover al salir
 - en desktop, `Servicios` vuelve a resolverse como link inline simple dentro del navbar, sin chevron, dropdown ni expansión integrada; `Blog` queda fuera del navbar visible mientras no exista una superficie pública real de blog

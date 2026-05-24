@@ -13,8 +13,6 @@ import React, {
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 
-import "./StaggeredMenu.css";
-
 function subscribeToHydration() {
   return () => {};
 }
@@ -39,6 +37,7 @@ export interface StaggeredMenuProps {
   accentColor?: string;
   closeOnClickAway?: boolean;
   onOpenChange?: (open: boolean) => void;
+  initialOpen?: boolean;
 }
 
 export function StaggeredMenu({
@@ -51,6 +50,7 @@ export function StaggeredMenu({
   accentColor = "#5227FF",
   closeOnClickAway = true,
   onOpenChange,
+  initialOpen = false,
 }: StaggeredMenuProps) {
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
@@ -65,6 +65,7 @@ export function StaggeredMenu({
   const busyRef = useRef(false);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const pendingOpenRef = useRef(false);
+  const initialOpenHandledRef = useRef(false);
   const canUsePortal = useSyncExternalStore(subscribeToHydration, () => true, () => false);
 
   useLayoutEffect(() => {
@@ -282,6 +283,19 @@ export function StaggeredMenu({
 
     openMenu();
   }, [closeMenu, openMenu]);
+
+  useEffect(() => {
+    if (!initialOpen || initialOpenHandledRef.current) {
+      return;
+    }
+
+    initialOpenHandledRef.current = true;
+    const frame = requestAnimationFrame(openMenu);
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [initialOpen, openMenu]);
 
   useEffect(() => {
     if (!open || !isOverlayMounted || !pendingOpenRef.current) {

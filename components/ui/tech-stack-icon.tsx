@@ -1,9 +1,6 @@
 import "server-only";
 
-import StackIcon from "tech-stack-icons";
-
-import { cn } from "@/lib/utils";
-
+import { LocalTechStackIcon } from "@/components/ui/local-tech-stack-icons";
 import type { TechStackIconProps } from "./tech-stack-icon.types";
 
 export type {
@@ -20,17 +17,14 @@ export function TechStackIcon({
   label,
   decorative,
 }: TechStackIconProps) {
-  const isDecorative = decorative ?? label == null;
-
   return (
-    <span
-      className={cn("inline-flex shrink-0 align-middle", className)}
+    <LocalTechStackIcon
+      name={name}
+      variant={variant}
+      className={className}
       style={style}
-      aria-hidden={isDecorative ? true : undefined}
-      role={isDecorative ? undefined : "img"}
-      aria-label={isDecorative ? undefined : label}
-    >
-      <StackIcon name={name} variant={variant} className="block h-full w-full" />
-    </span>
+      label={label}
+      decorative={decorative}
+    />
   );
 }

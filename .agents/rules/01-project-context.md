@@ -26,7 +26,7 @@ Verificado localmente el **19 de mayo de 2026** contra `package.json`, `package-
 - Three.js `0.184.x`
 - Postprocessing `6.39.x`
 - `tech-stack-icons` `3.7.1`
-- React Doctor `0.2.1` como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado ni fijado en `package.json`
+- React Doctor `0.2.2` como diagnóstico bajo demanda vía `npx react-doctor@latest`; no está instalado ni fijado en `package.json`
 - App Router
 - primitives tipo shadcn/ui con `class-variance-authority`, `@radix-ui/react-slot`, `clsx` y `tailwind-merge`
 
