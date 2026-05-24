@@ -1,40 +1,90 @@
 "use client";
 
-import { useCallback, useEffect, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
-export function useSectionScrollProgress(ref: RefObject<HTMLDivElement | null>) {
+const SCROLL_PROGRESS_EPSILON = 0.001;
+
+export function useSectionScrollProgress(
+  ref: RefObject<HTMLDivElement | null>,
+  enabled = true,
+) {
   const [progress, setProgress] = useState(0);
+  const metricsRef = useRef({
+    sectionTop: 0,
+    scrollableDistance: 0,
+  });
 
-  const update = useCallback(() => {
+  const updateFromCachedMetrics = useCallback(() => {
+    const { sectionTop, scrollableDistance } = metricsRef.current;
+
+    if (scrollableDistance <= 0) {
+      setProgress((currentProgress) =>
+        currentProgress === 0 ? currentProgress : 0,
+      );
+      return;
+    }
+
+    const rawProgress = (window.scrollY - sectionTop) / scrollableDistance;
+    const nextProgress = Math.max(0, Math.min(1, rawProgress));
+
+    setProgress((currentProgress) =>
+      Math.abs(currentProgress - nextProgress) < SCROLL_PROGRESS_EPSILON
+        ? currentProgress
+        : nextProgress,
+    );
+  }, []);
+
+  const measure = useCallback(() => {
     if (!ref.current) {
       return;
     }
 
     const rect = ref.current.getBoundingClientRect();
-    const sectionHeight = ref.current.offsetHeight;
     const viewportHeight = window.innerHeight;
-    const scrollableDistance = sectionHeight - viewportHeight;
+    const scrollableDistance = rect.height - viewportHeight;
 
-    if (scrollableDistance <= 0) {
-      setProgress(0);
+    metricsRef.current = {
+      sectionTop: window.scrollY + rect.top,
+      scrollableDistance,
+    };
+    updateFromCachedMetrics();
+  }, [ref, updateFromCachedMetrics]);
+
+  useEffect(() => {
+    if (!enabled) {
       return;
     }
 
-    const scrolled = -rect.top;
-    const rawProgress = scrolled / scrollableDistance;
-    setProgress(Math.max(0, Math.min(1, rawProgress)));
-  }, [ref]);
+    let frameId = 0;
+    const node = ref.current;
 
-  useEffect(() => {
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    update();
+    const scheduleProgressUpdate = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateFromCachedMetrics);
+    };
+
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(measure);
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleMeasure);
+
+    if (node) {
+      resizeObserver.observe(node);
+    }
+
+    window.addEventListener("scroll", scheduleProgressUpdate, { passive: true });
+    window.addEventListener("resize", scheduleMeasure, { passive: true });
+    measure();
 
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleProgressUpdate);
+      window.removeEventListener("resize", scheduleMeasure);
     };
-  }, [update]);
+  }, [enabled, measure, ref, updateFromCachedMetrics]);
 
   return progress;
 }

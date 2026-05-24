@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SCROLL_RAIL_SMOOTHING = 0.12;
 const SCROLL_RAIL_SETTLE_EPSILON = 0.001;
@@ -10,8 +10,8 @@ function clamp(value: number, min: number, max: number) {
 }
 
 export function ScrollProgressBar() {
-  const [progress, setProgress] = useState(0);
   const [isScrollable, setIsScrollable] = useState(false);
+  const fillRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -39,7 +39,10 @@ export function ScrollProgressBar() {
 
       if (mediaQuery.matches) {
         animatedProgress.current = nextTarget;
-        setProgress(nextTarget);
+        fillRef.current?.style.setProperty(
+          "transform",
+          `scaleX(${clamp(nextTarget, 0, 1)})`,
+        );
       }
     };
 
@@ -52,7 +55,10 @@ export function ScrollProgressBar() {
           : animatedProgress.current + delta * SCROLL_RAIL_SMOOTHING;
 
       animatedProgress.current = nextProgress;
-      setProgress(nextProgress);
+      fillRef.current?.style.setProperty(
+        "transform",
+        `scaleX(${clamp(nextProgress, 0, 1)})`,
+      );
       frameId = window.requestAnimationFrame(animate);
     };
 
@@ -85,8 +91,6 @@ export function ScrollProgressBar() {
     return null;
   }
 
-  const clampedProgress = clamp(progress, 0, 1);
-
   return (
     <div
       aria-hidden="true"
@@ -96,9 +100,10 @@ export function ScrollProgressBar() {
         <div className="absolute inset-x-0 top-0 h-[2px] bg-white/[0.07]" />
         <div className="absolute inset-x-0 top-0 h-[2px] overflow-hidden">
           <div
+            ref={fillRef}
             className="h-full w-full origin-left rounded-r-full bg-[linear-gradient(90deg,rgba(181,177,227,0.56),rgba(83,74,183,0.92),rgba(232,232,240,1))]"
             style={{
-              transform: `scaleX(${clampedProgress})`,
+              transform: "scaleX(0)",
             }}
           />
         </div>

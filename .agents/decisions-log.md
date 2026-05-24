@@ -4,6 +4,18 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ---
 
+## 2026-05-24 — Trabajo no visual se desplaza fuera del arranque movil
+
+**Decision:** La home publica mantiene su resultado visual, pero mueve trabajo no critico fuera del arranque inmediato: `Lenis` se instancia de forma imperativa por idle tras respetar `prefers-reduced-motion`, sin reenvolver ni remontar el arbol React, Vercel Analytics/Speed Insights se montan por idle, el indicador global de scroll deja de actualizar React en cada frame y las secciones con variantes desktop ocultas en movil dejan de ejecutar sus listeners/calculos desktop en ese viewport.
+
+**Motivo:** El analisis PageSpeed mobile compartido el `2026-05-24` seguia senalando coste de JavaScript, main thread y reflows forzados como principales sintomas accionables. El CSS render-blocking y el JavaScript antiguo tenian ahorro estimado bajo y no justificaban cambios visuales ni targets agresivos.
+
+**Efecto:** Se reduce trabajo temprano y coste de scroll sin alterar copy, layout, estilos, motion visible ni secciones publicas. El proveedor de scroll mantiene un retorno estable de `children`, evitando que el preloader pueda ejecutarse dos veces por un cambio tardio de wrapper. La mejora real solo queda confirmada tras despliegue y nueva medicion sobre `somosnebula.com`.
+
+**Archivos / artefactos relevantes:** `components/layout/lenis-provider.tsx`, `components/layout/vercel-observability.tsx`, `components/layout/scroll-progress-bar.tsx`, `components/ui/preloader.tsx`, `components/home/services-carousel/**`, `components/home/projects-showcase/index.tsx`, `components/home/testimonials/index.tsx`, `lib/browser-idle.ts`, `doc/reference/technical-reference.md`, `doc/change-log/**`.
+
+---
+
 ## 2026-05-22 — PageSpeed mobile se optimiza sin cambiar la direccion visual
 
 **Decisión:** La home publica mantiene la misma composicion visual, pero desplaza trabajo no critico fuera del arranque: el `Preloader` conserva su presencia de marca sin intervalos de estado React, el `StaggeredMenu` responsive carga su overlay y GSAP por intencion/idle, y los badges tecnologicos usan un subconjunto SVG local en vez del catalogo monolitico de `tech-stack-icons`.

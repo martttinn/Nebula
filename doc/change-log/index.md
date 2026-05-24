@@ -5,10 +5,11 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 198
-- Grupos registrados: 192
+- Entradas registradas: 199
+- Grupos registrados: 193
 
 ## Ultimos cambios
+- `2026-05-24` [`NBS-CHG-2026-05-24-217`](entries/2026/05/NBS-CHG-2026-05-24-217--optimizacion-runtime-movil-tras-pagespeed.md) - Optimizacion de runtime movil tras PageSpeed - `frontend` - grupo [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md)
 - `2026-05-22` [`NBS-CHG-2026-05-22-216`](entries/2026/05/NBS-CHG-2026-05-22-216--optimizacion-pagespeed-movil-sin-cambio-visual.md) - Optimizacion PageSpeed movil sin cambio visual - `frontend` - grupo [`NBS-TSK-2026-192`](groups/2026/NBS-TSK-2026-192.md)
 - `2026-05-21` [`NBS-CHG-2026-05-21-215`](entries/2026/05/NBS-CHG-2026-05-21-215--stack-sticky-movil-en-testimonials.md) - Stack sticky movil en testimonials - `frontend` - grupo [`NBS-TSK-2026-191`](groups/2026/NBS-TSK-2026-191.md)
 - `2026-05-21` [`NBS-CHG-2026-05-21-214`](entries/2026/05/NBS-CHG-2026-05-21-214--ajuste-final-de-la-guia-movil-del-proceso.md) - Ajuste final de la guia movil del proceso - `frontend` - grupo [`NBS-TSK-2026-190`](groups/2026/NBS-TSK-2026-190.md)
@@ -213,6 +214,7 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md) - Optimizacion de runtime movil tras PageSpeed - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-192`](groups/2026/NBS-TSK-2026-192.md) - Optimizacion PageSpeed movil sin cambio visual - 2026-05-22 -> 2026-05-22 - 1 cambios
 - [`NBS-TSK-2026-191`](groups/2026/NBS-TSK-2026-191.md) - Stack sticky movil en testimonials - 2026-05-21 -> 2026-05-21 - 1 cambios
 - [`NBS-TSK-2026-190`](groups/2026/NBS-TSK-2026-190.md) - Ajuste final de la guia movil del proceso - 2026-05-21 -> 2026-05-21 - 1 cambios

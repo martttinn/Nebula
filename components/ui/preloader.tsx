@@ -1,6 +1,5 @@
 "use client";
 
-import { useLenis } from "lenis/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -23,25 +22,6 @@ const SCROLL_LOCKED_KEYS = new Set([
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-  const lenis = useLenis();
-
-  useEffect(() => {
-    if (!lenis) {
-      return;
-    }
-
-    if (isLoading) {
-      lenis.stop();
-      lenis.scrollTo(0, { immediate: true, force: true });
-      return;
-    }
-
-    lenis.start();
-
-    return () => {
-      lenis.start();
-    };
-  }, [isLoading, lenis]);
 
   useEffect(() => {
     const html = document.documentElement;

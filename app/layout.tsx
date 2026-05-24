@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { LenisProvider } from "@/components/layout/lenis-provider";
 import { ScrollProgressBar } from "@/components/layout/scroll-progress-bar";
+import { VercelObservability } from "@/components/layout/vercel-observability";
 
 import "./globals.css";
 import "lenis/dist/lenis.css";
@@ -38,8 +37,7 @@ export default function RootLayout({
           {children}
           <ScrollProgressBar />
         </LenisProvider>
-        <Analytics />
-        <SpeedInsights />
+        <VercelObservability />
       </body>
     </html>
   );

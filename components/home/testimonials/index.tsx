@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 import { HeroParticles } from "@/components/home/hero/particles";
@@ -35,6 +35,7 @@ const COMPACT_CARD_STACK_SCALE_STEP = 0.022;
 const COMPACT_CARD_STACK_LIP_SIZE = 10;
 const CARD_COMPRESSION_LEAD_IN = 0.14;
 const CARD_COMPRESSION_COMPLETE_AT = 0.72;
+const TESTIMONIALS_PROGRESS_EPSILON = 0.001;
 
 type TestimonialEntry = HomeTestimonialArchiveEntry;
 type TestimonialsStackCard =
@@ -78,6 +79,46 @@ function getCardRevealProgress(progress: number, index: number) {
   return getWindowProgress(progress, start, end);
 }
 
+function getTestimonialsStageState(
+  scrollY: number,
+  metrics: {
+    pinEnd: number;
+    sectionTop: number;
+  },
+) {
+  const scrollWithinSection = scrollY - metrics.sectionTop;
+  const progress =
+    metrics.pinEnd <= 0 ? 0 : clamp(scrollWithinSection / metrics.pinEnd, 0, 1);
+
+  if (scrollWithinSection <= 0) {
+    return {
+      phase: "before",
+      progress: 0,
+    } satisfies {
+      phase: TestimonialsStagePhase;
+      progress: number;
+    };
+  }
+
+  if (scrollWithinSection >= metrics.pinEnd) {
+    return {
+      phase: "after",
+      progress: 1,
+    } satisfies {
+      phase: TestimonialsStagePhase;
+      progress: number;
+    };
+  }
+
+  return {
+    phase: "active",
+    progress,
+  } satisfies {
+    phase: TestimonialsStagePhase;
+    progress: number;
+  };
+}
+
 function useIsCompactTestimonialsViewport() {
   const [isCompactViewport, setIsCompactViewport] = useState(false);
 
@@ -106,57 +147,74 @@ function useTestimonialsStageState(ref: React.RefObject<HTMLElement | null>) {
     phase: "before",
     progress: 0,
   });
+  const metricsRef = useRef<{
+    pinEnd: number;
+    sectionTop: number;
+  } | null>(null);
+
+  const updateFromCachedMetrics = useCallback(() => {
+    const metrics = metricsRef.current;
+
+    if (!metrics) {
+      return;
+    }
+
+    const nextState = getTestimonialsStageState(window.scrollY, metrics);
+
+    setState((currentState) =>
+      currentState.phase === nextState.phase &&
+      Math.abs(currentState.progress - nextState.progress) <
+        TESTIMONIALS_PROGRESS_EPSILON
+        ? currentState
+        : nextState,
+    );
+  }, []);
 
   useEffect(() => {
     let frameId = 0;
+    const node = ref.current;
 
-    const updateState = () => {
+    const scheduleProgressUpdate = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateFromCachedMetrics);
+    };
+
+    const measure = () => {
       cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        if (!ref.current) {
+        if (!node) {
           return;
         }
 
-        const rect = ref.current.getBoundingClientRect();
+        const rect = node.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        const scrollWithinSection = -rect.top;
         const pinEnd = rect.height - viewportHeight;
-        const progress =
-          pinEnd <= 0 ? 0 : clamp(scrollWithinSection / pinEnd, 0, 1);
 
-        if (scrollWithinSection <= 0) {
-          setState({
-            phase: "before",
-            progress: 0,
-          });
-          return;
-        }
-
-        if (scrollWithinSection >= pinEnd) {
-          setState({
-            phase: "after",
-            progress: 1,
-          });
-          return;
-        }
-
-        setState({
-          phase: "active",
-          progress,
-        });
+        metricsRef.current = {
+          pinEnd,
+          sectionTop: window.scrollY + rect.top,
+        };
+        updateFromCachedMetrics();
       });
     };
 
-    window.addEventListener("scroll", updateState, { passive: true });
-    window.addEventListener("resize", updateState, { passive: true });
-    updateState();
+    const resizeObserver = new ResizeObserver(measure);
+
+    if (node) {
+      resizeObserver.observe(node);
+    }
+
+    window.addEventListener("scroll", scheduleProgressUpdate, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
+    measure();
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", updateState);
-      window.removeEventListener("resize", updateState);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleProgressUpdate);
+      window.removeEventListener("resize", measure);
     };
-  }, [ref]);
+  }, [ref, updateFromCachedMetrics]);
 
   return state;
 }

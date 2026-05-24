@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useLenis } from "lenis/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -55,6 +54,7 @@ const PROJECT_SCROLL_SNAP_DURATION = 0.48;
 const PROJECT_SCROLL_SNAP_MIN_WIDTH_QUERY = "(min-width: 1024px)";
 const PROJECT_SCROLL_SNAP_REDUCED_MOTION_QUERY =
   "(prefers-reduced-motion: reduce)";
+const PROJECT_PROGRESS_EPSILON = 0.001;
 
 type FeaturedProjectStackItem = {
   label: string;
@@ -257,7 +257,113 @@ function getNearestProjectSnapProgress(progress: number) {
   return nearestProgress;
 }
 
-function useProjectsSectionState(ref: React.RefObject<HTMLElement | null>) {
+function getSectionPhaseState(
+  scrollY: number,
+  metrics: {
+    pinEnd: number;
+    sectionTop: number;
+  },
+) {
+  const scrollWithinSection = scrollY - metrics.sectionTop;
+  const progress =
+    metrics.pinEnd <= 0 ? 0 : clamp(scrollWithinSection / metrics.pinEnd, 0, 1);
+
+  if (scrollWithinSection <= 0) {
+    return {
+      phase: "before",
+      progress: 0,
+    } satisfies {
+      phase: ProjectsHeadingPhase;
+      progress: number;
+    };
+  }
+
+  if (scrollWithinSection >= metrics.pinEnd) {
+    return {
+      phase: "after",
+      progress: 1,
+    } satisfies {
+      phase: ProjectsHeadingPhase;
+      progress: number;
+    };
+  }
+
+  return {
+    phase: "active",
+    progress,
+  } satisfies {
+    phase: ProjectsHeadingPhase;
+    progress: number;
+  };
+}
+
+function animateWindowScrollTo(
+  targetY: number,
+  {
+    duration,
+    easing,
+    onComplete,
+  }: {
+    duration: number;
+    easing: (progress: number) => number;
+    onComplete: () => void;
+  },
+) {
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  const startedAt = performance.now();
+  let frameId = 0;
+  let cancelled = false;
+
+  const tick = (time: number) => {
+    if (cancelled) {
+      return;
+    }
+
+    const elapsed = time - startedAt;
+    const progress = clamp(elapsed / (duration * 1000), 0, 1);
+    window.scrollTo(0, startY + distance * easing(progress));
+
+    if (progress >= 1) {
+      onComplete();
+      return;
+    }
+
+    frameId = window.requestAnimationFrame(tick);
+  };
+
+  frameId = window.requestAnimationFrame(tick);
+
+  return () => {
+    cancelled = true;
+    window.cancelAnimationFrame(frameId);
+  };
+}
+
+function useProjectsDesktopViewport() {
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(PROJECT_SCROLL_SNAP_MIN_WIDTH_QUERY);
+    const syncViewport = () => {
+      setIsDesktopViewport(mediaQuery.matches);
+    };
+
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncViewport);
+    };
+  }, []);
+
+  return isDesktopViewport;
+}
+
+function useProjectsSectionState(
+  ref: React.RefObject<HTMLElement | null>,
+  enabled: boolean,
+) {
   const [state, setState] = useState<{
     phase: ProjectsHeadingPhase;
     progress: number;
@@ -265,66 +371,87 @@ function useProjectsSectionState(ref: React.RefObject<HTMLElement | null>) {
     phase: "before",
     progress: 0,
   });
+  const metricsRef = useRef<{
+    pinEnd: number;
+    sectionTop: number;
+  } | null>(null);
+
+  const updateFromCachedMetrics = useCallback(() => {
+    const metrics = metricsRef.current;
+
+    if (!metrics) {
+      return;
+    }
+
+    const nextState = getSectionPhaseState(window.scrollY, metrics);
+
+    setState((currentState) =>
+      currentState.phase === nextState.phase &&
+      Math.abs(currentState.progress - nextState.progress) < PROJECT_PROGRESS_EPSILON
+        ? currentState
+        : nextState,
+    );
+  }, []);
 
   useEffect(() => {
-    let frameId = 0;
+    if (!enabled) {
+      return;
+    }
 
-    const updatePhase = () => {
+    let frameId = 0;
+    const node = ref.current;
+
+    const scheduleProgressUpdate = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateFromCachedMetrics);
+    };
+
+    const measure = () => {
       cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        if (!ref.current) {
+        if (!node) {
           return;
         }
 
-        const rect = ref.current.getBoundingClientRect();
+        const rect = node.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        const scrollWithinSection = -rect.top;
         const pinEnd = rect.height - viewportHeight;
-        const progress =
-          pinEnd <= 0 ? 0 : clamp(scrollWithinSection / pinEnd, 0, 1);
 
-        if (scrollWithinSection <= 0) {
-          setState({
-            phase: "before",
-            progress: 0,
-          });
-          return;
-        }
-
-        if (scrollWithinSection >= pinEnd) {
-          setState({
-            phase: "after",
-            progress: 1,
-          });
-          return;
-        }
-
-        setState({
-          phase: "active",
-          progress,
-        });
+        metricsRef.current = {
+          pinEnd,
+          sectionTop: window.scrollY + rect.top,
+        };
+        updateFromCachedMetrics();
       });
     };
 
-    window.addEventListener("scroll", updatePhase, { passive: true });
-    window.addEventListener("resize", updatePhase, { passive: true });
-    updatePhase();
+    const resizeObserver = new ResizeObserver(measure);
+
+    if (node) {
+      resizeObserver.observe(node);
+    }
+
+    window.addEventListener("scroll", scheduleProgressUpdate, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
+    measure();
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", updatePhase);
-      window.removeEventListener("resize", updatePhase);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleProgressUpdate);
+      window.removeEventListener("resize", measure);
     };
-  }, [ref]);
+  }, [enabled, ref, updateFromCachedMetrics]);
 
   return state;
 }
 
-function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
-  const lenis = useLenis();
-
+function useProjectsScrollSnap(
+  ref: React.RefObject<HTMLElement | null>,
+  enabled: boolean,
+) {
   useEffect(() => {
-    if (!lenis) {
+    if (!enabled) {
       return;
     }
 
@@ -335,6 +462,7 @@ function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
     let snapTimeoutId: number | undefined;
     let snapReleaseTimeoutId: number | undefined;
     let isSnapping = false;
+    let cancelSnapAnimation: (() => void) | undefined;
 
     const clearSnapTimeout = () => {
       if (snapTimeoutId != null) {
@@ -345,6 +473,8 @@ function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
 
     const releaseSnapLock = () => {
       isSnapping = false;
+      cancelSnapAnimation?.();
+      cancelSnapAnimation = undefined;
 
       if (snapReleaseTimeoutId != null) {
         window.clearTimeout(snapReleaseTimeoutId);
@@ -412,11 +542,13 @@ function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
       }
 
       isSnapping = true;
-      lenis.scrollTo(targetScrollY, {
+      cancelSnapAnimation = animateWindowScrollTo(targetScrollY, {
         duration: PROJECT_SCROLL_SNAP_DURATION,
         easing: easeOutCubic,
-        lock: true,
-        onComplete: releaseSnapLock,
+        onComplete: () => {
+          isSnapping = false;
+          cancelSnapAnimation = undefined;
+        },
       });
       snapReleaseTimeoutId = window.setTimeout(
         releaseSnapLock,
@@ -458,7 +590,7 @@ function useProjectsScrollSnap(ref: React.RefObject<HTMLElement | null>) {
       desktopQuery.removeEventListener("change", handlePreferenceChange);
       reducedMotionQuery.removeEventListener("change", handlePreferenceChange);
     };
-  }, [lenis, ref]);
+  }, [enabled, ref]);
 }
 
 function ProjectCard({
@@ -730,12 +862,13 @@ function MobileProjectCard({
 
 export function ProjectsShowcaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  useProjectsScrollSnap(sectionRef);
+  const isDesktopViewport = useProjectsDesktopViewport();
+  useProjectsScrollSnap(sectionRef, isDesktopViewport);
 
   const {
     phase,
     progress,
-  } = useProjectsSectionState(sectionRef);
+  } = useProjectsSectionState(sectionRef, isDesktopViewport);
   const headingFadeProgress = getWindowProgress(
     progress,
     FIRST_PROJECT_HEADING_FADE_START,

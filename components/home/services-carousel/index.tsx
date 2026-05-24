@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 import {
@@ -21,13 +21,37 @@ import {
 } from "./primitives";
 import { useSectionScrollProgress } from "./use-section-scroll-progress";
 
+const DESKTOP_SERVICES_MEDIA_QUERY = "(min-width: 768px)";
+
+function useDesktopServicesViewport() {
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(DESKTOP_SERVICES_MEDIA_QUERY);
+    const syncViewport = () => {
+      setIsDesktopViewport(mediaQuery.matches);
+    };
+
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncViewport);
+    };
+  }, []);
+
+  return isDesktopViewport;
+}
+
 function DesktopServicesCarousel({
   reducedMotion,
+  enabled,
 }: {
   reducedMotion: boolean;
+  enabled: boolean;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const progress = useSectionScrollProgress(wrapperRef);
+  const progress = useSectionScrollProgress(wrapperRef, enabled);
   const transforms = computeArcTransforms(
     progress,
     HOME_SERVICES.length,
@@ -115,6 +139,7 @@ function MobileServicesCarousel({
 export function ServicesCarouselSection() {
   const prefersReducedMotion = useReducedMotion();
   const reducedMotion = prefersReducedMotion ?? false;
+  const isDesktopViewport = useDesktopServicesViewport();
 
   return (
     <section
@@ -130,7 +155,10 @@ export function ServicesCarouselSection() {
         <HeroParticles />
       </div>
       <div className="relative z-10">
-        <DesktopServicesCarousel reducedMotion={reducedMotion} />
+        <DesktopServicesCarousel
+          enabled={isDesktopViewport}
+          reducedMotion={reducedMotion}
+        />
         <MobileServicesCarousel reducedMotion={reducedMotion} />
       </div>
     </section>
