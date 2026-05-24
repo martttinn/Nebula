@@ -5,10 +5,11 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 200
-- Grupos registrados: 194
+- Entradas registradas: 201
+- Grupos registrados: 195
 
 ## Ultimos cambios
+- `2026-05-24` [`NBS-CHG-2026-05-24-219`](entries/2026/05/NBS-CHG-2026-05-24-219--restauracion-del-beam-del-cta-del-navbar.md) - Restauracion del beam del CTA del navbar - `frontend` - grupo [`NBS-TSK-2026-195`](groups/2026/NBS-TSK-2026-195.md)
 - `2026-05-24` [`NBS-CHG-2026-05-24-218`](entries/2026/05/NBS-CHG-2026-05-24-218--reduccion-de-ruta-critica-mobile-tras-pagespeed.md) - Reduccion de ruta critica mobile tras PageSpeed - `frontend` - grupo [`NBS-TSK-2026-194`](groups/2026/NBS-TSK-2026-194.md)
 - `2026-05-24` [`NBS-CHG-2026-05-24-217`](entries/2026/05/NBS-CHG-2026-05-24-217--optimizacion-runtime-movil-tras-pagespeed.md) - Optimizacion de runtime movil tras PageSpeed - `frontend` - grupo [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md)
 - `2026-05-22` [`NBS-CHG-2026-05-22-216`](entries/2026/05/NBS-CHG-2026-05-22-216--optimizacion-pagespeed-movil-sin-cambio-visual.md) - Optimizacion PageSpeed movil sin cambio visual - `frontend` - grupo [`NBS-TSK-2026-192`](groups/2026/NBS-TSK-2026-192.md)
@@ -215,6 +216,7 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-195`](groups/2026/NBS-TSK-2026-195.md) - Restauracion del beam del CTA del navbar - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-194`](groups/2026/NBS-TSK-2026-194.md) - Reduccion de ruta critica mobile tras PageSpeed - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md) - Optimizacion de runtime movil tras PageSpeed - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-192`](groups/2026/NBS-TSK-2026-192.md) - Optimizacion PageSpeed movil sin cambio visual - 2026-05-22 -> 2026-05-22 - 1 cambios

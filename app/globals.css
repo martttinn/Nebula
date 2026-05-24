@@ -58,26 +58,6 @@ body::before {
   }
 }
 
-@keyframes border-beam-forward {
-  from {
-    offset-distance: var(--border-beam-start);
-  }
-
-  to {
-    offset-distance: var(--border-beam-end);
-  }
-}
-
-@keyframes border-beam-reverse {
-  from {
-    offset-distance: var(--border-beam-start);
-  }
-
-  to {
-    offset-distance: var(--border-beam-end);
-  }
-}
-
 @keyframes nebula-logo-enter {
   from {
     opacity: 0;

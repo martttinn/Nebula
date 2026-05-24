@@ -856,10 +856,10 @@ Registro de decisiones de arquitectura, producto, SEO, diseño y operación que 
 
 ## 2026-05-24 — Las microanimaciones above-the-fold no deben arrastrar Motion si CSS conserva el resultado
 
-**Decisión:** Las primitives del primer viewport con animaciones simples deben resolverse con CSS transitions/keyframes o estado React minimo antes de importar `motion/react`. Motion se reserva para superficies scroll-driven o interacciones donde aporte mecanica real.
+**Decisión:** Las primitives del primer viewport con animaciones simples deben resolverse con CSS transitions/keyframes o estado React minimo antes de importar `motion/react`. Motion se reserva para superficies scroll-driven, interacciones donde aporte mecanica real o primitives donde la alternativa CSS no reproduzca el resultado de forma fiable.
 
-**Motivo:** PageSpeed mobile siguio marcando coste de JavaScript, main thread y JS no usado. En la home, varias piezas above-the-fold (`Button`, `BorderBeam`, `Preloader`, `SplitText`, `NebulaLogoAnimated`, `HeroLead` y navbar) usaban Motion para microanimaciones que CSS puede reproducir sin cambiar la apariencia.
+**Motivo:** PageSpeed mobile siguio marcando coste de JavaScript, main thread y JS no usado. En la home, varias piezas above-the-fold (`Button`, `Preloader`, `SplitText`, `NebulaLogoAnimated`, `HeroLead` y navbar) usaban Motion para microanimaciones que CSS puede reproducir sin cambiar la apariencia. `BorderBeam` queda excluido de esta sustitucion porque la version CSS con `offset-distance` no preservo correctamente el beam del CTA de contacto.
 
-**Efecto:** El primer viewport reduce dependencias de arranque y el CSS del menu responsive sale de la ruta critica. El menu escalonado, GSAP y Motion siguen disponibles de forma diferida donde la interaccion lo justifica.
+**Efecto:** El primer viewport reduce dependencias de arranque y el CSS del menu responsive sale de la ruta critica. El menu escalonado, GSAP, `BorderBeam` y Motion siguen disponibles donde la interaccion o la fidelidad visual lo justifican.
 
 **Archivos / artefactos relevantes:** `components/animate-ui/primitives/buttons/button.tsx`, `components/magicui/border-beam.tsx`, `components/ui/preloader.tsx`, `components/ui/split-text.tsx`, `components/ui/nebula-logo-animated.tsx`, `components/home/hero/lead.tsx`, `components/layout/navbar*.tsx`, `components/StaggeredMenu.tsx`, `lib/use-prefers-reduced-motion.ts`, `doc/change-log/**`.

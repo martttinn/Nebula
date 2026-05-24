@@ -19,6 +19,7 @@ import {
   type PublicNavLink,
 } from "@/data/navigation";
 import { siteConfig } from "@/lib/site";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 export type NavbarProps = {
@@ -43,6 +44,7 @@ export function Navbar({
   links = PUBLIC_NAVBAR_LINKS,
   ctas = PUBLIC_NAV_CTAS,
 }: NavbarProps) {
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
@@ -129,7 +131,7 @@ export function Navbar({
                 >
                   <Link href={cta.href}>
                     <span className="relative z-10">{cta.label}</span>
-                    <span className="motion-reduce:hidden">
+                    {!prefersReducedMotion ? (
                       <BorderBeam
                         size={40}
                         initialOffset={20}
@@ -137,7 +139,7 @@ export function Navbar({
                         colorTo="#534AB7"
                         style={NAVBAR_CTA_BEAM_STYLE}
                       />
-                    </span>
+                    ) : null}
                   </Link>
                 </Button>
               ))}
