@@ -5,10 +5,11 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 205
-- Grupos registrados: 199
+- Entradas registradas: 206
+- Grupos registrados: 200
 
 ## Ultimos cambios
+- `2026-05-25` [`NBS-CHG-2026-05-25-224`](entries/2026/05/NBS-CHG-2026-05-25-224--adicion-de-video-demo-de-proyecto.md) - Adición de vídeo demo de proyecto - `frontend` - grupo [`NBS-TSK-2026-200`](groups/2026/NBS-TSK-2026-200.md)
 - `2026-05-25` [`NBS-CHG-2026-05-25-223`](entries/2026/05/NBS-CHG-2026-05-25-223--instalacion-de-react-three-fiber.md) - Instalación de React Three Fiber - `frontend` - grupo [`NBS-TSK-2026-199`](groups/2026/NBS-TSK-2026-199.md)
 - `2026-05-25` [`NBS-CHG-2026-05-25-222`](entries/2026/05/NBS-CHG-2026-05-25-222--cursor-pointer-en-ctas-de-proyectos.md) - Cursor pointer en CTAs de proyectos - `frontend` - grupo [`NBS-TSK-2026-198`](groups/2026/NBS-TSK-2026-198.md)
 - `2026-05-25` [`NBS-CHG-2026-05-25-221`](entries/2026/05/NBS-CHG-2026-05-25-221--hover-lila-del-cta-secundario-del-hero.md) - Hover lila del CTA secundario del hero - `frontend` - grupo [`NBS-TSK-2026-197`](groups/2026/NBS-TSK-2026-197.md)
@@ -220,6 +221,7 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-200`](groups/2026/NBS-TSK-2026-200.md) - Adición de vídeo demo de proyecto - 2026-05-25 -> 2026-05-25 - 1 cambios
 - [`NBS-TSK-2026-199`](groups/2026/NBS-TSK-2026-199.md) - Instalación de React Three Fiber - 2026-05-25 -> 2026-05-25 - 1 cambios
 - [`NBS-TSK-2026-198`](groups/2026/NBS-TSK-2026-198.md) - Cursor pointer en CTAs de proyectos - 2026-05-25 -> 2026-05-25 - 1 cambios
 - [`NBS-TSK-2026-197`](groups/2026/NBS-TSK-2026-197.md) - Hover lila del CTA secundario del hero - 2026-05-25 -> 2026-05-25 - 1 cambios
