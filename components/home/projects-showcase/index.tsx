@@ -54,7 +54,7 @@ const PROJECT_SCROLL_SNAP_DURATION = 0.48;
 const PROJECT_SCROLL_SNAP_MIN_WIDTH_QUERY = "(min-width: 1024px)";
 const PROJECT_SCROLL_SNAP_REDUCED_MOTION_QUERY =
   "(prefers-reduced-motion: reduce)";
-const PROJECT_PROGRESS_EPSILON = 0.001;
+const PROJECT_PROGRESS_EPSILON = 0.0001;
 
 type FeaturedProjectStackItem = {
   label: string;
@@ -743,7 +743,7 @@ function ProjectCard({
             <div className="flex flex-wrap gap-3">
               <Button
                 type="button"
-                className="group w-fit gap-2.5 px-5 text-[0.7rem] uppercase tracking-[0.18em] pointer-events-auto"
+                className="pointer-events-auto group w-fit cursor-pointer gap-2.5 px-5 text-[0.7rem] uppercase tracking-[0.18em]"
               >
                 Ver más
                 <ArrowRight
@@ -845,7 +845,7 @@ function MobileProjectCard({
           <div className="flex flex-wrap gap-3">
             <Button
               type="button"
-              className="group w-fit gap-2.5 px-5 text-[0.7rem] uppercase tracking-[0.18em]"
+              className="group w-fit cursor-pointer gap-2.5 px-5 text-[0.7rem] uppercase tracking-[0.18em]"
             >
               Ver más
               <ArrowRight

@@ -5,10 +5,14 @@
 > Archivo generado automaticamente por `npm run changes:index`.
 > No editar a mano.
 
-- Entradas registradas: 201
-- Grupos registrados: 195
+- Entradas registradas: 205
+- Grupos registrados: 199
 
 ## Ultimos cambios
+- `2026-05-25` [`NBS-CHG-2026-05-25-223`](entries/2026/05/NBS-CHG-2026-05-25-223--instalacion-de-react-three-fiber.md) - Instalación de React Three Fiber - `frontend` - grupo [`NBS-TSK-2026-199`](groups/2026/NBS-TSK-2026-199.md)
+- `2026-05-25` [`NBS-CHG-2026-05-25-222`](entries/2026/05/NBS-CHG-2026-05-25-222--cursor-pointer-en-ctas-de-proyectos.md) - Cursor pointer en CTAs de proyectos - `frontend` - grupo [`NBS-TSK-2026-198`](groups/2026/NBS-TSK-2026-198.md)
+- `2026-05-25` [`NBS-CHG-2026-05-25-221`](entries/2026/05/NBS-CHG-2026-05-25-221--hover-lila-del-cta-secundario-del-hero.md) - Hover lila del CTA secundario del hero - `frontend` - grupo [`NBS-TSK-2026-197`](groups/2026/NBS-TSK-2026-197.md)
+- `2026-05-24` [`NBS-CHG-2026-05-24-220`](entries/2026/05/NBS-CHG-2026-05-24-220--suavizado-del-empuje-de-cards-de-proyectos-en-scroll-lento.md) - Suavizado del empuje de cards de proyectos en scroll lento - `frontend` - grupo [`NBS-TSK-2026-196`](groups/2026/NBS-TSK-2026-196.md)
 - `2026-05-24` [`NBS-CHG-2026-05-24-219`](entries/2026/05/NBS-CHG-2026-05-24-219--restauracion-del-beam-del-cta-del-navbar.md) - Restauracion del beam del CTA del navbar - `frontend` - grupo [`NBS-TSK-2026-195`](groups/2026/NBS-TSK-2026-195.md)
 - `2026-05-24` [`NBS-CHG-2026-05-24-218`](entries/2026/05/NBS-CHG-2026-05-24-218--reduccion-de-ruta-critica-mobile-tras-pagespeed.md) - Reduccion de ruta critica mobile tras PageSpeed - `frontend` - grupo [`NBS-TSK-2026-194`](groups/2026/NBS-TSK-2026-194.md)
 - `2026-05-24` [`NBS-CHG-2026-05-24-217`](entries/2026/05/NBS-CHG-2026-05-24-217--optimizacion-runtime-movil-tras-pagespeed.md) - Optimizacion de runtime movil tras PageSpeed - `frontend` - grupo [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md)
@@ -216,6 +220,10 @@
 - No hay grupos abiertos.
 
 ## Grupos cerrados recientes
+- [`NBS-TSK-2026-199`](groups/2026/NBS-TSK-2026-199.md) - Instalación de React Three Fiber - 2026-05-25 -> 2026-05-25 - 1 cambios
+- [`NBS-TSK-2026-198`](groups/2026/NBS-TSK-2026-198.md) - Cursor pointer en CTAs de proyectos - 2026-05-25 -> 2026-05-25 - 1 cambios
+- [`NBS-TSK-2026-197`](groups/2026/NBS-TSK-2026-197.md) - Hover lila del CTA secundario del hero - 2026-05-25 -> 2026-05-25 - 1 cambios
+- [`NBS-TSK-2026-196`](groups/2026/NBS-TSK-2026-196.md) - Suavizado del empuje de proyectos en scroll lento - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-195`](groups/2026/NBS-TSK-2026-195.md) - Restauracion del beam del CTA del navbar - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-194`](groups/2026/NBS-TSK-2026-194.md) - Reduccion de ruta critica mobile tras PageSpeed - 2026-05-24 -> 2026-05-24 - 1 cambios
 - [`NBS-TSK-2026-193`](groups/2026/NBS-TSK-2026-193.md) - Optimizacion de runtime movil tras PageSpeed - 2026-05-24 -> 2026-05-24 - 1 cambios

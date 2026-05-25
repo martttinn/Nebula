@@ -130,7 +130,7 @@ export function HeroLead() {
             asChild
             size="lg"
             variant="secondary"
-            className="border-white/18 bg-white/[0.05] hover:bg-white"
+            className="border-white/18 bg-white/[0.05] hover:border-nebula-lilac hover:bg-nebula-lilac/[0.18] hover:text-nebula-silver"
           >
             <Link href="/#servicios">Ver servicios</Link>
           </Button>

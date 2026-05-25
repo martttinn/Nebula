@@ -168,6 +168,7 @@ El recurso visual memorable es el cubo isométrico con seis facetas y gradientes
   Cuando se use motion de entrada en el copy principal, la secuencia preferida es: heading primero, subheading después y CTAs al final, con transiciones legibles y sin solaparse con el preloader.
   El heading principal de la home debe poder pintarse de forma inmediata. Si se usa un reveal `SplitText`, debe reservarse para copy no critico o aplicarse sin ocultar el elemento LCP; el subheading puede usar ese lenguaje de aparición con timing calmado y menor protagonismo visual que el titular.
   La secuencia completa debe sentirse ágil: sin pausas muertas largas entre loader, heading, subheading y CTAs.
+  El CTA secundario del hero puede diferenciarse de la variante `secondary` global: en hover debe mantener la microescala del sistema y pasar a borde `Lilac` con fondo `Lilac` translucido, sin invertir a blanco.
   Se permiten partículas lilas sutiles pero legibles, dispersas y de deriva lenta como capa atmosférica secundaria, resueltas como círculos nítidos sin blur y con ciclos largos de aparición, permanencia y desvanecimiento suave; nunca como ruido dominante.
   El hero debe cerrar en `Void` totalmente opaco. No puede terminar con overlays semitransparentes que dejen ver la capa inferior justo en la costura con la siguiente sección.
 - `value-proposition-band`: banda editorial inmediatamente posterior al hero, sobre base `Void` continua, con frases cortas de alto contraste y ritmo generoso

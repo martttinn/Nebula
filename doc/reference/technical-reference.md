@@ -11,7 +11,7 @@ Documento mínimo para describir la arquitectura técnica real de la web públic
 
 ## 2. Stack verificado
 
-Verificado el **2026-05-19** contra `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.cjs` y dependencias instaladas:
+Verificado el **2026-05-25** contra `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.mjs`, `tailwind.config.cjs` y dependencias instaladas:
 
 - Next.js `16.2.6`
 - React `19.2.6`
@@ -24,6 +24,7 @@ Verificado el **2026-05-19** contra `package.json`, `package-lock.json`, `tsconf
 - Lenis `1.3.23`
 - PostCSS `8.5.15`
 - Three.js `0.184.x`
+- React Three Fiber `9.6.1` vía `@react-three/fiber`
 - Postprocessing `6.39.x`
 - Remotion `4.0.463`
 - `@remotion/cli` `4.0.463`
